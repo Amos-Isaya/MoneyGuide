@@ -41,6 +41,35 @@
     document.querySelector('#avatar').textContent = Array.from(profile.firstName)[0].toUpperCase();
     document.querySelector('#profile-level').textContent = t('level') + ' ' + total.level + ' · ' + t('level' + total.level);
   }
+  function moduleCard(item, recommendedId) {
+    const p = store.get(item.id);
+    const percent = Math.round((activityCount(p) + Number(p.bestScore >= 8)) / 18 * 100);
+    const isComplete = store.completed(p);
+    const isRecommended = item.id === recommendedId;
+    const action = isComplete ? t('review') : p.started ? t('resume') : t('start');
+    return `<a class="module-card learning-card ${isRecommended ? 'featured' : ''} ${isComplete ? 'is-complete' : ''} ${p.started && !isComplete ? 'is-active' : ''}" href="module.html?id=${item.id}" aria-labelledby="module-title-${item.id} module-action-${item.id}">
+      <div class="card-top"><span class="module-index">${String(item.id).padStart(2, '0')}</span><span class="status">${isComplete ? MoneyGuideCards.icon('check') : ''}${escape(isComplete ? t('completed') : status(p))}</span></div>
+      <div class="module-card-content"><p class="module-number">${escape(isRecommended ? t('recommended') : t('module') + ' ' + item.id)}</p><h3 id="module-title-${item.id}">${escape(i18n.title(item.id))}</h3><p lang="en">${escape(item.description)}</p></div>
+      <div class="module-meta"><span>${t('beginner')}</span><span>${t('moduleMeta')}</span></div>
+      <div class="module-card-progress"><div><span>${p.certificate ? t('earned') : t('activityProgress')}</span><strong>${percent}%</strong></div><progress value="${percent}" max="100" aria-label="${escape(i18n.title(item.id))}: ${percent}%"></progress></div>
+      <span class="button card-navigation" id="module-action-${item.id}">${escape(action)}${MoneyGuideCards.arrow()}</span>
+    </a>`;
+  }
+  function certificateCard(item) {
+    const certificate = store.get(item.id).certificate;
+    return `<a class="certificate-mini ${certificate ? 'is-earned' : 'is-pending'}" href="${certificate ? 'certificate' : 'module'}.html?id=${item.id}" aria-labelledby="certificate-title-${item.id} certificate-action-${item.id}">
+      <div class="certificate-card-top">${MoneyGuideCards.icon('certificate')}<span>${t('certificateNumber')} ${String(item.id).padStart(2, '0')}</span></div>
+      <div class="certificate-card-copy"><span class="status">${certificate ? t('earned') : t('notEarned')}</span><h3 id="certificate-title-${item.id}">${escape(i18n.title(item.id))}</h3>${certificate ? `<p>${t('completed')} ${date(certificate.date)}</p><p class="certificate-card-score">${t('score')}: <strong>${certificate.score * 10}%</strong></p>` : `<p>${t('earnCertificate')}</p>`}</div>
+      <div class="premium-card-bottom"><span class="text-link" id="certificate-action-${item.id}">${certificate ? t('viewCertificate') : t('start')}</span>${MoneyGuideCards.arrow()}</div>
+    </a>`;
+  }
+  function toolCard(title, description, icon, index) {
+    return `<button type="button" class="premium-card tool-card" data-coming-soon="${title}" data-preview-description="toolPreview" aria-labelledby="tool-title-${index} tool-state-${index}">
+      <div class="premium-card-top">${MoneyGuideCards.icon(icon)}<span class="card-index">0${index}</span></div>
+      <h3 id="tool-title-${index}">${t(title)}</h3><p>${t(description)}</p>
+      <div class="premium-card-bottom"><span id="tool-state-${index}" class="availability">${t('soon')}</span>${MoneyGuideCards.arrow()}</div>
+    </button>`;
+  }
   function dashboard() {
     const total = store.totals();
     const next = MoneyGuideModules.find(item => !store.completed(store.get(item.id)));
@@ -54,24 +83,30 @@
         <div class="dashboard-hero-copy"><p class="eyebrow">${t('resume')}</p><h2 id="continue-title">${escape(i18n.title(current.id))}</h2><p lang="en">${escape(current.description)}</p><div class="hero-actions">${moduleLink(current.id, currentProgress.started ? t('resume') : t('start'))}<span>${t('module')} ${String(current.id).padStart(2,'0')} / 10</span></div></div>
         <img src="assets/students.jpg" width="1400" height="934" alt="Students learning together around a table">
       </section>
+      <nav class="dashboard-section-nav" aria-label="${t('upNext')}">${[['modules','featureLearn'],['practice','featurePractice'],['tools','featureTools'],['progress','featureProgress'],['certificates','featureCertificates']].map(([target,key]) => `<a href="#${target}">${t(key)}</a>`).join('')}</nav>
       <section class="progress-overview" id="progress" aria-labelledby="progress-title">
         <div class="section-heading"><h2 id="progress-title">${t('progress')}</h2><span class="level-pill">${t('level')} ${total.level} · ${t('level' + total.level)}</span></div>
-        <div class="stat-grid"><div><strong>${total.finished}<small> / 10</small></strong><span>${t('modulesCompleted')}</span></div><div><strong>${total.certificates}<small> / 10</small></strong><span>${t('certificatesEarned')}</span></div><div><strong>${total.xp}</strong><span>${t('xp')}</span></div><div><strong>${total.percent}<small>%</small></strong><span>${t('overall')}</span></div></div>
-        <progress value="${total.percent}" max="100" aria-label="${t('overall')}"></progress>
+        <div class="stat-grid metric-cards">
+          <a class="metric-card" href="#modules"><span>${t('modulesCompleted')}</span><strong>${total.finished}<small> / 10</small></strong>${MoneyGuideCards.arrow()}</a>
+          <a class="metric-card" href="#certificates"><span>${t('certificatesEarned')}</span><strong>${total.certificates}<small> / 10</small></strong>${MoneyGuideCards.arrow()}</a>
+          <div class="metric-card"><span>${t('xp')}</span><strong>${total.xp}</strong>${MoneyGuideCards.icon('progress')}</div>
+          <div class="metric-card level-metric"><span>${t('currentLevel')}</span><strong>${t('level' + total.level)}</strong><small>${t('level')} ${total.level} / 5</small></div>
+        </div>
+        <div class="overall-progress-label"><span>${t('overall')}</span><strong>${total.percent}%</strong></div><progress value="${total.percent}" max="100" aria-label="${t('overall')}"></progress>
       </section>
       <section class="path-panel" aria-labelledby="path-title"><div><h2 id="path-title">${t('path')}</h2><p>${t('pathNote')}</p></div><ol class="path-steps">${MoneyGuideModules.map(item => `<li><a class="${store.completed(store.get(item.id)) ? 'done' : ''}" href="module.html?id=${item.id}" aria-label="${escape(i18n.title(item.id))}" title="${escape(i18n.title(item.id))}">${item.id}</a></li>`).join('')}</ol></section>
       <div class="dashboard-columns expanded-columns">
         <section id="modules" aria-labelledby="modules-title"><div class="module-heading"><div><p class="eyebrow">${t('journey')}</p><h2 id="modules-title">${t('modules')}</h2></div><span class="muted">10 ${t('modules').toLowerCase()}</span></div>
-        <div class="module-grid">${MoneyGuideModules.map(item => {
-          const p = store.get(item.id);
-          const percent = Math.round((activityCount(p) + Number(p.bestScore >= 8)) / 18 * 100);
-          return `<article class="module-card ${next && next.id === item.id ? 'featured' : ''}"><div class="card-top"><span class="module-icon ${['mint','blue','peach','lavender'][(item.id - 1) % 4]}">${item.icon}</span><span class="status ${p.certificate ? 'status-earned' : ''}">${escape(status(p))}</span></div><p class="module-number">${t('module')} ${String(item.id).padStart(2,'0')}</p><h3>${escape(i18n.title(item.id))}</h3><p lang="en">${escape(item.description)}</p>${p.started ? `<progress value="${percent}" max="100" aria-label="${escape(i18n.title(item.id))}: ${percent}%"></progress>` : ''}${moduleLink(item.id, store.completed(p) ? t('review') : p.started ? t('resume') : t('start'))}${p.certificate ? certLink(item.id) : ''}</article>`;
-        }).join('')}</div></section>
+        <div class="module-grid">${MoneyGuideModules.map(item => moduleCard(item, next ? next.id : null)).join('')}</div></section>
         <aside class="learning-aside"><section class="next-card"><p class="eyebrow">${t('next')}</p><h2>${next ? escape(i18n.title(next.id)) : t('completed')}</h2><p>${next ? t('pathNote') : t('allDone')}</p>${moduleLink(next ? next.id : 1, next ? t('start') : t('review'))}</section><section class="goal-card"><span class="eyebrow">${t('goal')}</span><span class="goal-symbol" aria-hidden="true">⚑</span><h2>${escape(t('goal' + selectedGoal))}</h2><div class="goal-meta"><span>${t('currency')}</span><strong>${escape(profile.currency)}</strong></div></section><div class="tip-card"><p>${t('lessonLanguage')}</p></div></aside>
       </div>
-      <section id="certificates" class="dashboard-section"><div class="section-heading"><h2>${t('certificates')}</h2><span class="muted">${total.certificates} / 10</span></div><div class="certificate-grid">${total.certificates ? MoneyGuideModules.filter(item => store.get(item.id).certificate).map(item => `<article class="certificate-mini"><span class="seal-small" aria-hidden="true">✦</span><h3>${escape(i18n.title(item.id))}</h3><p>${t('completed')} · ${date(store.get(item.id).certificate.date)}</p>${certLink(item.id)}</article>`).join('') : `<div class="empty-certificate"><span class="seal-small" aria-hidden="true">✦</span><p>${t('noCertificates')}</p></div>`}</div></section>
-      <section class="dashboard-section" aria-labelledby="explore-title"><h2 id="explore-title">${t('explore')}</h2><div class="resource-grid"><article class="resource-card flashcard-resource"><span class="resource-symbol" aria-hidden="true">▤</span><h3>${t('flashcards')}</h3><p>${t('flashcardNote')}</p><label for="flash-module">${t('chooseModule')}</label><select id="flash-module">${MoneyGuideModules.map(item => `<option value="${item.id}">${item.id}. ${escape(i18n.title(item.id))}</option>`).join('')}</select><a class="text-link" id="open-flashcards" href="module.html?id=1#flashcards">${t('openCards')} →</a></article>${[['games','gamesNote','⇄'],['tools','toolsNote','▦'],['currencyTools','currencyNote','↔']].map(([key,note,symbol]) => `<article class="resource-card"><span class="resource-symbol" aria-hidden="true">${symbol}</span><h3>${t(key)}</h3><p>${t(note)}</p><span class="status">${t('soon')}</span></article>`).join('')}</div></section>`;
-    document.querySelector('#flash-module').addEventListener('change', event => { document.querySelector('#open-flashcards').href = 'module.html?id=' + event.target.value + '#flashcards'; });
+      <section id="practice" class="dashboard-section practice-section" aria-labelledby="practice-title"><div class="section-heading"><div><p class="eyebrow">${t('featurePractice')}</p><h2 id="practice-title">${t('practiceIntro')}</h2></div></div>
+        <div class="practice-grid"><article class="practice-card"><div class="premium-card-top">${MoneyGuideCards.icon('practice')}<span class="card-index">01</span></div><h3>${t('flashcards')} &amp; ${t('assessment')}</h3><p>${t('flashcardNote')}</p><label for="flash-module">${t('chooseModule')}</label><select id="flash-module">${MoneyGuideModules.map(item => `<option value="${item.id}">${item.id}. ${escape(i18n.title(item.id))}</option>`).join('')}</select><div class="practice-links"><a class="text-link" id="open-flashcards" href="module.html?id=1#flashcards">${t('openCards')}${MoneyGuideCards.arrow()}</a><a class="text-link" id="open-assessment" href="module.html?id=1#assessment">${t('openAssessment')}${MoneyGuideCards.arrow()}</a></div></article>
+        <article class="practice-card planned-card"><div class="premium-card-top">${MoneyGuideCards.icon('coach')}<span class="card-index">02</span></div><h3>${t('games')}</h3><p>${t('gamesNote')}</p><span class="availability">${t('soon')}</span></article></div>
+      </section>
+      <section id="certificates" class="dashboard-section" aria-labelledby="certificates-title"><div class="section-heading"><div><p class="eyebrow">${t('featureEyebrow')}</p><h2 id="certificates-title">${t('certificates')}</h2></div><span class="muted">${total.certificates} / 10</span></div><div class="certificate-grid">${MoneyGuideModules.map(certificateCard).join('')}</div></section>
+      <section id="tools" class="dashboard-section tools-section" aria-labelledby="tools-title"><div class="section-heading"><div><p class="eyebrow">${t('featureTools')}</p><h2 id="tools-title">${t('tools')}</h2></div><p>${t('toolsIntro')}</p></div><div class="tool-grid">${[['savingsTool','savingsToolText','savings'],['budgetTool','budgetToolText','budget'],['growthTool','growthToolText','growth'],['loanTool','loanToolText','loan'],['currencyTool','currencyToolText','currency']].map(([title,description,icon],index) => toolCard(title,description,icon,index+1)).join('')}</div></section>`;
+    document.querySelector('#flash-module').addEventListener('change', event => { document.querySelector('#open-flashcards').href = 'module.html?id=' + event.target.value + '#flashcards'; document.querySelector('#open-assessment').href = 'module.html?id=' + event.target.value + '#assessment'; });
   }
   function date(value) { return new Intl.DateTimeFormat(i18n.language, { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(value)); }
   function lessonPage() {

@@ -30,6 +30,7 @@ if (document.body.dataset.page === 'home') {
   const form = document.querySelector('#onboarding-form');
   const nameInput = document.querySelector('#first-name');
   const existingProfile = getProfile();
+  let destination = 'dashboard.html';
 
   if (existingProfile) {
     document.querySelector('.return-link').hidden = false;
@@ -41,7 +42,17 @@ if (document.body.dataset.page === 'home') {
   }
 
   document.querySelector('[data-onboard]').addEventListener('click', function () {
+    destination = 'dashboard.html';
     dialog.showModal();
+  });
+  // New learners return to their chosen feature after onboarding.
+  document.querySelectorAll('[data-home-destination]').forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      if (getProfile() || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      destination = link.getAttribute('href');
+      dialog.showModal();
+    });
   });
   nameInput.addEventListener('input', function () {
     nameInput.setCustomValidity('');
@@ -66,7 +77,7 @@ if (document.body.dataset.page === 'home') {
     try {
       // localStorage stores text, so we turn the profile object into JSON text.
       localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
-      window.location.href = 'dashboard.html';
+      window.location.href = destination;
     } catch (error) {
       document.querySelector('#form-error').textContent = MoneyGuideI18n.t('storageError');
     }

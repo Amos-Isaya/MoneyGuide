@@ -21,7 +21,9 @@ If that address already shows MoneyGuide, the server is already running. If the 
 | `module.html` | One reusable page for all ten learning modules. `?id=7` opens Investing Basics, for example. |
 | `certificate.html` | Displays an earned certificate for the module in `?id=`. |
 | `css/style.css` | Shared design, responsive layouts, lesson styles, and print formatting. |
-| `js/app.js` | Existing profile validation, onboarding, saving answers, and dialog controls. |
+| `css/cards.css` | Large navigation cards, module/certificate/tool states, outline-icon sizing, focus and reduced-motion styles. |
+| `js/app.js` | Existing profile validation, onboarding, saving answers, and dialog controls; preserves a clicked feature destination through onboarding. |
+| `js/cards.js` | Original SVG outline icons and accessible Coming Soon preview dialogs. |
 | `js/modules.js` | All ten modules: introductions, objectives, 30 lessons/checks, 100 flashcards, 100 final questions with explanations, and reading sources. |
 | `js/progress.js` | Reads/saves progress and applies completion, scoring, XP, and certificate rules. |
 | `js/i18n.js` | English, Spanish, and French interface text and translated module titles. |
@@ -30,9 +32,28 @@ If that address already shows MoneyGuide, the server is already running. If the 
 | `assets/README.md` | Image credit, license link, and design attribution notes. |
 | `tests/progress.test.cjs` | Dependency-free automated tests of content structure and progress rules. |
 | `tests/browser.test.cjs` | Optional end-to-end Chrome checks using an external Playwright installation. |
+| `tests/cards.test.cjs` | Optional Chrome checks for card routing, keyboard focus, tool/AI notices, languages, and responsive layouts. |
 | `README.md` | This guide. |
 
 Think of HTML as the page structure, CSS as its appearance, and JavaScript as its behavior. Educational content, translations, and saved-data rules are separate so you can edit one without rewriting the others.
+
+## Large interactive cards
+
+The homepage now contains six large navigation cards: Learn, Practice, Money Tools, Progress, Certificates, and AI Learning Coach. The homepage uses a full-width licensed student photograph with a navy overlay and a three-step learning introduction. Learn receives the single teal-to-blue accent treatment. The other cards share deep navy surfaces, thin blue borders, rounded corners, original outline icons, and prominent lower-left arrows. The design follows the visual direction of the supplied reference screenshots while preserving MoneyGuide’s identity. Desktop layouts use three or two columns; small screens use one column.
+
+The whole available-feature card is a normal link, including the arrow. First-time learners complete the existing onboarding form, then arrive at the dashboard section they selected. Returning learners go directly there. Practice links to existing flashcards and assessments. The sidebar still contains only Dashboard; a compact navigation row in the main dashboard links its sections.
+
+Module cards display real saved status and progress, with distinct recommended, active, and completed treatments. Certificate cards cover all ten modules: earned ones link to the certificate and show its date and score; unearned ones explain the 80% requirement and link to the module. Progress uses four major metric cards for completed modules, certificates, XP, and level, followed by overall activity progress.
+
+Five financial-tool cards describe planned savings, budget, compound-interest, loan, and currency tools. They are clearly labeled Coming Soon and open an informational dialog; they do not calculate anything. The AI Learning Coach likewise explains that NVIDIA Nemotron is not integrated. No calculator, game, AI feature, or backend has been added in this design step.
+
+Hover and keyboard focus subtly shift the arrow and brighten the border. Keyboard focus is visible, dialogs close with Escape and restore focus, and reduced-motion preferences remove movement. Card labels are translated into English, Spanish, and French. All icons are original inline SVG with a shared stroke weight, not a dependency or an external image request.
+
+To run the card checks using the same optional test environment:
+
+```sh
+NODE_PATH=/tmp/moneyguide-browser/node_modules node tests/cards.test.cjs
+```
 
 ## Progress and access
 
