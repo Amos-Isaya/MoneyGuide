@@ -6,12 +6,13 @@
   <meta name="description" content="Learn about money and build financial confidence with MoneyGuide.">
   <title>MoneyGuide — Build your money confidence</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/i18n.js" defer></script>
   <script src="js/app.js" defer></script>
 </head>
 <body data-page="home">
   <header class="home-header wrap">
     <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">m<span>↗</span></span>MoneyGuide<span class="brand-dot">.</span></a>
-    <nav aria-label="Main navigation"><a href="#how-it-works">How it works</a><a href="dashboard.html" class="return-link" hidden>My dashboard <span aria-hidden="true">↗</span></a></nav>
+    <nav aria-label="Main navigation"><label class="language-control"><span data-i18n="language">Language</span><select data-language><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option></select></label><a href="#how-it-works" data-i18n="how">How it works</a><a href="dashboard.html" class="return-link" data-i18n="dashboard" hidden>My dashboard <span aria-hidden="true">↗</span></a></nav>
   </header>
   <main>
     <section class="hero wrap">
@@ -19,10 +20,11 @@
         <p class="eyebrow"><span class="small-dot"></span> A little knowledge. A lot more confidence.</p>
         <h1>Make sense of money.<br><span>Make room for life.</span></h1>
         <p class="hero-description">Your first paycheck. Your next semester. Your future plans. Learn the money skills that help you move forward, one small step at a time.</p>
-        <button class="button" data-onboard>Start Learning <span aria-hidden="true">→</span></button>
+        <button class="button" data-onboard data-i18n="startLearning">Start Learning <span aria-hidden="true">→</span></button>
         <p class="microcopy">Free to explore. No account needed.</p>
       </div>
       <div class="journey-preview" aria-label="Preview of your learning journey">
+        <img class="home-photo" src="assets/students.jpg" alt="Students sharing ideas around a table" width="1400" height="934">
         <div class="preview-top"><span class="eyebrow">YOUR MONEY JOURNEY</span><span class="pill">Built for real life</span></div>
         <h2>Small steps.<br>Stronger foundations.</h2>
         <div class="path-item"><span class="path-number">01</span><div><strong>Make a plan</strong><p>Give your money a purpose.</p></div><span aria-hidden="true">↗</span></div>
@@ -36,7 +38,7 @@
         <div class="feature-grid">
           <article><span class="feature-number">01 / LEARN</span><h3>Start with the essentials</h3><p>Explore budgeting, saving, credit, and investing in clear, everyday language.</p></article>
           <article><span class="feature-number">02 / CONNECT</span><h3>Bring it back to your life</h3><p>Choose a financial goal and see where it fits into your learning journey.</p></article>
-          <article><span class="feature-number">03 / GROW</span><h3>Build confidence over time</h3><p>Your journey starts here. Interactive lessons and decision practice are coming next.</p></article>
+          <article><span class="feature-number">03 / GROW</span><h3>Build confidence over time</h3><p>Explore ten modules, check your understanding, and earn a certificate for each milestone.</p></article>
         </div>
       </div>
     </section>
@@ -44,14 +46,14 @@
   <footer class="wrap footer"><span>MoneyGuide · A brighter financial beginning.</span><span>Learn at your own pace.</span></footer>
   <dialog id="onboarding-dialog" aria-labelledby="onboarding-title">
     <button class="close-button" type="button" data-close aria-label="Close onboarding">×</button>
-    <p class="eyebrow">LET'S MAKE THIS YOURS</p><h2 id="onboarding-title">Your journey starts with you.</h2><p class="muted">A few details to help you feel right at home.</p>
+    <p class="eyebrow">LET'S MAKE THIS YOURS</p><h2 id="onboarding-title" data-i18n="onboardingTitle">Your journey starts with you.</h2><p class="muted" data-i18n="onboardingSub">A few details to help you feel right at home.</p>
     <form id="onboarding-form">
-      <label for="first-name">First name</label><input id="first-name" name="firstName" autocomplete="given-name" maxlength="40" placeholder="e.g. Alex" required>
-      <label for="currency">Preferred currency</label><select id="currency" name="currency" required><option value="" disabled selected>Choose your currency</option><option value="USD">USD — US Dollar</option><option value="EUR">EUR — Euro</option><option value="GBP">GBP — British Pound</option><option value="RWF">RWF — Rwandan Franc</option><option value="NGN">NGN — Nigerian Naira</option><option value="KES">KES — Kenyan Shilling</option><option value="Other">Other</option></select>
-      <label for="goal">Primary financial goal</label><select id="goal" name="goal" required><option value="" disabled selected>What would you like to work on?</option><option>Manage my money better</option><option>Start saving</option><option>Build credit</option><option>Buy a car</option><option>Manage college expenses</option><option>Learn about investing</option></select>
-      <label for="knowledge">Financial knowledge level</label><select id="knowledge" name="knowledge" required><option value="" disabled selected>Choose your starting point</option><option>Beginner</option><option>Intermediate</option></select>
+      <label for="first-name" data-i18n="firstName">First name</label><input id="first-name" name="firstName" autocomplete="given-name" maxlength="40" placeholder="e.g. Alex" required>
+      <label for="currency" data-i18n="currency">Preferred currency</label><select id="currency" name="currency" required><option value="" disabled selected data-i18n="chooseCurrency">Choose your currency</option><option value="USD">USD — US Dollar</option><option value="EUR">EUR — Euro</option><option value="GBP">GBP — British Pound</option><option value="RWF">RWF — Rwandan Franc</option><option value="NGN">NGN — Nigerian Naira</option><option value="KES">KES — Kenyan Shilling</option><option value="Other">Other</option></select>
+      <label for="goal" data-i18n="primaryGoal">Primary financial goal</label><select id="goal" name="goal" required><option value="" disabled selected data-i18n="chooseGoal">What would you like to work on?</option><option value="Manage my money better" data-i18n="goal0">Manage my money better</option><option value="Start saving" data-i18n="goal1">Start saving</option><option value="Build credit" data-i18n="goal2">Build credit</option><option value="Buy a car" data-i18n="goal3">Buy a car</option><option value="Manage college expenses" data-i18n="goal4">Manage college expenses</option><option value="Learn about investing" data-i18n="goal5">Learn about investing</option></select>
+      <label for="knowledge" data-i18n="knowledge">Financial knowledge level</label><select id="knowledge" name="knowledge" required><option value="" disabled selected data-i18n="chooseLevel">Choose your starting point</option><option value="Beginner" data-i18n="beginner">Beginner</option><option value="Intermediate" data-i18n="intermediate">Intermediate</option></select>
       <p id="form-error" class="error" role="alert"></p>
-      <button class="button full-width" type="submit">Start My Learning Journey <span aria-hidden="true">→</span></button><p class="microcopy">Your answers are saved only in this browser.</p>
+      <button class="button full-width" type="submit" data-i18n="beginJourney">Start My Learning Journey <span aria-hidden="true">→</span></button><p class="microcopy" data-i18n="localProfile">Your answers are saved only in this browser.</p>
     </form>
   </dialog>
 </body>

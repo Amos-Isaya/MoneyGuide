@@ -1,39 +1,137 @@
-# MoneyGuide — Step 1
+# MoneyGuide — Financial literacy learning MVP
 
-A beginner-friendly financial education homepage, onboarding form, and dashboard. Built with plain HTML, CSS, and JavaScript. No installation, framework, account, database, or backend is required.
+MoneyGuide is a plain HTML, CSS, and JavaScript project. The existing homepage and onboarding are preserved. The dashboard now connects ten open learning modules, practice checks, flashcards, assessments, progress, and printable certificates. There are no runtime dependencies.
 
-## Files
+## Open the project
 
-- `index.html`: The homepage and onboarding form.
-- `dashboard.html`: The personalized dashboard, navigation, module cards, and Budgeting preview.
-- `css/style.css`: Shared colors, spacing, typography, and responsive layouts.
-- `js/app.js`: Opens dialogs, checks and saves onboarding answers, and personalizes the dashboard.
-- `README.md`: These instructions.
-
-## Run locally
-
-Recommended, for consistent browser storage between pages:
-
-1. Open the `moneyguide` folder in VS Code.
+1. Open this `moneyguide` folder in VS Code.
 2. Choose **Terminal → New Terminal**.
-3. Run `python3 -m http.server 8000` (on Windows, try `py -m http.server 8000`).
-4. Open `http://localhost:8000` in your browser.
-5. Keep the terminal running. Press **Ctrl+C** to stop the server.
+3. Run `python3 -m http.server 8000 --bind 127.0.0.1` (Windows: try `py` instead of `python3`).
+4. Open **http://127.0.0.1:8000** in Chrome.
+5. Keep the terminal running. Press **Ctrl+C** to stop it.
 
-This is Python's basic file server, not Flask or an application backend. Always use the same URL and port to keep accessing the same saved profile.
+If that address already shows MoneyGuide, the server is already running. If the port is occupied by a different app, use another port and open its matching address. Use the same address and port when you return: `localhost` and `127.0.0.1` have separate browser storage. A local Python file server is not a Flask backend. Double-clicking HTML is less reliable because browser storage rules for `file://` vary.
 
-You can also double-click `index.html`, but browser behavior for localStorage on `file://` pages varies. Use the local server if the dashboard sends you back to the homepage.
+## Project map
 
-## How the profile moves between pages
+| File | Purpose |
+| --- | --- |
+| `index.html` | Original homepage and onboarding form, now with language selection and student imagery. |
+| `dashboard.html` | Dashboard shell with a simple Dashboard-only sidebar. |
+| `module.html` | One reusable page for all ten learning modules. `?id=7` opens Investing Basics, for example. |
+| `certificate.html` | Displays an earned certificate for the module in `?id=`. |
+| `css/style.css` | Shared design, responsive layouts, lesson styles, and print formatting. |
+| `js/app.js` | Existing profile validation, onboarding, saving answers, and dialog controls. |
+| `js/modules.js` | All ten modules: introductions, objectives, 30 lessons/checks, 100 flashcards, 100 final questions with explanations, and reading sources. |
+| `js/progress.js` | Reads/saves progress and applies completion, scoring, XP, and certificate rules. |
+| `js/i18n.js` | English, Spanish, and French interface text and translated module titles. |
+| `js/learning.js` | Displays dashboard, lesson, flashcard, assessment, and certificate screens using the content and saved progress. |
+| `assets/students.jpg` | Locally stored, licensed student photograph. |
+| `assets/README.md` | Image credit, license link, and design attribution notes. |
+| `tests/progress.test.cjs` | Dependency-free automated tests of content structure and progress rules. |
+| `tests/browser.test.cjs` | Optional end-to-end Chrome checks using an external Playwright installation. |
+| `README.md` | This guide. |
 
-Submitting the form creates a JavaScript object containing first name, currency, goal, and knowledge level. `JSON.stringify()` turns it into text. `localStorage.setItem()` saves that text under `moneyguide.profile`. The browser then opens `dashboard.html`, which reads the same key and uses `JSON.parse()` to turn the text back into an object. The dashboard displays the answers using `textContent`.
+Think of HTML as the page structure, CSS as its appearance, and JavaScript as its behavior. Educational content, translations, and saved-data rules are separate so you can edit one without rewriting the others.
 
-The profile stays in this browser after a refresh or restart. It does not sync to other devices and is not sent anywhere. Clearing site data removes it. If storage is blocked, the form shows an error. Missing or invalid profiles return to the homepage. Use the MoneyGuide logo and Start Learning to update existing answers.
+## Progress and access
 
-## Scope
+All ten modules are available from the start. The recommended path is 1–10, but nothing stops a learner starting Module 7 first. Continue Learning selects the most recently visited unfinished module, or the next unfinished one. Module pages remain accessible after completion.
 
-Progress starts at Level 1, 0 XP, and 0/4 modules completed. Start Module opens a Budgeting introduction; the full lesson is not built yet. Other modules and future navigation items are labeled Coming Soon. There are no games, flashcards, certificates, reminders, calculators, authentication, or AI integrations.
+A module's learning content includes 17 activities:
 
-## Later Flask upgrade
+- 3 lessons, each with a **Mark lesson complete** button.
+- 3 knowledge checks, each completed after a correct answer. Wrong answers show an explanation and can be retried.
+- 10 flashcards, each completed after revealing its definition at least once.
+- 1 summary, completed with **Mark summary read**.
 
-The HTML, CSS, and JavaScript are separate so they can be reused. When Flask is added, move HTML into `templates/` and CSS/JS into `static/`, update links to Flask routes/static URLs, and replace localStorage helpers with backend calls when needed. No framework rewrite is required now.
+The assessment is the 18th overall progress activity. A score of 8/10 or higher completes that activity. Overall progress is completed activities divided by 180 across ten modules. Module completion requires all 17 learning activities plus a passing assessment. Thus partial work can raise overall progress before the completed-module count increases.
+
+Statuses show Not Started, In Progress, and Certificate Earned after completion. Lesson buttons also show Completed. Completed modules stay complete when a later retake scores lower.
+
+## XP and levels
+
+Each distinct activity earns XP only once. Revisiting a page or repeating an activity cannot add duplicate XP.
+
+| Activity | XP |
+| --- | ---: |
+| Complete one lesson | 10 |
+| Correctly finish one knowledge check | 5 |
+| Reveal one flashcard | 2 |
+| Pass a module assessment for the first time | 50 |
+| Complete the entire module | 50 |
+
+Maximum: **165 XP per module**, **1,650 XP total**. Reading the summary is required but adds no separate XP. XP is recalculated from completed activities, and its total and current level are saved with progress.
+
+| Level | Name | Starting XP |
+| --- | --- | ---: |
+| 1 | Money Starter | 0 |
+| 2 | Money Explorer | 300 |
+| 3 | Money Builder | 650 |
+| 4 | Money Strategist | 1,000 |
+| 5 | Money Master | 1,400 |
+
+## Assessments
+
+Each module has ten authored multiple-choice questions mixing situations, decisions, and calculations. Questions appear one at a time. Answers and the current question are saved as you go. After a refresh, use **Continue Assessment**.
+
+All questions must be answered before submission. Each correct answer is one point: **8/10 = 80% = pass**. Results include your answer, the correct answer, and an explanation for each question. There are unlimited retakes and no XP penalty for a lower score. The best score remains saved. A test can be taken before lessons, but passing alone cannot earn a certificate.
+
+## Certificates
+
+The app awards a certificate automatically once both learning content and the passing-score requirement are satisfied, in either order. It saves the learner's name, module, date, qualifying score, and unique ID. Existing certificates retain their original name/date/score when the profile changes or a test is retaken.
+
+The dashboard lists earned certificates. **Print Certificate** opens the browser's print dialog. **Download / Save as PDF** opens the same dialog: choose **Save as PDF** as the destination. No separate PDF library is needed. The print stylesheet hides navigation and formats a landscape certificate.
+
+These are prototype learning milestones, not accredited qualifications. Because all data and scoring are local, they are not independently verified credentials.
+
+## Languages and currency
+
+Use the language selector on any page. `i18n.js` contains a simple key-to-translation dictionary for navigation, controls, headings, module titles, progress, assessment instructions, and certificate wording. The choice persists independently of currency.
+
+The lessons, examples, question text, explanations, and vocabulary remain **English** in this version; a visible notice explains this. Their content is centralized in `modules.js` so translated content can be added later. To add an interface language, add its translations and title list in `i18n.js`, and an option in each page's language selector.
+
+The original onboarding currency stays saved and is displayed on the dashboard. Examples explicitly use fictional money units; changing language does not convert prices or change currency. There is no live exchange-rate service.
+
+## Browser storage
+
+The project uses these localStorage keys:
+
+- `moneyguide.profile`: existing first name, currency, financial goal, and knowledge level. Its format is preserved.
+- `moneyguide.language`: interface language (`en`, `es`, or `fr`).
+- `moneyguide.learning.v1`: per-module activities, current assessment answers, latest results, best scores, certificates, last visited module, XP, and level.
+
+JavaScript objects become text through `JSON.stringify()` and return to objects through `JSON.parse()`. Data survives refreshes and browser restarts on the same browser/profile/origin. It does not sync to other devices and is not sent to a backend. Clearing site data removes it. Private browsing may remove it when the session closes.
+
+Failed writes show an error and roll back the attempted in-memory change. Damaged learning JSON is left untouched and further writes are blocked instead of silently erasing progress. A missing or invalid onboarding profile redirects to the homepage. This is one learner profile per browser origin; authentication and multiple-user accounts are not implemented.
+
+## Verification
+
+From this folder, run the core tests:
+
+```sh
+node tests/progress.test.cjs
+```
+
+The optional Chrome test needs Playwright available in your test environment, plus a local server running at `http://127.0.0.1:8000`. It does not add a library to the website. Run with `node tests/browser.test.cjs` if Playwright is installed in the environment. To use a separate temporary installation:
+
+```sh
+npm install --prefix /tmp/moneyguide-browser playwright
+NODE_PATH=/tmp/moneyguide-browser/node_modules node tests/browser.test.cjs
+```
+
+The browser test uses an isolated browser context, not your personal Chrome profile. It tests onboarding, all ten module links, lessons and checks, flashcards, failing/passing attempts, certificate gating, ten certificates, print/PDF behavior, translations, persistence, and widths 1440, 1024, 768, 390, and 320. Screenshots and a sample PDF go to `/tmp`, not your repository. `MONEYGUIDE_URL` can override the test server address.
+
+## Scope and next step
+
+Games/challenges, financial tools, and exchange tools are labeled Coming Soon. There is no authentication, database, exchange API, Flask application, or chatbot in MoneyGuide.
+
+**Nemotron has not been integrated yet.**
+
+The next recommended step is a small usability/content review with classmates: watch them complete a module, verify explanations with an educator, and collect any confusing moments. After that, add a minimal Flask API for progress storage before deliberately designing personalized Nemotron explanations. The current HTML and assets can move to Flask's `templates/` and `static/` folders with updated URLs; the content and page logic can be reused. Backend persistence would replace the functions in `progress.js` and the profile storage helpers rather than rebuilding the interface.
+
+## References and visual direction
+
+The design takes high-level inspiration from [I&M Group](https://www.imbankgroup.com/): image-led sections, clear navigation, and prominent information blocks. Automated live browsing was blocked; the accessible page structure was reviewed. MoneyGuide has its own layout, mark, teal palette, and typography and is not affiliated with I&M. See `assets/README.md` for the independently licensed photograph.
+
+Lessons include links for further reading from the [CFPB](https://www.consumerfinance.gov/consumer-tools/), [Investor.gov](https://www.investor.gov/introduction-investing), [IRS](https://www.irs.gov/payments/tax-withholding), and [NAIC](https://content.naic.org/). Content is introductory education. Local laws, account protections, product terms, and tax requirements vary; US-specific forms are identified as such. Investment content is not personalized investment advice.

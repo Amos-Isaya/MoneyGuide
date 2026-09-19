@@ -51,7 +51,7 @@ if (document.body.dataset.page === 'home') {
     event.preventDefault();
     const firstName = nameInput.value.trim();
     if (!firstName) {
-      nameInput.setCustomValidity('Please enter your first name.');
+      nameInput.setCustomValidity(MoneyGuideI18n.t('nameRequired'));
       nameInput.reportValidity();
       return;
     }
@@ -68,40 +68,7 @@ if (document.body.dataset.page === 'home') {
       localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
       window.location.href = 'dashboard.html';
     } catch (error) {
-      document.querySelector('#form-error').textContent = 'Your browser could not save your answers. Please allow site storage and try again.';
+      document.querySelector('#form-error').textContent = MoneyGuideI18n.t('storageError');
     }
   });
-}
-
-if (document.body.dataset.page === 'dashboard') {
-  const profile = getProfile();
-  if (!profile) {
-    window.location.replace('index.html');
-  } else {
-    // textContent displays user input safely as text, never as HTML.
-    document.querySelector('#welcome-name').textContent = 'Welcome, ' + profile.firstName + ' 👋';
-    document.querySelector('#profile-name').textContent = profile.firstName;
-    document.querySelector('#profile-level').textContent = profile.knowledge + ' learner';
-    document.querySelector('#avatar').textContent = Array.from(profile.firstName)[0].toUpperCase();
-    document.querySelector('#user-goal').textContent = profile.goal;
-    document.querySelector('#user-currency').textContent = profile.currency;
-    document.querySelector('#dashboard-content').hidden = false;
-
-    const dialog = document.querySelector('#info-dialog');
-    function showPreview(title, description, isBudgeting) {
-      document.querySelector('#info-title').textContent = title;
-      document.querySelector('#info-description').textContent = description;
-      document.querySelector('#info-label').textContent = isBudgeting ? 'MODULE PREVIEW' : 'ON THE HORIZON';
-      document.querySelector('#budget-preview').hidden = !isBudgeting;
-      dialog.showModal();
-    }
-    document.querySelector('#budgeting-button').addEventListener('click', function () {
-      showPreview('Budgeting', 'Learn how to create and manage a budget.', true);
-    });
-    document.querySelectorAll('[data-feature]').forEach(function (button) {
-      button.addEventListener('click', function () {
-        showPreview(button.dataset.feature, 'Coming soon. This part of MoneyGuide is planned for a future step.', false);
-      });
-    });
-  }
 }
