@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your dashboard — MoneyGuide</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body data-page="dashboard">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">m<span>↗</span></span>MoneyGuide<span class="brand-dot">.</span></a>
+      <p class="nav-label">YOUR WORKSPACE</p>
+      <nav class="side-nav" aria-label="Main navigation">
+        <a href="dashboard.html" aria-current="page"><span aria-hidden="true">▦</span> Dashboard</a>
+        <button data-feature="Learn"><span aria-hidden="true">▤</span> Learn <small>Soon</small></button>
+        <button data-feature="Money Simulator"><span aria-hidden="true">⇄</span> Money Simulator <small>Soon</small></button>
+        <button data-feature="Tools"><span aria-hidden="true">⌘</span> Tools <small>Soon</small></button>
+        <button data-feature="Progress"><span aria-hidden="true">↗</span> Progress <small>Soon</small></button>
+      </nav>
+      <div class="sidebar-note"><span aria-hidden="true">✦</span><h3>Progress starts small.</h3><p>You don't need to be an expert. Just bring your curiosity.</p></div>
+      <div class="profile"><span class="avatar" id="avatar">M</span><div><strong id="profile-name">Your profile</strong><small id="profile-level">Your learning journey</small></div></div>
+    </aside>
+    <div class="workspace">
+      <header class="workspace-header"><span>My learning / <strong>Overview</strong></span><span class="header-label"><span class="small-dot"></span> A fresh start</span></header>
+      <main class="dashboard-main" id="dashboard-content" hidden>
+        <div class="welcome"><p class="eyebrow">YOUR NEXT CHAPTER STARTS HERE</p><h1 id="welcome-name">Welcome 👋</h1><p>Let's continue building your financial knowledge.</p></div>
+        <section class="progress-card" aria-labelledby="progress-title"><div class="level-badge" aria-hidden="true">1</div><div class="progress-details"><div class="progress-heading"><h2 id="progress-title">Level 1 <span>· Just getting started</span></h2><strong>0 XP</strong></div><progress value="0" max="4" aria-label="Modules completed: 0 out of 4"></progress><div class="progress-caption"><span>Every step is a step forward.</span><strong>0/4 Modules Completed</strong></div></div></section>
+        <div class="dashboard-columns"><section aria-labelledby="modules-title"><div class="module-heading"><div><p class="eyebrow">BUILD YOUR FOUNDATION</p><h2 id="modules-title">Your learning path</h2></div><span class="muted">4 modules</span></div>
+          <div class="module-grid">
+            <article class="module-card featured"><div class="card-top"><span class="module-icon mint" aria-hidden="true">▤</span><span class="pill">Start here</span></div><p class="module-number">MODULE 01</p><h3>Budgeting</h3><p>Learn how to create and manage a budget.</p><button class="button" id="budgeting-button">Start Module <span aria-hidden="true">→</span></button></article>
+            <article class="module-card"><div class="card-top"><span class="module-icon peach" aria-hidden="true">◒</span><span class="muted tiny">Coming soon</span></div><p class="module-number">MODULE 02</p><h3>Saving &amp; Emergency Funds</h3><p>Learn how to save consistently and prepare for unexpected expenses.</p><button class="button unavailable" disabled>Coming Soon</button></article>
+            <article class="module-card"><div class="card-top"><span class="module-icon lavender" aria-hidden="true">▭</span><span class="muted tiny">Coming soon</span></div><p class="module-number">MODULE 03</p><h3>Credit &amp; Debt</h3><p>Understand credit scores, borrowing, APR, and responsible debt management.</p><button class="button unavailable" disabled>Coming Soon</button></article>
+            <article class="module-card"><div class="card-top"><span class="module-icon blue" aria-hidden="true">↗</span><span class="muted tiny">Coming soon</span></div><p class="module-number">MODULE 04</p><h3>Investing Basics</h3><p>Learn the fundamentals of growing money over time.</p><button class="button unavailable" disabled>Coming Soon</button></article>
+          </div>
+        </section><aside class="learning-aside"><section class="goal-card"><span class="eyebrow">YOUR NORTH STAR</span><span class="goal-symbol" aria-hidden="true">⚑</span><h2 id="user-goal">Your financial goal</h2><p>A meaningful goal is a great place to begin.</p><div class="goal-meta"><span>Preferred currency</span><strong id="user-currency"></strong></div></section><section class="tip-card"><p class="eyebrow">A LITTLE PERSPECTIVE</p><h3>Learning is an investment in yourself.</h3><p>Start where you are. You can build your understanding one concept at a time.</p></section></aside></div>
+        <footer class="dashboard-footer">Your pace. Your goals. Your MoneyGuide.</footer>
+      </main>
+    </div>
+  </div>
+  <dialog id="info-dialog" aria-labelledby="info-title"><button class="close-button" type="button" data-close aria-label="Close preview">×</button><p class="eyebrow" id="info-label">MODULE PREVIEW</p><h2 id="info-title">Budgeting</h2><p id="info-description" class="muted"></p><div id="budget-preview"><h3>Give your money a plan.</h3><p>A budget helps you see what money comes in, what goes out, and what you want to set aside.</p><p class="preview-note">The full lesson is coming next. Your progress stays at 0 until lessons are available.</p></div><button class="button full-width" data-close>Back to dashboard</button></dialog>
+</body>
+</html>
