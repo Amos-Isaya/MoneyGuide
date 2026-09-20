@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import handler from '../api/moneyguide.js';
 const types = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.webp': 'image/webp', '.png': 'image/png', '.svg': 'image/svg+xml', '.ttf': 'font/ttf', '.woff2': 'font/woff2' };
 const files = new Map([['/', ['index.html', 'text/html']]]);
-for (const name of ['index', 'dashboard', 'module', 'certificate', 'account']) files.set(`/${name}.html`, [`${name}.html`, 'text/html']);
+for (const name of ['index', 'dashboard', 'module', 'certificate', 'account', 'games']) files.set(`/${name}.html`, [`${name}.html`, 'text/html']);
 // Only public asset directories are served; never expose environment or API source files.
 for (const directory of ['css', 'js', 'assets']) {
   for (const entry of await readdir(new URL('../' + directory + '/', import.meta.url), { recursive: true, withFileTypes: true })) {

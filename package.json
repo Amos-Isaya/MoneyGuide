@@ -5,7 +5,7 @@
   "engines": { "node": ">=22" },
   "scripts": {
     "dev": "node --env-file-if-exists=.env.local scripts/dev.mjs",
-    "test": "node --test tests/moneyguide.test.js tests/progress.test.cjs tests/api-routing.test.js tests/calculators.test.cjs",
+    "test": "node --test tests/moneyguide.test.js tests/progress.test.cjs tests/api-routing.test.js tests/calculators.test.cjs tests/games.test.js",
     "check": "node scripts/check.mjs"
   }
 }

@@ -288,3 +288,16 @@ Core progress tests and Chrome browser checks passed after the redesign: all ten
 ## Nemotron integration verification
 
 Application syntax checks and all ten automated API/calculation/learning-progress tests pass. The dedicated tests/ai-browser.test.cjs check passed for the new homepage onboarding route, Advanced profile, demo calculation, mocked plan and chat, error fallback, lesson action links, language and currency changes, dark/light themes, mobile layout, and public asset serving. Live NVIDIA output requires a configured API key and was not exercised. The optional full lesson browser suite encountered navigation timing limits in this environment.
+
+
+## Learn by Gaming
+
+Open `games.html` from the homepage’s **Learn by Gaming** button, shared navigation, or dashboard Practice card. Guests can play without creating an account. The three untimed games use fictional situations and currently have English scenario text; the shared navigation and introductory text support the existing three interface languages.
+
+- **Campus Cash:** allocate 1,000 fictional credits, respond to three events, and try to retain 150. Choices affect the remaining reserve; a negative reserve is a shortfall, not a loan. Scores combine reserve protection (40 points) and three reserve-friendly decisions (20 each).
+- **Needs or Wants?:** sort eight contextual purchases. Each answer explains the reasoning; a streak is tracked during play.
+- **Scam Spotter:** choose safe responses to six fictional suspicious messages, with feedback about the warning signs.
+
+`js/game-data.js` contains scenario content and pure scoring helpers. `js/games.js` manages rounds, feedback, replay and best scores. `css/games.css` styles the game library and play area using existing theme tokens. No library, timer, payment or AI request is needed to play. Keyboard buttons and native range controls work without dragging. Reduced motion disables the panel animation.
+
+Only completed games update `moneyguide.games.v1` in localStorage. This browser-local record is separate from learning XP, module completion and certificates. Exiting mid-game discards that unfinished run. Unreadable saves are preserved; blocked storage still allows play. Run `npm test` for content/scoring coverage and `NODE_PATH=/tmp/moneyguide-browser/node_modules MONEYGUIDE_URL=http://localhost:3101 node tests/games-browser.test.cjs` for Chrome playthroughs against a running local server.

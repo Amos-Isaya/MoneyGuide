@@ -1,6 +1,12 @@
 // Stable keys keep interface translations separate from lesson content and currency.
 const MoneyGuideI18n = (() => {
   const words = {
+    learnGaming: ['Learn by Gaming','Aprende jugando','Apprendre en jouant'],
+    gamingEyebrow: ['SMALL CHALLENGES. REAL-LIFE SKILLS.','PEQUEÑOS RETOS. HABILIDADES PARA LA VIDA.','PETITS DÉFIS. COMPÉTENCES POUR LA VIE.'],
+    gamingHeading: ['A little play. A smarter money move.','Un poco de juego. Mejores decisiones con tu dinero.','Un peu de jeu. De meilleurs choix avec votre argent.'],
+    gamingIntro: ['Try a decision, see what happens, and learn something you can use. No timer. No real money. Just a fresh way to practice.','Toma una decisión, observa el resultado y aprende algo útil. Sin cronómetro ni dinero real. Una nueva forma de practicar.','Prenez une décision, observez le résultat et apprenez. Sans chronomètre ni argent réel. Une nouvelle façon de pratiquer.'],
+    gamingLanguage: ['Game scenarios are currently in English. Your language and currency preferences stay unchanged.','Los juegos están actualmente en inglés. Se conservan tus preferencias de idioma y moneda.','Les jeux sont actuellement en anglais. Vos préférences de langue et de devise sont conservées.'],
+    gamingCard: ['Play three quick challenges: Campus Cash, Needs or Wants?, and Scam Spotter.','Juega tres retos breves sobre presupuesto, necesidades y estafas.','Jouez à trois défis sur le budget, les besoins et les arnaques.'],
     sceneAssessmentsTitle: ["Final Assessments", "Evaluaciones finales", "Évaluations finales"],
     sceneChecksTitle: ["Knowledge Checks", "Comprobaciones de conocimientos", "Vérifications des connaissances"],
     sceneAssessmentAction: ["View Assessments", "Ver evaluaciones", "Voir les évaluations"],
