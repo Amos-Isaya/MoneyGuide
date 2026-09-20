@@ -1,4 +1,5 @@
-// PUBLIC configuration. Never put NVIDIA_API_KEY or any credential in this file.
-// For GitHub Pages, set this to your deployed Vercel origin, e.g. https://your-project.vercel.app
-// Leave empty when the frontend and API run together (npm run dev or all-in-one Vercel).
-export const API_BASE_URL = '';
+// Public backend address for the GitHub Pages website. Never put credentials here.
+// Local development and Vercel continue using their same-origin API.
+export const API_BASE_URL = globalThis.location?.hostname === 'amos-isaya.github.io'
+  ? 'https://money-guide.vercel.app'
+  : '';

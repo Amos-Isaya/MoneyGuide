@@ -61,7 +61,7 @@ export default async function handler(req, res) {
   if (origin) {
     try {
       const source = new URL(origin);
-      const configured = (process.env.MONEYGUIDE_ALLOWED_ORIGINS || '').split(',').map(value => value.trim()).filter(Boolean);
+      const configured = (process.env.MONEYGUIDE_ALLOWED_ORIGINS ?? 'https://amos-isaya.github.io').split(',').map(value => value.trim()).filter(Boolean);
       const protocol = req.headers['x-forwarded-proto']?.split(',')[0].trim() || (req.socket?.encrypted ? 'https' : 'http');
       originAllowed = source.origin === origin && ['https:', 'http:'].includes(source.protocol) &&
         (source.origin === `${protocol}://${req.headers.host}` || configured.includes(source.origin));

@@ -36,6 +36,9 @@ test('CORS allows exact configured origin, preflight and readable backend errors
   assert.equal((await call('OPTIONS',{...headers,'access-control-request-headers':'authorization'})).statusCode,400);
   assert.equal((await call('OPTIONS')).statusCode,403);
   delete process.env.MONEYGUIDE_ALLOWED_ORIGINS;
+  assert.equal((await call('OPTIONS',headers)).statusCode,204);
+  assert.equal((await call('POST',{origin:headers.origin})).statusCode,503);
+  process.env.MONEYGUIDE_ALLOWED_ORIGINS='';
   assert.equal((await call('POST',{origin:headers.origin})).statusCode,403);
  }finally{if(previous===undefined)delete process.env.MONEYGUIDE_ALLOWED_ORIGINS;else process.env.MONEYGUIDE_ALLOWED_ORIGINS=previous;if(key===undefined)delete process.env.NVIDIA_API_KEY;else process.env.NVIDIA_API_KEY=key;}
 });
