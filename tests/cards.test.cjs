@@ -7,6 +7,12 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const page = await context.newPage();
   page.setDefaultTimeout(8000);
+  async function selectLanguage(value) {
+    const toggle = page.locator('.menu-toggle');
+    if (!(await page.locator('[data-language]').isVisible())) await toggle.click();
+    await page.locator('[data-language]').selectOption(value);
+    if (await toggle.isVisible() && await toggle.getAttribute('aria-expanded') === 'true') await toggle.click();
+  }
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(base + '/index.html');
@@ -58,7 +64,7 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   assert.match(await page.locator('#feature-preview').textContent(), /has not been integrated yet/);
   await page.keyboard.press('Escape');
   for (const language of ['en','es','fr']) {
-    await page.locator('[data-language]').selectOption(language);
+    await selectLanguage(language);
     for (const width of [1440,1024,768,390,320]) {
       await page.setViewportSize({width,height:1000});
       for(const route of ['/index.html','/dashboard.html']) {
@@ -69,7 +75,7 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
     }
     await page.goto(base+'/index.html');
   }
-  await page.locator('[data-language]').selectOption('en');
+  await selectLanguage('en');
   await page.setViewportSize({width:390,height:844});
   await page.locator('#how-it-works').scrollIntoViewIfNeeded();
   await page.screenshot({path:'/tmp/moneyguide-cards-mobile.png'});

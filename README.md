@@ -16,32 +16,43 @@ If that address already shows MoneyGuide, the server is already running. If the 
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Original homepage and onboarding form, now with language selection and student imagery. |
-| `dashboard.html` | Dashboard shell with a simple Dashboard-only sidebar. |
+| `index.html` | Three-chapter homepage, coins-and-plant hero, and onboarding form. |
+| `dashboard.html` | Dashboard with shared top navigation, ten modules, practice, tools, progress, and certificates. |
 | `module.html` | One reusable page for all ten learning modules. `?id=7` opens Investing Basics, for example. |
 | `certificate.html` | Displays an earned certificate for the module in `?id=`. |
 | `css/style.css` | Shared design, responsive layouts, lesson styles, and print formatting. |
 | `css/cards.css` | Large navigation cards, module/certificate/tool states, outline-icon sizing, focus and reduced-motion styles. |
+| `css/polish.css` | Final visual layer: both themes, sticky header, homepage chapters, footer, and responsive learning surfaces. |
+| `js/appearance.js` | Restores the saved theme before the page paints; defaults to dark. |
+| `js/shell.js` | Builds the shared navigation/footer and handles mobile menu, profile, currency, theme, and information dialogs. |
+| `js/home.js` | Displays real saved progress and certificate previews on the homepage, plus optional scroll reveals. |
 | `js/app.js` | Existing profile validation, onboarding, saving answers, and dialog controls; preserves a clicked feature destination through onboarding. |
 | `js/cards.js` | Original SVG outline icons and accessible Coming Soon preview dialogs. |
 | `js/modules.js` | All ten modules: introductions, objectives, 30 lessons/checks, 100 flashcards, 100 final questions with explanations, and reading sources. |
 | `js/progress.js` | Reads/saves progress and applies completion, scoring, XP, and certificate rules. |
 | `js/i18n.js` | English, Spanish, and French interface text and translated module titles. |
 | `js/learning.js` | Displays dashboard, lesson, flashcard, assessment, and certificate screens using the content and saved progress. |
-| `assets/students.jpg` | Locally stored, licensed student photograph. |
+| `assets/financial-growth.webp`, `assets/financial-growth-small.webp` | Optimized desktop and mobile versions of the licensed coins-and-plant photograph. |
+| `assets/fonts/Manrope.ttf`, `assets/fonts/OFL.txt` | Locally hosted open-source font and its license. |
+| `assets/students.jpg` | Retained older photograph; no longer displayed. |
 | `assets/README.md` | Image credit, license link, and design attribution notes. |
 | `tests/progress.test.cjs` | Dependency-free automated tests of content structure and progress rules. |
 | `tests/browser.test.cjs` | Optional end-to-end Chrome checks using an external Playwright installation. |
 | `tests/cards.test.cjs` | Optional Chrome checks for card routing, keyboard focus, tool/AI notices, languages, and responsive layouts. |
+| `tests/shell.test.cjs` | Optional Chrome checks for preferences, mobile navigation, profile editing, footer, and quiz preservation. |
 | `README.md` | This guide. |
 
 Think of HTML as the page structure, CSS as its appearance, and JavaScript as its behavior. Educational content, translations, and saved-data rules are separate so you can edit one without rewriting the others.
 
 ## Large interactive cards
 
-The homepage now contains six large navigation cards: Learn, Practice, Money Tools, Progress, Certificates, and AI Learning Coach. The homepage uses a full-width licensed student photograph with a navy overlay and a three-step learning introduction. Learn receives the single teal-to-blue accent treatment. The other cards share deep navy surfaces, thin blue borders, rounded corners, original outline icons, and prominent lower-left arrows. The design follows the visual direction of the supplied reference screenshots while preserving MoneyGuide’s identity. Desktop layouts use three or two columns; small screens use one column.
+The homepage has three expansive chapters: Discover uses a dark, immersive financial photograph; Learn & Practice shifts to a lighter charcoal-blue surface with six feature cards and real saved progress; Grow & Achieve shifts to deep green with curriculum statistics, certificate previews, and the final call to action. Light mode uses complementary warm, pale surfaces while retaining the cinematic dark hero. Manrope is hosted locally.
 
-The whole available-feature card is a normal link, including the arrow. First-time learners complete the existing onboarding form, then arrive at the dashboard section they selected. Returning learners go directly there. Practice links to existing flashcards and assessments. The sidebar still contains only Dashboard; a compact navigation row in the main dashboard links its sections.
+The shared sticky top navigation replaces the sidebar on all four pages. Home and About lead to the landing page; Learn, Practice, Tools, Progress, and Certificates link to the corresponding dashboard section. The current destination is marked, and the header subtly changes after scrolling. Below 1,200px it becomes an expandable hamburger menu with keyboard support. Language, currency, theme, and profile controls remain available inside it.
+
+The six large feature cards are Learn, Practice, Money Tools, Progress, Certificates, and AI Learning Coach. Learn receives one restrained jade accent treatment. The other cards share thin borders, original outline icons, generous spacing, and large arrows. The entire available card is a normal link, including its arrow. First-time learners complete onboarding before reaching their chosen destination. Returning learners go directly there. Practice opens the existing flashcards and assessments.
+
+The ending has three layers: a final learning call to action; a five-column directory of platform, learning, tools, resources, and language links; and a slim copyright/disclaimer/legal bar. Contact information is honestly marked coming soon. Privacy, terms, help, and accessibility buttons open concise prototype information dialogs.
 
 Module cards display real saved status and progress, with distinct recommended, active, and completed treatments. Certificate cards cover all ten modules: earned ones link to the certificate and show its date and score; unearned ones explain the 80% requirement and link to the module. Progress uses four major metric cards for completed modules, certificates, XP, and level, followed by overall activity progress.
 
@@ -53,6 +64,7 @@ To run the card checks using the same optional test environment:
 
 ```sh
 NODE_PATH=/tmp/moneyguide-browser/node_modules node tests/cards.test.cjs
+NODE_PATH=/tmp/moneyguide-browser/node_modules node tests/shell.test.cjs
 ```
 
 ## Progress and access
@@ -110,9 +122,9 @@ These are prototype learning milestones, not accredited qualifications. Because 
 
 Use the language selector on any page. `i18n.js` contains a simple key-to-translation dictionary for navigation, controls, headings, module titles, progress, assessment instructions, and certificate wording. The choice persists independently of currency.
 
-The lessons, examples, question text, explanations, and vocabulary remain **English** in this version; a visible notice explains this. Their content is centralized in `modules.js` so translated content can be added later. To add an interface language, add its translations and title list in `i18n.js`, and an option in each page's language selector.
+The lessons, examples, question text, explanations, and vocabulary remain **English** in this version; a visible notice explains this. Their content is centralized in `modules.js` so translated content can be added later. To add an interface language, add its translations and title list in `i18n.js`, and options in the shared shell’s language controls.
 
-The original onboarding currency stays saved and is displayed on the dashboard. Examples explicitly use fictional money units; changing language does not convert prices or change currency. There is no live exchange-rate service.
+The onboarding currency stays saved and is displayed on the dashboard. The top navigation can update it without resetting a lesson or quiz. Language, currency, and theme preferences are separate. Examples explicitly use fictional money units; changing language does not convert prices or change currency. There is no live exchange-rate service.
 
 ## Browser storage
 
@@ -120,6 +132,8 @@ The project uses these localStorage keys:
 
 - `moneyguide.profile`: existing first name, currency, financial goal, and knowledge level. Its format is preserved.
 - `moneyguide.language`: interface language (`en`, `es`, or `fr`).
+- `moneyguide.theme`: `dark` (default) or `light`.
+- `moneyguide.currency`: guest currency preference before onboarding; a saved learner uses the existing profile’s currency field.
 - `moneyguide.learning.v1`: per-module activities, current assessment answers, latest results, best scores, certificates, last visited module, XP, and level.
 
 JavaScript objects become text through `JSON.stringify()` and return to objects through `JSON.parse()`. Data survives refreshes and browser restarts on the same browser/profile/origin. It does not sync to other devices and is not sent to a backend. Clearing site data removes it. Private browsing may remove it when the session closes.
@@ -153,6 +167,10 @@ The next recommended step is a small usability/content review with classmates: w
 
 ## References and visual direction
 
-The design takes high-level inspiration from [I&M Group](https://www.imbankgroup.com/): image-led sections, clear navigation, and prominent information blocks. Automated live browsing was blocked; the accessible page structure was reviewed. MoneyGuide has its own layout, mark, teal palette, and typography and is not affiliated with I&M. See `assets/README.md` for the independently licensed photograph.
+The design takes high-level inspiration from [I&M Group](https://www.imbankgroup.com/): image-led sections, clear navigation, and prominent information blocks. Automated live browsing was blocked; the accessible page structure was reviewed. MoneyGuide has its own layout, mark, charcoal-and-jade palette, and typography and is not affiliated with I&M. See `assets/README.md` for the independently licensed photograph.
 
 Lessons include links for further reading from the [CFPB](https://www.consumerfinance.gov/consumer-tools/), [Investor.gov](https://www.investor.gov/introduction-investing), [IRS](https://www.irs.gov/payments/tax-withholding), and [NAIC](https://content.naic.org/). Content is introductory education. Local laws, account protections, product terms, and tax requirements vary; US-specific forms are identified as such. Investment content is not personalized investment advice.
+
+## Final visual pass verification
+
+Core progress tests and Chrome browser checks passed after the redesign: all ten modules, 30 lessons/checks, 100 flashcards, assessments and 80% threshold, ten certificates, PDF output, three interface languages, refresh persistence, and responsive widths down to 320px. Shared-shell checks additionally cover both themes at six widths (320–1440px), independent currency/language/theme settings, quiz preservation, footer information, and profile editing. No backend or AI integration was added. This visual pass is ready for review; publishing to GitHub Pages is a separate step.

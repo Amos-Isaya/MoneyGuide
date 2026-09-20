@@ -5,38 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Learn about money and build financial confidence with MoneyGuide.">
   <title>MoneyGuide — Build your money confidence</title>
+  <script src="js/appearance.js"></script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/polish.css">
   <script src="js/i18n.js" defer></script>
   <script src="js/cards.js" defer></script>
+  <script src="js/modules.js" defer></script>
+  <script src="js/progress.js" defer></script>
   <script src="js/app.js" defer></script>
+  <script src="js/shell.js" defer></script>
+  <script src="js/home.js" defer></script>
 </head>
 <body data-page="home">
   <a class="skip-link" href="#home-main">Skip to content</a>
-  <header class="home-header wrap">
-    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">m<span>↗</span></span>MoneyGuide<span class="brand-dot">.</span></a>
-    <nav aria-label="Main navigation"><label class="language-control"><span data-i18n="language">Language</span><select data-language><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option></select></label><a href="#how-it-works" data-i18n="navExplore">Explore MoneyGuide</a><a href="dashboard.html" class="return-link" data-i18n="dashboard" hidden>My dashboard <span aria-hidden="true">↗</span></a></nav>
-  </header>
+  <header id="site-header"></header>
   <main id="home-main">
-    <section class="cinematic-hero" aria-labelledby="hero-title">
-      <img class="hero-background" src="assets/students.jpg" alt="" width="1400" height="934" fetchpriority="high">
+    <section class="cinematic-hero chapter-discover" id="discover" aria-labelledby="hero-title">
+      <img class="hero-background" src="assets/financial-growth.webp" srcset="assets/financial-growth-small.webp 800w, assets/financial-growth.webp 1800w" sizes="100vw" alt="" width="1800" height="1200" fetchpriority="high">
       <div class="hero-shade"></div>
       <div class="wrap hero-content">
-        <p class="eyebrow" data-i18n="heroEyebrow">YOUR FUTURE STARTS WITH UNDERSTANDING</p>
-        <h1 id="hero-title"><span data-i18n="heroLineOne">Make sense of money.</span><br><strong data-i18n="heroLineTwo">Make room for life.</strong></h1>
-        <p class="hero-description" data-i18n="heroDescription">Build the knowledge to navigate your first paycheck, your next semester, and everything that comes after.</p>
-        <div class="cinematic-actions"><button class="button" data-onboard><span data-i18n="startLearning">Start Learning</span><span data-icon="arrow"></span></button><a href="#how-it-works"><span data-i18n="navExplore">Explore MoneyGuide</span><span data-icon="arrow"></span></a></div>
-        <p class="hero-caption" data-i18n="heroCaption">Free to explore. No account needed. Your pace.</p>
+        <p class="eyebrow" data-i18n="heroEyebrow">01 / DISCOVER YOUR POSSIBILITIES</p>
+        <h1 id="hero-title"><span data-i18n="heroLineOne">Master your money.</span><br><strong data-i18n="heroLineTwo">Build your future.</strong></h1>
+        <p class="hero-description" data-i18n="heroDescription"></p>
+        <div class="cinematic-actions"><button class="button" data-onboard><span data-i18n="startLearning">Start Learning</span><span data-icon="arrow"></span></button><a href="dashboard.html#modules" data-requires-profile><span data-i18n="openModules">Explore Modules</span><span data-icon="arrow"></span></a></div>
+        <p class="hero-caption" data-i18n="heroCaption"></p>
       </div>
-      <div class="wrap journey-strip" aria-label="Your financial learning journey">
-        <div><span class="journey-step">01</span><span><small data-i18n="featureLearn">Learn</small><strong data-i18n="journeyLearn">Build your foundation</strong></span></div>
-        <div><span class="journey-step">02</span><span><small data-i18n="featurePractice">Practice</small><strong data-i18n="journeyPractice">Put knowledge to work</strong></span></div>
-        <div><span class="journey-step">03</span><span><small data-i18n="featureProgress">Progress</small><strong data-i18n="journeyGrow">Move forward with confidence</strong></span></div>
-      </div>
+      <div class="wrap hero-bottom"><p data-i18n="heroNote"></p><a class="scroll-cue" href="#about"><span data-i18n="scroll">Scroll to discover</span><span aria-hidden="true">↓</span></a></div>
     </section>
-    <section class="feature-hub" id="how-it-works" aria-labelledby="feature-heading">
+    <section class="about-section chapter-discover" id="about" aria-labelledby="about-title">
+      <div class="wrap about-layout reveal"><div><p class="eyebrow" data-i18n="navAbout">About</p><h2 id="about-title" data-i18n="aboutHeading"></h2></div><div class="about-copy"><p data-i18n="aboutText"></p><p data-i18n="aboutFuture"></p><a class="text-link" href="#how-it-works"><span data-i18n="navExplore"></span><span data-icon="arrow"></span></a></div></div>
+    </section>
+    <section class="feature-hub chapter-learn" id="how-it-works" aria-labelledby="feature-heading">
       <div class="wrap">
-        <div class="hub-heading"><div><p class="eyebrow" data-i18n="featureEyebrow">YOUR NEXT CHAPTER</p><h2 id="feature-heading" data-i18n="featureHeading">Everything you need to build financial confidence.</h2></div><p data-i18n="featureIntro">Knowledge. Practice. Perspective. Choose your next step.</p></div>
+        <div class="hub-heading reveal"><div><p class="eyebrow" data-i18n="featureEyebrow">YOUR NEXT CHAPTER</p><h2 id="feature-heading" data-i18n="featureHeading">Everything you need to build financial confidence.</h2></div><p data-i18n="featureIntro">Knowledge. Practice. Perspective. Choose your next step.</p></div>
         <div class="premium-feature-grid">
           <a class="premium-card feature-card is-featured" href="dashboard.html#modules" data-home-destination="modules" aria-labelledby="feature-title-1 feature-action-1">
             <div class="premium-card-top"><span class="feature-icon" data-icon="learn"></span><span class="card-index">01</span></div>
@@ -75,10 +77,17 @@
             <div class="premium-card-bottom"><span id="feature-action-6" data-i18n="soon"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
           </button>
         </div>
+        <div class="home-learning-preview reveal" id="home-learning-preview"></div>
       </div>
     </section>
+    <section class="achievement-section chapter-achieve" id="achieve" aria-labelledby="achieve-title">
+      <div class="wrap"><div class="achievement-heading reveal"><span class="chapter-number" aria-hidden="true">03</span><div><p class="eyebrow" data-i18n="achieveEyebrow"></p><h2 id="achieve-title" data-i18n="achieveHeading"></h2><p data-i18n="achieveText"></p></div></div>
+        <div class="achievement-layout reveal"><div class="curriculum-stats"><div><strong>10</strong><span data-i18n="curriculumModules"></span></div><div><strong>100</strong><span data-i18n="curriculumQuestions"></span></div><div><strong>10</strong><span data-i18n="curriculumCertificates"></span></div><div><strong>03</strong><span data-i18n="curriculumLanguages"></span></div></div><div id="home-certificate-preview"></div></div>
+      </div>
+    </section>
+    <section class="final-action chapter-achieve" aria-labelledby="final-title"><div class="wrap reveal"><p class="eyebrow" data-i18n="finalEyebrow"></p><h2 id="final-title" data-i18n="finalHeading"></h2><p class="final-description" data-i18n="finalText"></p><button class="button" data-onboard><span data-i18n="startLearning">Start Learning</span><span data-icon="arrow"></span></button></div></section>
   </main>
-  <footer class="wrap footer"><span>MoneyGuide · A brighter financial beginning.</span><span>Learn at your own pace.</span></footer>
+  <footer id="site-footer"></footer>
   <dialog id="onboarding-dialog" aria-labelledby="onboarding-title">
     <button class="close-button" type="button" data-close aria-label="Close onboarding">×</button>
     <p class="eyebrow">LET'S MAKE THIS YOURS</p><h2 id="onboarding-title" data-i18n="onboardingTitle">Your journey starts with you.</h2><p class="muted" data-i18n="onboardingSub">A few details to help you feel right at home.</p>

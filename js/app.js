@@ -33,7 +33,7 @@ if (document.body.dataset.page === 'home') {
   let destination = 'dashboard.html';
 
   if (existingProfile) {
-    document.querySelector('.return-link').hidden = false;
+
     Object.keys(existingProfile).forEach(function (field) {
       if (form.elements.namedItem(field)) {
         form.elements.namedItem(field).value = existingProfile[field];
@@ -41,19 +41,26 @@ if (document.body.dataset.page === 'home') {
     });
   }
 
-  document.querySelector('[data-onboard]').addEventListener('click', function () {
-    destination = 'dashboard.html';
+  if (!existingProfile) {
+    try {
+      const currency = localStorage.getItem('moneyguide.currency');
+      if (currencies.includes(currency)) document.querySelector('#currency').value = currency;
+    } catch (error) { /* The form remains available if storage is blocked. */ }
+  }
+  function openOnboarding(next = 'dashboard.html') {
+    destination = next;
     dialog.showModal();
+  }
+  document.addEventListener('openonboarding', () => openOnboarding());
+  document.addEventListener('click', function (event) {
+    const start = event.target.closest('[data-onboard]');
+    if (start) { openOnboarding(); return; }
+    const link = event.target.closest('[data-home-destination], [data-requires-profile]');
+    if (!link || getProfile() || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    openOnboarding(link.getAttribute('href'));
   });
-  // New learners return to their chosen feature after onboarding.
-  document.querySelectorAll('[data-home-destination]').forEach(function (link) {
-    link.addEventListener('click', function (event) {
-      if (getProfile() || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-      event.preventDefault();
-      destination = link.getAttribute('href');
-      dialog.showModal();
-    });
-  });
+  if (new URLSearchParams(location.search).get('profile') === 'edit') openOnboarding();
   nameInput.addEventListener('input', function () {
     nameInput.setCustomValidity('');
   });

@@ -81,7 +81,7 @@
       <div class="welcome"><p class="eyebrow">${t('journey')}</p><h1>${escape(t('welcome', { name: profile.firstName }))}</h1><p>${t('welcomeSub')}</p></div>
       <section class="dashboard-hero" aria-labelledby="continue-title">
         <div class="dashboard-hero-copy"><p class="eyebrow">${t('resume')}</p><h2 id="continue-title">${escape(i18n.title(current.id))}</h2><p lang="en">${escape(current.description)}</p><div class="hero-actions">${moduleLink(current.id, currentProgress.started ? t('resume') : t('start'))}<span>${t('module')} ${String(current.id).padStart(2,'0')} / 10</span></div></div>
-        <img src="assets/students.jpg" width="1400" height="934" alt="Students learning together around a table">
+        <img src="assets/financial-growth.webp" width="1400" height="934" alt="A small plant growing among everyday coins">
       </section>
       <nav class="dashboard-section-nav" aria-label="${t('upNext')}">${[['modules','featureLearn'],['practice','featurePractice'],['tools','featureTools'],['progress','featureProgress'],['certificates','featureCertificates']].map(([target,key]) => `<a href="#${target}">${t(key)}</a>`).join('')}</nav>
       <section class="progress-overview" id="progress" aria-labelledby="progress-title">
@@ -234,6 +234,11 @@
       form.querySelector('.check-feedback').innerHTML = `<strong>${t(result.correct ? 'correct' : 'tryAgain')}</strong><p lang="en">${escape(module.lessons[index].check.explanation)}</p>`;
     });
     if (store.fault) reportError(new Error('damagedStorage'));
+  });
+  document.addEventListener('currencychange', event => {
+    profile.currency = event.detail.currency;
+    const currencyLabel = document.querySelector('.goal-meta strong');
+    if (currencyLabel) currencyLabel.textContent = profile.currency;
   });
   window.addEventListener('storage', event => {
     if (event.key === 'moneyguide.learning.v1') { store.load(); render(); if (store.fault) reportError(new Error('damagedStorage')); }

@@ -8,11 +8,17 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   const context = await browser.newContext({ viewport: { width: 1440, height: 1050 } });
   const page = await context.newPage();
   page.setDefaultTimeout(8000);
+  async function selectLanguage(value) {
+    const toggle = page.locator('.menu-toggle');
+    if (!(await page.locator('[data-language]').isVisible())) await toggle.click();
+    await page.locator('[data-language]').selectOption(value);
+    if (await toggle.isVisible() && await toggle.getAttribute('aria-expanded') === 'true') await toggle.click();
+  }
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(base + '/dashboard.html');
   await page.waitForURL('**/index.html');
-  await page.locator('[data-onboard]').click();
+  await page.locator('[data-onboard]').first().click();
   await page.locator('#currency').selectOption('RWF');
   await page.locator('#goal').selectOption('Start saving');
   await page.locator('#knowledge').selectOption('Beginner');
@@ -27,15 +33,16 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   await page.waitForURL('**/dashboard.html');
   assert.match(await page.locator('h1').textContent(), /Amos/);
   assert.equal(await page.locator('.module-card').count(), 10);
-  assert.equal(await page.locator('.side-nav a').count(), 1);
+  assert.equal(await page.locator('.sidebar').count(), 0);
+  assert.equal(await page.locator('.top-nav a').count(), 7);
   await page.screenshot({path:'/tmp/moneyguide-dashboard-desktop.png',fullPage:true});
-  await page.locator('[data-language]').selectOption('fr');
+  await selectLanguage('fr');
   assert.equal(await page.locator('html').getAttribute('lang'),'fr');
   assert.match(await page.locator('.goal-meta').textContent(), /RWF/);
   assert.match(await page.locator('.module-card').first().textContent(), /Les bases de l’argent/);
   await page.reload();
   assert.equal(await page.locator('[data-language]').inputValue(),'fr');
-  await page.locator('[data-language]').selectOption('en');
+  await selectLanguage('en');
   // Starting module 7 first proves that the learning order is a recommendation only.
   await page.locator('.module-card').nth(6).locator('.button').click();
   assert.match(page.url(), /id=7/);
@@ -91,12 +98,12 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
     assert.match(await page.locator('.learner-name').textContent(),/Amos/);
     assert.match(await page.locator('.certificate-id').textContent(),new RegExp('MG-'+String(id).padStart(2,'0')));
     if(id===7) {
-      await page.locator('[data-language]').selectOption('es');
+      await selectLanguage('es');
       assert.match(await page.locator('h1').textContent(),/Certificado/);
       await page.evaluate(()=>{window.print=()=>{window.printCalled=true;};});
       await page.locator('[data-action=pdf]').click();
       assert.equal(await page.evaluate(()=>window.printCalled),true);
-      await page.locator('[data-language]').selectOption('en');
+      await selectLanguage('en');
       await page.pdf({path:'/tmp/moneyguide-certificate.pdf',preferCSSPageSize:true,printBackground:true});
       await page.screenshot({path:'/tmp/moneyguide-certificate.png',fullPage:true});
     }
@@ -116,11 +123,11 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
     }
   }
   await page.goto(base+'/module.html?id=999');assert.match(await page.locator('h1').textContent(),/not found/);
-  await page.goto(base+'/index.html');await page.locator('[data-onboard]').click();
+  await page.goto(base+'/index.html');await page.locator('[data-onboard]').first().click();
   assert.equal(await page.locator('#first-name').inputValue(),'Amos');
   await page.locator('[data-close]').click();
-  await page.locator('[data-language]').selectOption('fr');
-  await page.locator('[data-onboard]').click();
+  await selectLanguage('fr');
+  await page.locator('[data-onboard]').first().click();
   assert.equal(await page.locator('#goal').inputValue(),'Start saving');
   await page.locator('#onboarding-form [type=submit]').click();await page.waitForURL('**/dashboard.html');
   assert.equal(await page.evaluate(()=>MoneyGuideProgress.totals().certificates),10);

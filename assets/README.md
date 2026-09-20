@@ -1,4 +1,19 @@
-# Image credit
+# Current visual assets
+
+`financial-growth.webp` (1800px, approximately 162KB) and `financial-growth-small.webp` (800px, approximately 38KB) show a growing plant among coins. Both are optimized versions of **“Green plant on brown round coins” by micheile henderson**.
+
+- Photograph: https://unsplash.com/photos/green-plant-on-brown-round-coins-lZ_4nPFKcV8
+- Image source: https://images.unsplash.com/photo-1579621970563-ebec7560ff3e
+- License: https://unsplash.com/license
+- Retrieved: September 19, 2026
+
+The Unsplash license permits free commercial and noncommercial use subject to its restrictions. This independently licensed photo is hosted locally, with a smaller mobile source. CSS mirrors the image and adds dark overlays so text remains readable. It does not imply photographer endorsement.
+
+`fonts/Manrope.ttf` is the variable Manrope font by Mikhail Sharanda and Mirko Velimirovic, hosted locally with `font-display: swap`. Its SIL Open Font License is included in `fonts/OFL.txt`.
+
+- Font source and license: https://github.com/google/fonts/tree/main/ofl/manrope
+
+# Retained previous image (no longer displayed)
 
 `students.jpg` is a photograph by **Priscilla Du Preez**, downloaded from Unsplash for this prototype.
 

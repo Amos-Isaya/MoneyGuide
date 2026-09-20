@@ -4,34 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your certificate — MoneyGuide</title>
+  <script src="js/appearance.js"></script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/polish.css">
   <script src="js/i18n.js" defer></script>
   <script src="js/cards.js" defer></script>
   <script src="js/modules.js" defer></script>
   <script src="js/progress.js" defer></script>
   <script src="js/app.js" defer></script>
+  <script src="js/shell.js" defer></script>
   <script src="js/learning.js" defer></script>
 </head>
 <body data-page="certificate">
   <a class="skip-link" href="#main">Skip to content</a>
-  <div class="app-shell">
-    <aside class="sidebar">
-      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">m<span>↗</span></span>MoneyGuide<span class="brand-dot">.</span></a>
-      <p class="nav-label" data-i18n="workspace">YOUR WORKSPACE</p>
-      <nav class="side-nav" aria-label="Main navigation">
-        <a href="dashboard.html" ><span aria-hidden="true">▦</span><span data-i18n="dashboard">Dashboard</span></a>
-      </nav>
-      <div class="sidebar-note"><span aria-hidden="true">↗</span><h3>Your future.<br>Your next step.</h3><p>Build the knowledge.<br>Find your confidence.</p></div>
-      <div class="profile"><span class="avatar" id="avatar">M</span><div><strong id="profile-name"></strong><small id="profile-level"></small></div></div>
-    </aside>
-    <div class="workspace">
-      <header class="workspace-header"><span data-i18n="overview">Learning overview</span><label class="language-control"><span data-i18n="language">Language</span><select data-language><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option></select></label></header>
-      <div id="storage-error" class="error storage-banner" role="alert" hidden></div>
-      <main class="dashboard-main" id="main" tabindex="-1"></main>
-      <footer class="dashboard-footer" data-i18n="localNote">Saved in this browser · Learn at your own pace</footer>
-    </div>
+  <header id="site-header"></header>
+  <div class="workspace">
+    <div id="storage-error" class="error storage-banner" role="alert" hidden></div>
+    <main class="dashboard-main" id="main" tabindex="-1"></main>
   </div>
+  <footer id="site-footer"></footer>
   <noscript><p>This learning platform needs JavaScript. Please enable it in your browser.</p></noscript>
 </body>
 </html>
