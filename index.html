@@ -5,54 +5,123 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Learn about money and build financial confidence with MoneyGuide.">
   <title>MoneyGuide — Build your money confidence</title>
+  <script src="js/appearance.js"></script>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/cards.css">
+  <link rel="stylesheet" href="css/polish.css">
+  <script src="js/i18n.js" defer></script>
+  <script src="js/cards.js" defer></script>
+  <script src="js/modules.js" defer></script>
+  <script src="js/progress.js" defer></script>
   <script src="js/app.js" defer></script>
+  <script src="js/shell.js" defer></script>
+  <script src="js/home.js" defer></script>
+  <link rel="stylesheet" href="css/ai.css">
+  <script src="js/coach.js" defer></script>
 </head>
 <body data-page="home">
-  <header class="home-header wrap">
-    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">m<span>↗</span></span>MoneyGuide<span class="brand-dot">.</span></a>
-    <nav aria-label="Main navigation"><a href="#how-it-works">How it works</a><a href="dashboard.html" class="return-link" hidden>My dashboard <span aria-hidden="true">↗</span></a></nav>
-  </header>
-  <main>
-    <section class="hero wrap">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="small-dot"></span> A little knowledge. A lot more confidence.</p>
-        <h1>Make sense of money.<br><span>Make room for life.</span></h1>
-        <p class="hero-description">Your first paycheck. Your next semester. Your future plans. Learn the money skills that help you move forward, one small step at a time.</p>
-        <button class="button" data-onboard>Start Learning <span aria-hidden="true">→</span></button>
-        <p class="microcopy">Free to explore. No account needed.</p>
+  <a class="skip-link" href="#home-main">Skip to content</a>
+  <header id="site-header"></header>
+  <main id="home-main">
+    <section class="cinematic-hero chapter-discover" id="discover" aria-labelledby="hero-title">
+      <img class="hero-background" src="assets/financial-growth.webp" srcset="assets/financial-growth-small.webp 800w, assets/financial-growth.webp 1800w" sizes="100vw" alt="" width="1800" height="1200" fetchpriority="high">
+      <div class="hero-shade"></div>
+      <div class="wrap hero-content">
+        <p class="eyebrow" data-i18n="heroEyebrow">01 / DISCOVER YOUR POSSIBILITIES</p>
+        <h1 id="hero-title"><span data-i18n="heroLineOne">Master your money.</span><br><strong data-i18n="heroLineTwo">Build your future.</strong></h1>
+        <p class="hero-description" data-i18n="heroDescription"></p>
+        <div class="cinematic-actions"><button class="button" data-onboard><span data-i18n="startLearning">Start Learning</span><span data-icon="arrow"></span></button><a href="dashboard.html#modules" data-requires-profile><span data-i18n="openModules">Explore Modules</span><span data-icon="arrow"></span></a></div>
+        <p class="hero-caption" data-i18n="heroCaption"></p>
       </div>
-      <div class="journey-preview" aria-label="Preview of your learning journey">
-        <div class="preview-top"><span class="eyebrow">YOUR MONEY JOURNEY</span><span class="pill">Built for real life</span></div>
-        <h2>Small steps.<br>Stronger foundations.</h2>
-        <div class="path-item"><span class="path-number">01</span><div><strong>Make a plan</strong><p>Give your money a purpose.</p></div><span aria-hidden="true">↗</span></div>
-        <div class="path-item"><span class="path-number">02</span><div><strong>Build a cushion</strong><p>Prepare for life's little surprises.</p></div><span aria-hidden="true">↗</span></div>
-        <div class="path-item"><span class="path-number">03</span><div><strong>Think long term</strong><p>Get to know your future options.</p></div><span aria-hidden="true">↗</span></div>
-        <div class="preview-note"><span aria-hidden="true">✦</span> You don't have to know it all to get started.</div>
-      </div>
+      <div class="wrap hero-bottom"><p data-i18n="heroNote"></p><a class="scroll-cue" href="#about"><span data-i18n="scroll">Scroll to discover</span><span aria-hidden="true">↓</span></a></div>
     </section>
-    <section class="how-section" id="how-it-works">
-      <div class="wrap"><div class="section-heading"><div><p class="eyebrow">A FOUNDATION FOR YOUR FUTURE</p><h2>Money skills, without the overwhelm.</h2></div><p>Built for students. Useful for life.</p></div>
-        <div class="feature-grid">
-          <article><span class="feature-number">01 / LEARN</span><h3>Start with the essentials</h3><p>Explore budgeting, saving, credit, and investing in clear, everyday language.</p></article>
-          <article><span class="feature-number">02 / CONNECT</span><h3>Bring it back to your life</h3><p>Choose a financial goal and see where it fits into your learning journey.</p></article>
-          <article><span class="feature-number">03 / GROW</span><h3>Build confidence over time</h3><p>Your journey starts here. Interactive lessons and decision practice are coming next.</p></article>
+    <section class="about-section chapter-discover" id="about" aria-labelledby="about-title">
+      <div class="wrap about-layout reveal"><div><p class="eyebrow" data-i18n="navAbout">About</p><h2 id="about-title" data-i18n="aboutHeading"></h2></div><div class="about-copy"><p data-i18n="aboutText"></p><p data-i18n="aboutFuture"></p><a class="text-link" href="#how-it-works"><span data-i18n="navExplore"></span><span data-icon="arrow"></span></a></div></div>
+    </section>
+    <section class="feature-hub chapter-learn" id="how-it-works" aria-labelledby="feature-heading">
+      <div class="wrap">
+        <div class="hub-heading reveal"><div><p class="eyebrow" data-i18n="featureEyebrow">YOUR NEXT CHAPTER</p><h2 id="feature-heading" data-i18n="featureHeading">Everything you need to build financial confidence.</h2></div><p data-i18n="featureIntro">Knowledge. Practice. Perspective. Choose your next step.</p></div>
+        <div class="premium-feature-grid">
+          <a class="premium-card feature-card is-featured" href="dashboard.html#modules" data-home-destination="modules" aria-labelledby="feature-title-1 feature-action-1">
+            <div class="premium-card-top"><span class="feature-icon" data-icon="learn"></span><span class="card-index">01</span></div>
+            <h3 id="feature-title-1" data-i18n="featureLearn"></h3>
+            <p data-i18n="featureLearnText"></p>
+            <div class="premium-card-bottom"><span id="feature-action-1" data-i18n="exploreLearning"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+          </a>
+          <a class="premium-card feature-card" href="dashboard.html#practice" data-home-destination="practice" aria-labelledby="feature-title-2 feature-action-2">
+            <div class="premium-card-top"><span class="feature-icon" data-icon="practice"></span><span class="card-index">02</span></div>
+            <h3 id="feature-title-2" data-i18n="featurePractice"></h3>
+            <p data-i18n="featurePracticeText"></p>
+            <div class="premium-card-bottom"><span id="feature-action-2" data-i18n="startPractice"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+          </a>
+          <a class="premium-card feature-card" href="dashboard.html#tools" data-home-destination="tools" aria-labelledby="feature-title-3 feature-action-3">
+            <div class="premium-card-top"><span class="feature-icon" data-icon="tools"></span><span class="card-index">03</span></div>
+            <h3 id="feature-title-3" data-i18n="featureTools"></h3>
+            <p data-i18n="featureToolsText"></p>
+            <div class="premium-card-bottom"><span id="feature-action-3" data-i18n="exploreTools"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+          </a>
+          <a class="premium-card feature-card" href="dashboard.html#progress" data-home-destination="progress" aria-labelledby="feature-title-4 feature-action-4">
+            <div class="premium-card-top"><span class="feature-icon" data-icon="progress"></span><span class="card-index">04</span></div>
+            <h3 id="feature-title-4" data-i18n="featureProgress"></h3>
+            <p data-i18n="featureProgressText"></p>
+            <div class="premium-card-bottom"><span id="feature-action-4" data-i18n="viewProgress"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+          </a>
+          <a class="premium-card feature-card" href="dashboard.html#certificates" data-home-destination="certificates" aria-labelledby="feature-title-5 feature-action-5">
+            <div class="premium-card-top"><span class="feature-icon" data-icon="certificate"></span><span class="card-index">05</span></div>
+            <h3 id="feature-title-5" data-i18n="featureCertificates"></h3>
+            <p data-i18n="featureCertificatesText"></p>
+            <div class="premium-card-bottom"><span id="feature-action-5" data-i18n="viewCertificates"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+          </a>
+          <a class="premium-card feature-card" href="#coach-dialog" data-open-coach aria-labelledby="feature-title-6 feature-action-6">
+            <div class="premium-card-top"><span class="feature-icon" data-icon="coach"></span><span class="card-index">06</span></div>
+            <h3 id="feature-title-6" data-i18n="featureCoach"></h3>
+            <p data-i18n="featureCoachText"></p>
+            <div class="premium-card-bottom"><span id="feature-action-6" data-i18n="openCoach"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+          </a>
         </div>
+        <div class="home-learning-preview reveal" id="home-learning-preview"></div>
       </div>
     </section>
+    <section class="achievement-section chapter-achieve" id="achieve" aria-labelledby="achieve-title">
+      <div class="wrap"><div class="achievement-heading reveal"><span class="chapter-number" aria-hidden="true">03</span><div><p class="eyebrow" data-i18n="achieveEyebrow"></p><h2 id="achieve-title" data-i18n="achieveHeading"></h2><p data-i18n="achieveText"></p></div></div>
+        <div class="achievement-layout reveal"><div class="curriculum-stats"><div><strong>10</strong><span data-i18n="curriculumModules"></span></div><div><strong>100</strong><span data-i18n="curriculumQuestions"></span></div><div><strong>10</strong><span data-i18n="curriculumCertificates"></span></div><div><strong>03</strong><span data-i18n="curriculumLanguages"></span></div></div><div id="home-certificate-preview"></div></div>
+      </div>
+    </section>
+    <section class="final-action chapter-achieve" aria-labelledby="final-title"><div class="wrap reveal"><p class="eyebrow" data-i18n="finalEyebrow"></p><h2 id="final-title" data-i18n="finalHeading"></h2><p class="final-description" data-i18n="finalText"></p><button class="button" data-onboard><span data-i18n="startLearning">Start Learning</span><span data-icon="arrow"></span></button></div></section>
   </main>
-  <footer class="wrap footer"><span>MoneyGuide · A brighter financial beginning.</span><span>Learn at your own pace.</span></footer>
+  <footer id="site-footer"></footer>
   <dialog id="onboarding-dialog" aria-labelledby="onboarding-title">
     <button class="close-button" type="button" data-close aria-label="Close onboarding">×</button>
-    <p class="eyebrow">LET'S MAKE THIS YOURS</p><h2 id="onboarding-title">Your journey starts with you.</h2><p class="muted">A few details to help you feel right at home.</p>
+    <p class="eyebrow">LET'S MAKE THIS YOURS</p><h2 id="onboarding-title" data-i18n="onboardingTitle">Your journey starts with you.</h2><p class="muted" data-i18n="onboardingSub">A few details to help you feel right at home.</p>
     <form id="onboarding-form">
-      <label for="first-name">First name</label><input id="first-name" name="firstName" autocomplete="given-name" maxlength="40" placeholder="e.g. Alex" required>
-      <label for="currency">Preferred currency</label><select id="currency" name="currency" required><option value="" disabled selected>Choose your currency</option><option value="USD">USD — US Dollar</option><option value="EUR">EUR — Euro</option><option value="GBP">GBP — British Pound</option><option value="RWF">RWF — Rwandan Franc</option><option value="NGN">NGN — Nigerian Naira</option><option value="KES">KES — Kenyan Shilling</option><option value="Other">Other</option></select>
-      <label for="goal">Primary financial goal</label><select id="goal" name="goal" required><option value="" disabled selected>What would you like to work on?</option><option>Manage my money better</option><option>Start saving</option><option>Build credit</option><option>Buy a car</option><option>Manage college expenses</option><option>Learn about investing</option></select>
-      <label for="knowledge">Financial knowledge level</label><select id="knowledge" name="knowledge" required><option value="" disabled selected>Choose your starting point</option><option>Beginner</option><option>Intermediate</option></select>
+      <label for="first-name" data-i18n="firstName">First name</label><input id="first-name" name="firstName" autocomplete="given-name" maxlength="40" placeholder="e.g. Alex" required>
+      <label for="currency" data-i18n="currency">Preferred currency</label><select id="currency" name="currency" required><option value="" disabled selected data-i18n="chooseCurrency">Choose your currency</option><option value="USD">USD — US Dollar</option><option value="EUR">EUR — Euro</option><option value="GBP">GBP — British Pound</option><option value="RWF">RWF — Rwandan Franc</option><option value="NGN">NGN — Nigerian Naira</option><option value="KES">KES — Kenyan Shilling</option><option value="Other">Other</option></select>
+      <label for="goal" data-i18n="primaryGoal">Primary financial goal</label><select id="goal" name="goal" required><option value="" disabled selected data-i18n="chooseGoal">What would you like to work on?</option><option value="Manage my money better" data-i18n="goal0">Manage my money better</option><option value="Start saving" data-i18n="goal1">Start saving</option><option value="Build credit" data-i18n="goal2">Build credit</option><option value="Buy a car" data-i18n="goal3">Buy a car</option><option value="Manage college expenses" data-i18n="goal4">Manage college expenses</option><option value="Learn about investing" data-i18n="goal5">Learn about investing</option></select>
+      <label for="knowledge" data-i18n="knowledge">Financial knowledge level</label><select id="knowledge" name="knowledge" required><option value="" disabled selected data-i18n="chooseLevel">Choose your starting point</option><option value="Beginner" data-i18n="beginner">Beginner</option><option value="Intermediate" data-i18n="intermediate">Intermediate</option><option value="Advanced" data-i18n="advanced">Advanced</option></select>
       <p id="form-error" class="error" role="alert"></p>
-      <button class="button full-width" type="submit">Start My Learning Journey <span aria-hidden="true">→</span></button><p class="microcopy">Your answers are saved only in this browser.</p>
+      <button class="button full-width" type="submit" data-i18n="beginJourney">Start My Learning Journey <span aria-hidden="true">→</span></button><p class="microcopy" data-i18n="localProfile">Your answers are saved only in this browser.</p>
     </form>
+  </dialog>
+
+  <button class="button coach-launch" id="open-coach" type="button" aria-haspopup="dialog" aria-controls="coach-dialog" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 11a8 8 0 0 1-8 8H5l-4 3 2-7a8 8 0 1 1 17-4Z"/><path d="m12 6 1 3 3 1-3 1-1 3-1-3-3-1 3-1Z"/></svg>
+    <span>Ask MoneyGuide<small>Your AI Financial Coach</small></span><span class="coach-spark" aria-hidden="true">&#10022;</span>
+  </button>
+  <dialog id="coach-dialog" aria-labelledby="coach-title" aria-describedby="coach-subtitle" lang="en">
+    <header class="coach-header"><div><p class="eyebrow">POWERED BY NVIDIA NEMOTRON</p><h2 id="coach-title">Ask MoneyGuide</h2><p id="coach-subtitle">Your AI Financial Coach</p></div><button id="coach-close" class="close-button" type="button" aria-label="Close AI coach">&times;</button></header>
+    <p id="coach-context" class="coach-context"></p>
+    <div class="coach-body">
+      <div class="coach-welcome"><span aria-hidden="true">&#10022;</span><p>Hi! I'm MoneyGuide AI. Ask me about budgeting, saving, credit, or other financial concepts.</p></div>
+      <div id="coach-questions" class="coach-questions" aria-label="Suggested questions"></div>
+      <div id="coach-history" class="coach-history" role="log" aria-label="Conversation" aria-live="polite" aria-relevant="additions text"></div>
+    </div>
+    <div class="coach-compose">
+      <p id="coach-status" role="status" aria-live="polite"></p>
+      <p id="coach-error" class="coach-error" role="alert"></p>
+      <form id="coach-form"><label for="coach-input">Your question</label><div class="coach-input-row"><input id="coach-input" maxlength="1000" required autocomplete="off" placeholder="Ask a money question..."><button class="button" id="coach-send" type="submit">Send <span aria-hidden="true">&uarr;</span></button></div></form>
+      <div class="coach-footnote"><button id="coach-clear" type="button">Clear conversation</button><span>Educational guidance &middot; AI can make mistakes</span></div>
+      <p class="coach-privacy">Your goal, level, currency, calculated budget and recent chat are sent to NVIDIA when you send. Do not enter personal details or account numbers.</p>
+    </div>
   </dialog>
 </body>
 </html>
