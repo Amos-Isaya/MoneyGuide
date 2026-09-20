@@ -20,6 +20,9 @@
   <script src="js/calculators.js" defer></script>
   <script src="js/tools.js" defer></script>
   <script src="js/learning.js" defer></script>
+  <link rel="stylesheet" href="css/ai.css">
+  <script src="js/ai.js" type="module"></script>
+  <script src="js/coach.js" defer></script>
 </head>
 <body data-page="dashboard">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -28,7 +31,56 @@
     <div id="storage-error" class="error storage-banner" role="alert" hidden></div>
     <main class="dashboard-main" id="main" tabindex="-1"></main>
   </div>
+  <section class="dashboard-main ai-workspace" id="ai-workspace" lang="en" aria-label="Your AI plan and coach" hidden>
+        <section class="money-card" aria-labelledby="budget-title">
+          <p class="eyebrow">GIVE YOUR GOAL A PLAN</p><h2 id="budget-title">Your monthly numbers</h2>
+          <p>Optional: explore a budget and savings scenario in your preferred currency. These amounts stay in memory until you leave or refresh this page.</p>
+          <form id="budget-form">
+            <div class="money-fields">
+              <div><label for="monthly-income">Monthly take-home income</label><input id="monthly-income" name="income" type="number" min="0" max="1000000000" step="0.01" required inputmode="decimal"></div>
+              <div><label for="monthly-expenses">Total monthly expenses</label><input id="monthly-expenses" name="expenses" type="number" min="0" max="1000000000" step="0.01" required inputmode="decimal"></div>
+              <div><label for="savings-target">Savings target</label><input id="savings-target" name="target" type="number" min="0" max="1000000000" step="0.01" required inputmode="decimal"></div>
+              <div><label for="already-saved">Already saved toward target</label><input id="already-saved" name="saved" type="number" min="0" max="1000000000" step="0.01" value="0" required inputmode="decimal"></div>
+            </div>
+            <div class="money-buttons"><button class="button" type="submit">Calculate my plan</button><button class="button secondary" id="demo-budget" type="button">Try demo numbers</button><button class="button secondary" id="clear-budget" type="button">Clear numbers</button></div>
+            <p id="budget-error" class="error" role="alert"></p>
+          </form>
+        </section>
+        <section class="money-card plan-card" id="moneyguide-plan" aria-labelledby="plan-title">
+          <div class="plan-heading"><div><p class="eyebrow">A LITTLE CLARITY. A NEXT STEP.</p><h2 id="plan-title">Your MoneyGuide Plan</h2></div><span class="pill" id="plan-level"></span></div>
+          <p id="plan-goal"></p>
+          <dl id="plan-results" class="plan-results" aria-label="Calculated financial results" hidden></dl>
+          <p id="plan-assumptions">Start with your goal, or add monthly numbers above for a savings scenario.</p>
+          <p class="microcopy">On request, your goal, knowledge level, currency and calculated scenario are sent to NVIDIA for educational guidance. Your name is excluded. AI can make mistakes; review its explanations.</p>
+          <div class="money-buttons"><button class="button" id="generate-plan" type="button">Build my personalized plan</button><button class="button secondary" id="explain-plan" type="button">Explain My Plan</button><a class="button secondary" href="index.html?profile=edit">Adjust My Goal</a></div>
+          <p id="plan-status" role="status" aria-live="polite"></p>
+          <div id="plan-answer" hidden><h3 id="insight-title">MoneyGuide Insight</h3><p id="plan-insight" class="ai-text"></p><h3>Next steps</h3><ul id="plan-actions" class="plan-actions"></ul></div>
+          <p class="microcopy">Educational guidance, not professional financial advice.</p>
+        </section>
+
+  </section>
   <footer id="site-footer"></footer>
   <noscript><p>This learning platform needs JavaScript. Please enable it in your browser.</p></noscript>
+
+  <button class="button coach-launch" id="open-coach" type="button" aria-haspopup="dialog" aria-controls="coach-dialog" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 11a8 8 0 0 1-8 8H5l-4 3 2-7a8 8 0 1 1 17-4Z"/><path d="m12 6 1 3 3 1-3 1-1 3-1-3-3-1 3-1Z"/></svg>
+    <span>Ask MoneyGuide<small>Your AI Financial Coach</small></span><span class="coach-spark" aria-hidden="true">&#10022;</span>
+  </button>
+  <dialog id="coach-dialog" aria-labelledby="coach-title" aria-describedby="coach-subtitle" lang="en">
+    <header class="coach-header"><div><p class="eyebrow">POWERED BY NVIDIA NEMOTRON</p><h2 id="coach-title">Ask MoneyGuide</h2><p id="coach-subtitle">Your AI Financial Coach</p></div><button id="coach-close" class="close-button" type="button" aria-label="Close AI coach">&times;</button></header>
+    <p id="coach-context" class="coach-context"></p>
+    <div class="coach-body">
+      <div class="coach-welcome"><span aria-hidden="true">&#10022;</span><p>Hi! I'm MoneyGuide AI. Ask me about budgeting, saving, credit, or other financial concepts.</p></div>
+      <div id="coach-questions" class="coach-questions" aria-label="Suggested questions"></div>
+      <div id="coach-history" class="coach-history" role="log" aria-label="Conversation" aria-live="polite" aria-relevant="additions text"></div>
+    </div>
+    <div class="coach-compose">
+      <p id="coach-status" role="status" aria-live="polite"></p>
+      <p id="coach-error" class="coach-error" role="alert"></p>
+      <form id="coach-form"><label for="coach-input">Your question</label><div class="coach-input-row"><input id="coach-input" maxlength="1000" required autocomplete="off" placeholder="Ask a money question..."><button class="button" id="coach-send" type="submit">Send <span aria-hidden="true">&uarr;</span></button></div></form>
+      <div class="coach-footnote"><button id="coach-clear" type="button">Clear conversation</button><span>Educational guidance &middot; AI can make mistakes</span></div>
+      <p class="coach-privacy">Your goal, level, currency, calculated budget and recent chat are sent to NVIDIA when you send. Do not enter personal details or account numbers.</p>
+    </div>
+  </dialog>
 </body>
 </html>

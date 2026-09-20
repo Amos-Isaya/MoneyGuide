@@ -1,0 +1,113 @@
+/* Plan and coach reuse the dashboard palette and native dialog behavior. */
+.money-card{background:white;border:1px solid var(--line);border-radius:10px;padding:26px;margin-top:28px;scroll-margin-top:20px}
+.money-card>p{font-size:14px}
+.money-card .eyebrow{font-size:10px}
+.money-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 22px}
+.money-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.ai-workspace .button.secondary{background:white;color:var(--green);border-color:#a5b9aa}
+.ai-workspace .button.secondary:hover{background:var(--mint)}
+.button:disabled{opacity:.6}
+.plan-card{border-color:#9bb79e;background:#f4f7ef}
+.plan-heading{display:flex;justify-content:space-between;align-items:start;gap:16px}
+.plan-heading .pill{margin-top:4px}
+.plan-results{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:24px 0}
+.plan-results>div{background:white;border:1px solid var(--line);border-radius:8px;padding:14px;min-width:0}
+.plan-results dt{font-size:11px;color:var(--muted)}
+.plan-results dd{margin:8px 0 0;font-size:19px;font-weight:600;overflow-wrap:anywhere}
+.ai-text{white-space:pre-wrap;overflow-wrap:anywhere}
+.plan-actions{padding-left:20px}
+.plan-actions li{margin:16px 0}
+.plan-actions p{margin-bottom:5px}
+.action-link{display:inline-block;color:var(--green);text-decoration:underline;text-underline-offset:3px;padding:6px 0}
+.coach-launch{position:fixed;bottom:20px;right:20px;box-shadow:0 4px 18px #213d3226;z-index:2}
+.dashboard-footer{padding-bottom:95px}
+#coach-dialog{width:min(560px,calc(100% - 24px));max-height:calc(100dvh - 32px)}
+.coach-questions{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.coach-questions button{font:inherit;font-size:12px;color:var(--green);border:1px solid var(--line);border-radius:8px;padding:9px 12px;background:var(--paper);text-align:left}
+.coach-history{max-height:40dvh;overflow:auto;overscroll-behavior:contain}
+.chat-message{padding:14px;background:var(--paper);border-radius:8px;margin-bottom:12px}
+.chat-message strong{font-size:12px;color:var(--green)}
+.chat-message p{margin:8px 0 0}
+#plan-status,#coach-status{font-size:13px;margin-top:18px}
+#plan-answer{border-top:1px solid #d4ddce;padding-top:20px}
+#plan-answer h3{font-size:18px}
+@media(max-width:1100px){.plan-results{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){.money-card{padding:20px}
+.money-fields{grid-template-columns:1fr}
+.plan-heading{display:block}
+.plan-heading .pill{display:inline-block;margin-bottom:12px}
+.plan-results dd{font-size:17px}
+.money-buttons>.button{width:100%}
+.coach-launch{bottom:12px;right:12px}
+.coach-history{max-height:32dvh}
+}
+
+/* Match the current site palette in dark and light mode. */
+.ai-workspace{width:min(1240px,calc(100% - 96px));margin:0 auto;padding:0 0 90px}
+.ai-workspace .money-card{background:var(--surface);border:1px solid var(--edge);border-radius:18px;padding:32px;scroll-margin-top:110px}
+.ai-workspace .plan-card{background:var(--surface-raised)}
+.ai-workspace .plan-results>div{background:var(--canvas);border-color:var(--edge)}
+.ai-workspace .plan-heading{align-items:center}
+.ai-workspace .pill{background:var(--canvas);color:var(--accent)}
+.ai-workspace .button.secondary,#coach-dialog .button.secondary{background:transparent;color:var(--text);border-color:var(--edge)}
+.ai-workspace .button.secondary:hover,#coach-dialog .button.secondary:hover{background:var(--surface-raised)}
+.ai-workspace label,#coach-dialog label{display:block;margin:18px 0 7px;font-size:13px}
+.ai-workspace input,#coach-dialog input{width:100%;min-height:46px;padding:12px;border:1px solid var(--edge);border-radius:8px;background:var(--canvas);color:var(--text)}
+.ai-workspace .coach-launch{z-index:20;background:var(--action);color:var(--action-text)}
+#coach-dialog{background:var(--surface);color:var(--text);border-color:var(--edge)}
+#coach-dialog .chat-message,#coach-dialog .coach-questions button{background:var(--canvas)}
+#plan-answer{border-color:var(--edge)}
+#coach-dialog .close-button{color:var(--text)}
+@media(max-width:700px){.ai-workspace{width:calc(100% - 32px)}.ai-workspace .money-card{padding:20px}.ai-workspace .plan-heading{display:block}.plan-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.ai-workspace *{scroll-behavior:auto}}
+/* Floating coach: scoped to avoid changing the existing homepage design. */
+#open-coach{position:fixed;right:24px;bottom:max(24px,env(safe-area-inset-bottom));z-index:90;gap:12px;min-height:66px;padding:13px 20px;border-radius:40px;background:var(--action);color:var(--action-text);border:1px solid var(--accent);box-shadow:0 10px 36px #0004;animation:coach-glow 4s ease-in-out 3;text-align:left}
+#open-coach svg{width:30px;height:30px;flex-shrink:0}
+#open-coach small{display:block;font-size:10px;font-weight:500;letter-spacing:.03em;margin-top:2px}
+.coach-spark{font-size:22px}
+@keyframes coach-glow{0%,100%{box-shadow:0 10px 36px #0004,0 0 0 0 #b4d6c800}50%{box-shadow:0 10px 36px #0004,0 0 0 9px #b4d6c820}}
+#coach-dialog{position:fixed;inset:auto 24px 104px auto;margin:0;width:450px;height:min(760px,calc(100dvh - 128px));max-width:calc(100vw - 32px);max-height:none;padding:0;border:1px solid var(--edge);border-radius:22px;background:var(--surface);color:var(--text);box-shadow:0 24px 90px #0006;overflow:hidden}
+#coach-dialog[open]{display:flex;flex-direction:column}
+#coach-dialog::backdrop{background:#08161e55}
+.coach-header{display:flex;justify-content:space-between;gap:12px;padding:22px 24px 16px;background:var(--surface-raised);position:relative;flex-shrink:0}
+#coach-dialog .coach-header h2{font-size:24px;margin:0 0 5px}
+#coach-dialog .coach-header p{margin:0;font-size:12px}
+#coach-dialog .coach-header .eyebrow{font-size:8px;letter-spacing:1.6px;margin-bottom:10px}
+#coach-close{position:static;align-self:flex-start;min-width:36px;min-height:36px;background:transparent;border:1px solid var(--edge);border-radius:50%;color:var(--text);font-size:25px;padding:0}
+#coach-dialog .coach-context{font-size:10px;line-height:1.5;padding:10px 24px;margin:0;border-bottom:1px solid var(--edge);flex-shrink:0}
+.coach-body{padding:16px 20px 0;display:flex;flex-direction:column;min-height:100px;flex:1;overflow:hidden}
+.coach-welcome{display:flex;gap:10px;flex-shrink:0}
+.coach-welcome>span{color:var(--accent);font-size:23px}
+#coach-dialog .coach-welcome p{font-size:12px;line-height:1.7;margin:0}
+#coach-dialog .coach-questions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:12px 0;max-height:112px;overflow:auto;flex-shrink:0}
+#coach-dialog .coach-questions button{font-size:10px;line-height:1.4;padding:8px 10px;border-color:var(--edge);border-radius:10px;background:var(--surface-raised);color:var(--text)}
+#coach-dialog .coach-questions button:hover{border-color:var(--accent)}
+#coach-dialog .coach-history{flex:1;min-height:0;max-height:none;padding-right:4px;overflow-y:auto;overscroll-behavior:contain}
+#coach-dialog .chat-message{padding:12px 14px;margin:0 24px 12px 0;border-radius:14px 14px 14px 3px;font-size:13px;line-height:1.65;background:var(--canvas);overflow-wrap:anywhere}
+#coach-dialog .chat-user{margin:0 0 12px 24px;border-radius:14px 14px 3px 14px;background:var(--surface-raised);border:1px solid var(--edge)}
+#coach-dialog .chat-message strong{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+#coach-dialog .chat-message p{margin:5px 0 0}
+#coach-dialog .chat-failed small{display:block;margin-top:10px;color:var(--copy)}
+#coach-dialog .plan-actions{padding-left:16px;font-size:12px}
+#coach-dialog .plan-actions li{margin:10px 0 0}
+.coach-compose{flex-shrink:0;border-top:1px solid var(--edge);padding:12px 20px 14px;background:var(--surface)}
+#coach-dialog #coach-status,#coach-dialog #coach-error{font-size:12px;line-height:1.5;margin:0 0 8px}
+#coach-dialog #coach-status:empty,#coach-dialog #coach-error:empty{display:none}
+#coach-dialog #coach-error{color:var(--text);border-left:3px solid #c2945c;padding-left:10px;max-height:100px;overflow:auto}
+.is-thinking::before{content:'';display:inline-block;width:9px;height:9px;border:2px solid var(--edge);border-top-color:var(--accent);border-radius:50%;margin-right:8px;animation:coach-spin 1s linear infinite}
+@keyframes coach-spin{to{transform:rotate(360deg)}}
+#coach-dialog label{font-size:11px;margin:0 0 7px}
+.coach-input-row{display:flex;gap:8px}
+#coach-dialog input{min-width:0;flex:1;font-size:16px;margin:0}
+#coach-dialog #coach-send{flex-shrink:0;padding:10px 14px;gap:10px}
+.coach-footnote{display:flex;justify-content:space-between;gap:10px;margin-top:10px;align-items:center;font-size:9px;color:var(--copy)}
+#coach-clear{border:0;background:transparent;color:var(--accent);padding:4px 0;font:inherit;font-size:10px;text-decoration:underline;cursor:pointer}
+#coach-dialog .coach-privacy{font-size:9px;line-height:1.5;margin:6px 0 0}
+@media(max-width:600px){#open-coach{right:16px;bottom:max(16px,env(safe-area-inset-bottom));padding:12px 16px;min-height:58px}#coach-dialog{inset:auto 8px max(8px,env(safe-area-inset-bottom)) 8px;width:auto;max-width:none;height:calc(100dvh - 16px - env(safe-area-inset-bottom));border-radius:18px}.coach-header{padding:18px}.coach-body{padding:12px 14px 0}.coach-compose{padding:10px 14px}.coach-footnote{font-size:8px}#coach-dialog .coach-context{padding:8px 18px}#coach-dialog .coach-header h2{font-size:22px}}
+@media(prefers-reduced-motion:reduce){#open-coach,.is-thinking::before{animation:none}}
+
+/* Keep the conversation readable on short screens and at browser zoom. */
+#coach-dialog.has-messages .coach-welcome,#coach-dialog.has-messages .coach-questions{display:none}
+#coach-dialog.has-messages .coach-history{min-height:64px}
+@media(max-height:700px){.coach-header{padding:12px 16px}#coach-dialog .coach-header .eyebrow{margin-bottom:5px}#coach-dialog .coach-header h2{font-size:20px}#coach-dialog .coach-context{padding:6px 16px;max-height:42px;overflow:auto}.coach-compose{padding:8px 14px}#coach-dialog .coach-questions{max-height:74px}#coach-dialog .coach-privacy{max-height:30px;overflow:auto}}

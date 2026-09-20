@@ -1,4 +1,24 @@
-# MoneyGuide — Financial literacy learning MVP
+Local live verification (2026-09-20): the saved server-side key was loaded, the retired model returned HTTP 410, and the backend was updated to Nemotron 3 Super with chat_template_kwargs.enable_thinking=false. A real browser question received HTTP 200 and its NVIDIA answer appeared in chat with no JavaScript errors. Earlier missing-key/test-only findings below describe the previous setup. Open http://localhost:3000 while the server is running. Model request reference: https://build.nvidia.com/nvidia/nemotron-3-super-120b-a12b/deploy
+
+For local, Vercel, and GitHub Pages API routing, see [Backend setup and diagnosis](BACKEND-SETUP.md). GitHub Pages can now call a separate backend using the public API_BASE_URL in js/config.js and the server MONEYGUIDE_ALLOWED_ORIGINS allowlist.
+
+# Ask MoneyGuide on the homepage
+
+The floating coach now opens directly on the homepage for guests and saved profiles. See [setup, diagnostics and verification](ASK-MONEYGUIDE.md). On Windows run `.\start-moneyguide.cmd`, configure the server-only `NVIDIA_API_KEY` in `.env.local`, and use http://localhost:3000. The normal server never uses simulated AI answers.
+
+# MoneyGuide
+
+## Current version with NVIDIA Nemotron
+
+This workspace now uses the newer GitHub Pages design from commit e8ca176 (the version at https://amos-isaya.github.io/MoneyGuide/), including its ten modules, progress, certificates, language selection, and light/dark themes. The existing Nemotron backend and calculator have been integrated into that version.
+
+Open the homepage AI Coach card or the dashboard AI Coach navigation link for your monthly calculator, personalized plan, explanations, and Ask MoneyGuide conversation. AI controls and guidance are currently in English. Currency changes clear the calculator and previous guidance; selecting a currency does not convert amounts.
+
+Run with Node.js 22+: copy .env.example to .env.local, set NVIDIA_API_KEY there, run npm run dev, and open http://localhost:3000. Opening index.html directly shows the newer homepage, but AI requires the server. Run npm run check and npm test to verify the application and learning-progress logic.
+
+GitHub Pages serves static files and cannot execute api/moneyguide.js. To use live Nemotron, deploy this complete project to Vercel and configure the server-side NVIDIA_API_KEY, or run the local server. Updating local files does not publish changes to GitHub Pages. See [AI setup and backend details](AI-SETUP.md).
+
+— Financial literacy learning MVP
 
 MoneyGuide is a plain HTML, CSS, and JavaScript project. The existing homepage and onboarding are preserved. The dashboard now connects ten open learning modules, practice checks, flashcards, assessments, progress, and printable certificates. There are no runtime dependencies.
 
@@ -6,8 +26,8 @@ MoneyGuide is a plain HTML, CSS, and JavaScript project. The existing homepage a
 
 1. Open this `moneyguide` folder in VS Code.
 2. Choose **Terminal → New Terminal**.
-3. Run `python3 -m http.server 8000 --bind 127.0.0.1` (Windows: try `py` instead of `python3`).
-4. Open **http://127.0.0.1:8000** in Chrome.
+3. Run `npm run dev` with Node.js 22 or newer. Configure `.env.local` as described above for live AI.
+4. Open **http://localhost:3000** in Chrome.
 5. Keep the terminal running. Press **Ctrl+C** to stop it.
 
 If that address already shows MoneyGuide, the server is already running. If the port is occupied by a different app, use another port and open its matching address. Use the same address and port when you return: `localhost` and `127.0.0.1` have separate browser storage. A local Python file server is not a Flask backend. Double-clicking HTML is less reliable because browser storage rules for `file://` vary.
@@ -70,7 +90,7 @@ The ending has three layers: a final learning call to action; a five-column dire
 
 Module cards display real saved status and progress, with distinct recommended, active, and completed treatments. Certificate cards cover all ten modules: earned ones link to the certificate and show its date and score; unearned ones explain the 80% requirement and link to the module. Progress uses four major metric cards for completed modules, certificates, XP, and level, followed by overall activity progress.
 
-Five financial-tool cards now open working interactive calculators. The AI Learning Coach remains Coming Soon and explains that NVIDIA Nemotron is not integrated. No game, AI feature, or backend has been added.
+Five standalone financial tools work locally. The monthly planner and conversational coach retain the NVIDIA Nemotron backend integration. Browser-local demo accounts are not secure authentication. Live AI uses the configured Vercel backend; see BACKEND-SETUP.md.
 
 Hover and keyboard focus subtly shift the arrow and brighten the border. Keyboard focus is visible, dialogs close with Escape and restore focus, and reduced-motion preferences remove movement. Card labels are translated into English, Spanish, and French. All icons are original inline SVG with a shared stroke weight, not a dependency or an external image request.
 
@@ -169,15 +189,11 @@ npm install --prefix /tmp/moneyguide-browser playwright
 NODE_PATH=/tmp/moneyguide-browser/node_modules node tests/browser.test.cjs
 ```
 
-The browser test uses an isolated browser context, not your personal Chrome profile. It tests onboarding, all ten module links, lessons and checks, flashcards, failing/passing attempts, certificate gating, ten certificates, print/PDF behavior, translations, persistence, and widths 1440, 1024, 768, 390, and 320. Screenshots and a sample PDF go to `/tmp`, not your repository. `MONEYGUIDE_URL` can override the test server address.
+The browser test uses an isolated browser context, not your personal Chrome profile. It tests onboarding, all ten module links, lessons and checks, flashcards, failing/passing attempts, certificate gating, ten certificates, print/PDF behavior, translations, persistence, and widths 1440, 1024, 768, 390, and 320. Screenshots and a sample PDF go to the ignored `test-results/` directory. `MONEYGUIDE_URL` can override the test server address.
 
 ## Scope and next step
 
-Games/challenges and the AI Coach remain labeled Coming Soon. All five financial tools work locally. There is no secure authentication service, application database, exchange API, Flask application, or chatbot in MoneyGuide.
-
-**Nemotron has not been integrated yet.**
-
-The next recommended step is a small usability/content review with classmates: watch them complete a module, verify explanations with an educator, and collect any confusing moments. After that, add a minimal Flask API for progress storage before deliberately designing personalized Nemotron explanations. The current HTML and assets can move to Flask's `templates/` and `static/` folders with updated URLs; the content and page logic can be reused. Backend persistence would replace the functions in `progress.js` and the profile storage helpers rather than rebuilding the interface.
+Five standalone financial tools work locally. The monthly planner and conversational coach retain the NVIDIA Nemotron backend integration. Browser-local demo accounts are not secure authentication. Live AI uses the configured Vercel backend; see BACKEND-SETUP.md.
 
 ## References and visual direction
 
@@ -187,7 +203,7 @@ Lessons include links for further reading from the [CFPB](https://www.consumerfi
 
 ## Final visual pass verification
 
-Core progress tests and Chrome browser checks passed after the redesign: all ten modules, 30 lessons/checks, 100 flashcards, assessments and 80% threshold, ten certificates, PDF output, three interface languages, refresh persistence, and responsive widths down to 320px. Shared-shell checks additionally cover both themes at six widths (320–1440px), independent currency/language/theme settings, quiz preservation, footer information, and profile editing. No backend or AI integration was added. This visual pass is ready for review; publishing to GitHub Pages is a separate step.
+Core progress tests and Chrome browser checks passed after the redesign: all ten modules, 30 lessons/checks, 100 flashcards, assessments and 80% threshold, ten certificates, PDF output, three interface languages, refresh persistence, and responsive widths down to 320px. Shared-shell checks additionally cover both themes at six widths (320–1440px), independent currency/language/theme settings, quiz preservation, footer information, and profile editing. These visual updates are now combined with the existing NVIDIA backend integration.
 
 ## Interactive financial tools
 
@@ -250,7 +266,7 @@ Run `NODE_PATH=/tmp/moneyguide-browser/node_modules node tests/home-motion.test.
 
 ## Final cinematic polish
 
-The original learning platform remains intact. The homepage adds only the requested Practice, Tools, and Progress scenes alongside the existing Learn and Achieve content. The five tool cards reuse the existing calculators. Practice links point to existing flashcards, knowledge checks, and assessments; Money Simulator and AI Coach still say Coming Soon. Homepage progress comes from `MoneyGuideProgress.totals()` and certificate previews use actual saved awards, with clearly labeled unearned previews.
+The original learning platform remains intact. The homepage adds only the requested Practice, Tools, and Progress scenes alongside the existing Learn and Achieve content. The five tool cards reuse the existing calculators. Practice links point to existing flashcards, knowledge checks, and assessments; Money Simulator still says Coming Soon; AI Coach opens the integrated chat. Homepage progress comes from `MoneyGuideProgress.totals()` and certificate previews use actual saved awards, with clearly labeled unearned previews.
 
 Hero sources: three freely licensed Unsplash photographs (micheile henderson, Kamil, and Mediamodifier) plus MoneyGuide’s original chart SVG. See `assets/README.md` for exact photo URLs and license information. New photo files are `coin-progress.webp`, `coin-progress-small.webp`, `financial-planning.webp`, and `financial-planning-small.webp`, together about 237KiB. Responsive image sources choose smaller files for mobile. Only the first hero image is preloaded; later images load when next/requested and decode before being displayed. Failed later images leave the current background intact and disable their selector.
 
@@ -267,3 +283,8 @@ NODE_PATH=/tmp/moneyguide-browser/node_modules node tests/cinematic.test.cjs
 ```
 
 The test covers all four backgrounds, delayed loading, crossfade, stationary hero text, automatic/manual/pause controls, the manual-selection pause interval, scene/navigation changes, working tool/practice links, real progress, English/Spanish/French, both themes, widths 320–1440px, reduced motion, and lack of IntersectionObserver.
+Core progress tests and Chrome browser checks passed after the redesign: all ten modules, 30 lessons/checks, 100 flashcards, assessments and 80% threshold, ten certificates, PDF output, three interface languages, refresh persistence, and responsive widths down to 320px. Shared-shell checks additionally cover both themes at six widths (320–1440px), independent currency/language/theme settings, quiz preservation, footer information, and profile editing. The current integration adds the Nemotron backend, plan and coach to this design. Publishing is a separate step; GitHub Pages alone cannot run the AI backend.
+
+## Nemotron integration verification
+
+Application syntax checks and all ten automated API/calculation/learning-progress tests pass. The dedicated tests/ai-browser.test.cjs check passed for the new homepage onboarding route, Advanced profile, demo calculation, mocked plan and chat, error fallback, lesson action links, language and currency changes, dark/light themes, mobile layout, and public asset serving. Live NVIDIA output requires a configured API key and was not exercised. The optional full lesson browser suite encountered navigation timing limits in this environment.

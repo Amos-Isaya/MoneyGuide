@@ -2,6 +2,7 @@ const {registerDemo}=require('./auth-helper.cjs');
 // Optional Chrome checks for shared navigation and independent saved preferences.
 const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
+require('node:fs').mkdirSync('test-results', {recursive:true});
 const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
 (async () => {
   const browser = await chromium.launch({channel:'chrome',headless:true});
@@ -36,9 +37,9 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   await page.locator('[data-language]').selectOption('en');
   await page.goto(base+'/index.html');
   assert.match(await page.locator('.home-progress').textContent(),/10 XP/);
-  await page.screenshot({path:'/tmp/moneyguide-home-light.png',fullPage:true});
+  await page.screenshot({path:'test-results/moneyguide-home-light.png',fullPage:true});
   await page.goto(base+'/dashboard.html');
-  await page.screenshot({path:'/tmp/moneyguide-dashboard-light.png',fullPage:true});
+  await page.screenshot({path:'test-results/moneyguide-dashboard-light.png',fullPage:true});
   for (const theme of ['light','dark']) {
     if(await page.locator('html').getAttribute('data-theme')!==theme) await page.locator('#theme-toggle').click();
     for(const width of [1440,1200,1024,768,390,320]) {
@@ -59,7 +60,7 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
     await page.setViewportSize({width:1440,height:1000});
   }
   await page.goto(base+'/index.html');
-  await page.screenshot({path:'/tmp/moneyguide-home-dark.png',fullPage:true});
+  await page.screenshot({path:'test-results/moneyguide-home-dark.png',fullPage:true});
   await page.locator('#site-footer [data-info=privacy]').click();
   assert.match(await page.locator('#platform-info').textContent(),/browser/);
   await page.keyboard.press('Escape');
@@ -78,7 +79,7 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   await page.locator('#profile-control').click();
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('.menu-toggle').evaluate(e=>e===document.activeElement),true);
-  await page.screenshot({path:'/tmp/moneyguide-home-mobile-final.png',fullPage:true});
+  await page.screenshot({path:'test-results/moneyguide-home-mobile-final.png',fullPage:true});
   assert.deepEqual(errors,[]);
   console.log('PASS: theme, currency, language persistence; quiz preservation; real homepage progress; profile editing; footer; mobile menu keyboard behavior; both themes across six widths.');
   await browser.close();

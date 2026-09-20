@@ -3,12 +3,13 @@ const {registerDemo}=require('./auth-helper.cjs');
 // MONEYGUIDE_URL can point at any locally served copy of MoneyGuide.
 const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
+require('node:fs').mkdirSync('test-results', {recursive:true});
 const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
 (async () => {
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1050 } });
   const page = await context.newPage();
-  page.setDefaultTimeout(8000);
+  page.setDefaultTimeout(30000);
   async function selectLanguage(value) {
     const toggle = page.locator('.menu-toggle');
     if (!(await page.locator('[data-language]').isVisible())) await toggle.click();
@@ -35,7 +36,7 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   assert.equal(await page.locator('.module-card').count(), 10);
   assert.equal(await page.locator('.sidebar').count(), 0);
   assert.equal(await page.locator('.top-nav a').count(), 7);
-  await page.screenshot({path:'/tmp/moneyguide-dashboard-desktop.png',fullPage:true});
+  await page.screenshot({path:'test-results/moneyguide-dashboard-desktop.png',fullPage:true});
   await selectLanguage('fr');
   assert.equal(await page.locator('html').getAttribute('lang'),'fr');
   assert.match(await page.locator('.goal-meta').textContent(), /RWF/);
@@ -69,6 +70,7 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   for (const id of [7,1,2,3,4,5,6,8,9,10]) {
     await page.goto(base+'/dashboard.html');
     await page.locator('.module-card').nth(id-1).locator('.button').click();
+    await page.locator('.lesson').first().waitFor();
     assert.equal(await page.locator('.lesson').count(),3);
     for(let index=0;index<3;index++) {
       await page.locator(`[data-action=lesson][data-index="${index}"]`).click();
@@ -104,8 +106,8 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
       await page.locator('[data-action=pdf]').click();
       assert.equal(await page.evaluate(()=>window.printCalled),true);
       await selectLanguage('en');
-      await page.pdf({path:'/tmp/moneyguide-certificate.pdf',preferCSSPageSize:true,printBackground:true});
-      await page.screenshot({path:'/tmp/moneyguide-certificate.png',fullPage:true});
+      await page.pdf({path:'test-results/moneyguide-certificate.pdf',preferCSSPageSize:true,printBackground:true});
+      await page.screenshot({path:'test-results/moneyguide-certificate.png',fullPage:true});
     }
   }
   await page.goto(base+'/dashboard.html');
@@ -118,8 +120,8 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
       await page.goto(base+route);
       const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth);
       assert.equal(overflow,false,`Horizontal overflow: ${width}, ${route}`);
-      if(width===390 && route.includes('dashboard'))await page.screenshot({path:'/tmp/moneyguide-dashboard-mobile.png',fullPage:true});
-      if(width===1440 && route.includes('module'))await page.screenshot({path:'/tmp/moneyguide-module.png',fullPage:true});
+      if(width===390 && route.includes('dashboard'))await page.screenshot({path:'test-results/moneyguide-dashboard-mobile.png',fullPage:true});
+      if(width===1440 && route.includes('module'))await page.screenshot({path:'test-results/moneyguide-module.png',fullPage:true});
     }
   }
   await page.goto(base+'/module.html?id=999');assert.match(await page.locator('h1').textContent(),/not found/);

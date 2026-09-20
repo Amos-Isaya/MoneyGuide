@@ -84,7 +84,7 @@
         <div class="dashboard-hero-copy"><p class="eyebrow">${t('resume')}</p><h2 id="continue-title">${escape(i18n.title(current.id))}</h2><p lang="en">${escape(current.description)}</p><div class="hero-actions">${moduleLink(current.id, currentProgress.started ? t('resume') : t('start'))}<span>${t('module')} ${String(current.id).padStart(2,'0')} / 10</span></div></div>
         <img src="assets/financial-growth.webp" width="1400" height="934" alt="A small plant growing among everyday coins">
       </section>
-      <nav class="dashboard-section-nav" aria-label="${t('upNext')}">${[['modules','featureLearn'],['practice','featurePractice'],['tools','featureTools'],['progress','featureProgress'],['certificates','featureCertificates']].map(([target,key]) => `<a href="#${target}">${t(key)}</a>`).join('')}</nav>
+      <nav class="dashboard-section-nav" aria-label="${t('upNext')}">${[['modules','featureLearn'],['practice','featurePractice'],['moneyguide-plan','featureCoach'],['tools','featureTools'],['progress','featureProgress'],['certificates','featureCertificates']].map(([target,key]) => `<a href="#${target}">${t(key)}</a>`).join('')}</nav>
       <section class="progress-overview" id="progress" aria-labelledby="progress-title">
         <div class="section-heading"><h2 id="progress-title">${t('progress')}</h2><span class="level-pill">${t('level')} ${total.level} · ${t('level' + total.level)}</span></div>
         <div class="stat-grid metric-cards">

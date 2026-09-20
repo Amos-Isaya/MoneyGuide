@@ -2,6 +2,7 @@ const {registerDemo}=require('./auth-helper.cjs');
 // Optional Chrome regression checks for the navigation card system.
 const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
+require('node:fs').mkdirSync('test-results', {recursive:true});
 const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
 (async () => {
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
@@ -19,7 +20,7 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   await page.goto(base + '/index.html');
   assert.equal(await page.locator('.feature-card').count(), 6);
   assert.equal(await page.locator('.feature-card.is-featured').count(), 1);
-  await page.locator('#how-it-works').screenshot({path:'/tmp/moneyguide-feature-cards.png'});
+  await page.locator('#how-it-works').screenshot({path:'test-results/moneyguide-feature-cards.png'});
   const learn = page.locator('.feature-card').first();
   await learn.focus();
   assert.equal(await learn.evaluate(element => getComputedStyle(element).outlineStyle), 'solid');
@@ -62,8 +63,8 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
     assert.equal(await page.locator('#'+target).count(), 1);
   }
   await page.goto(base + '/index.html');
-  await page.locator('[data-coming-soon=featureCoach]').click();
-  assert.match(await page.locator('#feature-preview').textContent(), /has not been integrated yet/);
+  await page.locator('[data-open-coach]').click();
+  assert.match(await page.locator('#coach-dialog').textContent(), /NVIDIA Nemotron/);
   await page.keyboard.press('Escape');
   for (const language of ['en','es','fr']) {
     await selectLanguage(language);
@@ -80,13 +81,13 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   await selectLanguage('en');
   await page.setViewportSize({width:390,height:844});
   await page.locator('#how-it-works').scrollIntoViewIfNeeded();
-  await page.screenshot({path:'/tmp/moneyguide-cards-mobile.png'});
+  await page.screenshot({path:'test-results/moneyguide-cards-mobile.png'});
   await page.setViewportSize({width:1440,height:1000});
   await page.goto(base+'/dashboard.html');
-  await page.locator('#modules').screenshot({path:'/tmp/moneyguide-module-cards.png'});
-  await page.locator('#progress').screenshot({path:'/tmp/moneyguide-progress-cards.png'});
-  await page.locator('#tools').screenshot({path:'/tmp/moneyguide-tool-cards.png'});
-  await page.locator('#certificates').screenshot({path:'/tmp/moneyguide-pending-certificates.png'});
+  await page.locator('#modules').screenshot({path:'test-results/moneyguide-module-cards.png'});
+  await page.locator('#progress').screenshot({path:'test-results/moneyguide-progress-cards.png'});
+  await page.locator('#tools').screenshot({path:'test-results/moneyguide-tool-cards.png'});
+  await page.locator('#certificates').screenshot({path:'test-results/moneyguide-pending-certificates.png'});
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.goto(base+'/index.html');
   await page.locator('.feature-card').first().hover();

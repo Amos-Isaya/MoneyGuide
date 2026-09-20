@@ -24,6 +24,8 @@
   <script src="js/tools.js" defer></script>
   <script src="js/home.js" defer></script>
   <script src="js/cinematic.js" defer></script>
+  <link rel="stylesheet" href="css/ai.css">
+  <script src="js/coach.js" defer></script>
 </head>
 <body data-page="home">
   <a class="skip-link" href="#home-main">Skip to content</a>
@@ -83,12 +85,12 @@
             <p data-i18n="featureCertificatesText">Turn your learning into a milestone. Complete a module and pass its assessment.</p>
             <div class="premium-card-bottom"><span id="feature-action-5" data-i18n="viewCertificates">View Certificates</span><span class="arrow-wrap" data-icon="arrow"></span></div>
           </a>
-          <button data-reveal="card" class="premium-card feature-card" type="button" data-coming-soon="featureCoach" data-preview-description="coachPreview" aria-labelledby="feature-title-6 feature-action-6">
+          <a data-reveal="card" class="premium-card feature-card" href="#coach-dialog" data-open-coach aria-labelledby="feature-title-6 feature-action-6">
             <div class="premium-card-top"><span class="feature-icon" data-icon="coach"></span><span class="card-index">06</span></div>
-            <h3 id="feature-title-6" data-i18n="featureCoach">AI Learning Coach</h3>
-            <p data-i18n="featureCoachText">Personalized explanations powered by NVIDIA Nemotron are planned for a future release.</p>
-            <div class="premium-card-bottom"><span id="feature-action-6" data-i18n="soon">Coming Soon</span><span class="arrow-wrap" data-icon="arrow"></span></div>
-          </button>
+            <h3 id="feature-title-6" data-i18n="featureCoach"></h3>
+            <p data-i18n="featureCoachText"></p>
+            <div class="premium-card-bottom"><span id="feature-action-6" data-i18n="openCoach"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+          </a>
         </div>
         <div class="home-learning-preview" id="home-learning-preview"></div>
       </div>
@@ -116,10 +118,31 @@ Confidence tomorrow.</h2><p data-reveal="text" class="final-description" data-i1
       <label for="first-name" data-i18n="firstName">First name</label><input id="first-name" name="firstName" autocomplete="given-name" maxlength="40" placeholder="e.g. Alex" required>
       <label for="currency" data-i18n="currency">Preferred currency</label><select id="currency" name="currency" required><option value="" disabled selected data-i18n="chooseCurrency">Choose your currency</option><option value="USD">USD — US Dollar</option><option value="EUR">EUR — Euro</option><option value="GBP">GBP — British Pound</option><option value="RWF">RWF — Rwandan Franc</option><option value="NGN">NGN — Nigerian Naira</option><option value="KES">KES — Kenyan Shilling</option><option value="Other">Other</option></select>
       <label for="goal" data-i18n="primaryGoal">Primary financial goal</label><select id="goal" name="goal" required><option value="" disabled selected data-i18n="chooseGoal">What would you like to work on?</option><option value="Manage my money better" data-i18n="goal0">Manage my money better</option><option value="Start saving" data-i18n="goal1">Start saving</option><option value="Build credit" data-i18n="goal2">Build credit</option><option value="Buy a car" data-i18n="goal3">Buy a car</option><option value="Manage college expenses" data-i18n="goal4">Manage college expenses</option><option value="Learn about investing" data-i18n="goal5">Learn about investing</option></select>
-      <label for="knowledge" data-i18n="knowledge">Financial knowledge level</label><select id="knowledge" name="knowledge" required><option value="" disabled selected data-i18n="chooseLevel">Choose your starting point</option><option value="Beginner" data-i18n="beginner">Beginner</option><option value="Intermediate" data-i18n="intermediate">Intermediate</option></select>
+      <label for="knowledge" data-i18n="knowledge">Financial knowledge level</label><select id="knowledge" name="knowledge" required><option value="" disabled selected data-i18n="chooseLevel">Choose your starting point</option><option value="Beginner" data-i18n="beginner">Beginner</option><option value="Intermediate" data-i18n="intermediate">Intermediate</option><option value="Advanced" data-i18n="advanced">Advanced</option></select>
       <p id="form-error" class="error" role="alert"></p>
       <button class="button full-width" type="submit" data-i18n="beginJourney">Start My Learning Journey <span aria-hidden="true">→</span></button><p class="microcopy" data-i18n="localProfile">Your answers are saved only in this browser.</p>
     </form>
+  </dialog>
+
+  <button class="button coach-launch" id="open-coach" type="button" aria-haspopup="dialog" aria-controls="coach-dialog" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 11a8 8 0 0 1-8 8H5l-4 3 2-7a8 8 0 1 1 17-4Z"/><path d="m12 6 1 3 3 1-3 1-1 3-1-3-3-1 3-1Z"/></svg>
+    <span>Ask MoneyGuide<small>Your AI Financial Coach</small></span><span class="coach-spark" aria-hidden="true">&#10022;</span>
+  </button>
+  <dialog id="coach-dialog" aria-labelledby="coach-title" aria-describedby="coach-subtitle" lang="en">
+    <header class="coach-header"><div><p class="eyebrow">POWERED BY NVIDIA NEMOTRON</p><h2 id="coach-title">Ask MoneyGuide</h2><p id="coach-subtitle">Your AI Financial Coach</p></div><button id="coach-close" class="close-button" type="button" aria-label="Close AI coach">&times;</button></header>
+    <p id="coach-context" class="coach-context"></p>
+    <div class="coach-body">
+      <div class="coach-welcome"><span aria-hidden="true">&#10022;</span><p>Hi! I'm MoneyGuide AI. Ask me about budgeting, saving, credit, or other financial concepts.</p></div>
+      <div id="coach-questions" class="coach-questions" aria-label="Suggested questions"></div>
+      <div id="coach-history" class="coach-history" role="log" aria-label="Conversation" aria-live="polite" aria-relevant="additions text"></div>
+    </div>
+    <div class="coach-compose">
+      <p id="coach-status" role="status" aria-live="polite"></p>
+      <p id="coach-error" class="coach-error" role="alert"></p>
+      <form id="coach-form"><label for="coach-input">Your question</label><div class="coach-input-row"><input id="coach-input" maxlength="1000" required autocomplete="off" placeholder="Ask a money question..."><button class="button" id="coach-send" type="submit">Send <span aria-hidden="true">&uarr;</span></button></div></form>
+      <div class="coach-footnote"><button id="coach-clear" type="button">Clear conversation</button><span>Educational guidance &middot; AI can make mistakes</span></div>
+      <p class="coach-privacy">Your goal, level, currency, calculated budget and recent chat are sent to NVIDIA when you send. Do not enter personal details or account numbers.</p>
+    </div>
   </dialog>
 </body>
 </html>

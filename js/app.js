@@ -2,7 +2,7 @@
 const PROFILE_KEY = 'moneyguide.profile';
 const currencies = ['USD', 'EUR', 'GBP', 'RWF', 'NGN', 'KES', 'Other'];
 const goals = ['Manage my money better', 'Start saving', 'Build credit', 'Buy a car', 'Manage college expenses', 'Learn about investing'];
-const levels = ['Beginner', 'Intermediate'];
+const levels = ['Beginner', 'Intermediate', 'Advanced'];
 
 function getProfile() {
   if (!MoneyGuideAuth.current()) return null;

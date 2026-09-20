@@ -1,6 +1,10 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
-const c=require('../js/calculators.js');
+const vm=require('node:vm');
+const fs=require('node:fs');
+const context=vm.createContext({module:{exports:{}}});
+vm.runInContext(fs.readFileSync(require('node:path').join(__dirname,'../js/calculators.js'),'utf8'),context);
+const c=Object.fromEntries(Object.entries(context.module.exports).map(([key,fn])=>[key,(...args)=>JSON.parse(JSON.stringify(fn(...args)))]));
 const near=(a,b)=>assert(Math.abs(a-b)<0.000001,`${a} != ${b}`);
 test('savings goals, already met goals, and zero target',()=>{
   near(c.savings(5000,500,12).monthly,375);
