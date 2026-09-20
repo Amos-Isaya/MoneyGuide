@@ -1,0 +1,38 @@
+/* Calculator styles reuse the site's saved light/dark theme colors. */
+#money-tool { width: min(1060px, calc(100% - 32px)); max-width: 1060px; padding: 42px; border: 1px solid var(--edge); border-radius: 18px; }
+#money-tool > h2 { font-size: clamp(25px, 4vw, 36px); padding-right: 20px; }
+#money-tool .tool-introduction { max-width: 760px; margin-bottom: 28px; }
+.calculator-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+.calculator-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+.calculator-fields label { font-size: 12px; margin: 0; min-width: 0; line-height: 1.5; }
+.calculator-fields input, .calculator-fields select { display: block; margin: 7px 0 0; width: 100%; min-height: 46px; padding: 10px; border: 1px solid var(--edge); border-radius: 5px; }
+.calculator-fields input[aria-invalid="true"] { border-color: #c49170; }
+.calculator-fields input[readonly] { opacity: .65; }
+.calculator-results { min-width: 0; align-self: start; padding: 26px; background: var(--canvas); border: 1px solid var(--edge); border-radius: 12px; }
+.tool-metric { padding: 14px 0; border-bottom: 1px solid var(--edge); }
+.tool-metric span { display: block; font-size: 12px; color: var(--copy); }
+.tool-metric strong { display: block; font-size: 21px; overflow-wrap: anywhere; margin-top: 6px; }
+.tool-metric.is-primary strong { font-size: clamp(26px, 3vw, 38px); color: var(--accent); letter-spacing: -.04em; }
+.tool-unit, .tool-fineprint, .tool-notes p { font-size: 12px; }
+.tool-notes { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--edge); }
+.tool-notes p { margin-bottom: 8px; }
+.tool-validation { color: var(--text); font-size: 14px; }
+.tool-chart { margin-top: 24px; }
+.tool-chart-row { margin-bottom: 16px; }
+.tool-chart-row > div:first-child { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 11px; margin-bottom: 8px; }
+.tool-chart-row strong { overflow-wrap: anywhere; }
+.tool-track { height: 8px; background: var(--surface-raised); border-radius: 4px; overflow: hidden; }
+.tool-track span { display: block; height: 100%; background: var(--accent); }
+.tool-breakdown { margin-top: 25px; font-size: 12px; }
+.tool-breakdown summary { cursor: pointer; padding: 12px 0; color: var(--accent); }
+.tool-table-scroll { overflow: auto; max-height: 320px; }
+.tool-breakdown table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+.tool-breakdown th, .tool-breakdown td { text-align: right; padding: 10px; border-bottom: 1px solid var(--edge); white-space: nowrap; }
+.tool-breakdown th { background: var(--surface); }
+.exchange-equation { margin-top: 20px; overflow-wrap: anywhere; }
+@media (max-width: 700px) {
+  #money-tool { padding: 30px 20px; }
+  .calculator-layout { grid-template-columns: 1fr; gap: 24px; }
+  .calculator-results { padding: 20px; }
+}
+@media (max-width: 380px) { .calculator-fields { grid-template-columns: 1fr; } }

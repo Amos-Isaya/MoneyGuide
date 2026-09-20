@@ -1,0 +1,41 @@
+const {chromium}=require('playwright');
+const assert=require('node:assert/strict');
+const base=process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
+(async()=>{
+ const browser=await chromium.launch({channel:'chrome',headless:true});
+ const page=await browser.newPage({viewport:{width:1440,height:1000}});
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base+'/account.html?mode=login');
+ assert.equal(await page.locator('#account-title').textContent(),'Create Account');
+ assert.equal(await page.locator('#confirm-group').isVisible(),true);
+ assert.match(await page.locator('.account-origin-hint').textContent(),/same address/);
+ await page.locator('#full-name').fill('Amos Isaya');
+ await page.locator('#account-password').fill('Test-only-passphrase-42');
+ await page.locator('#confirm-password').fill('Test-only-passphrase-42');
+ await page.locator('#account-submit').click();await page.waitForURL('**/index.html?onboard=1&**');
+ await page.keyboard.press('Escape');
+ await page.goto(base+'/index.html');
+ await page.waitForTimeout(3600);
+ assert.equal(await page.locator('[data-slide="1"]').getAttribute('aria-current'),'true');
+ await page.screenshot({path:'/tmp/moneyguide-rotating-background.png'});
+ await page.locator('#hero-playback').click();
+ await page.mouse.move(0,0);await page.locator('#hero-playback').evaluate(e=>e.blur());
+ await page.waitForTimeout(6500);
+ assert.equal(await page.locator('[data-slide="1"]').getAttribute('aria-current'),'true');
+ await page.locator('[data-slide="2"]').click();
+ await page.waitForFunction(()=>document.querySelector('[data-slide="2"]').hasAttribute('aria-current'));
+ assert.equal(await page.locator('[data-slide="2"]').getAttribute('aria-current'),'true');
+ await page.locator('#achieve').scrollIntoViewIfNeeded();await page.waitForTimeout(800);
+ assert.equal(await page.locator('#achieve-title').evaluate(e=>e.classList.contains('has-revealed')),true);
+ await page.emulateMedia({reducedMotion:'reduce'});
+ assert.equal(await page.locator('#achieve > .wrap').evaluate(e=>getComputedStyle(e).transform),'none');
+ await page.goto(base+'/index.html');await page.waitForTimeout(6500);
+ assert.equal(await page.locator('[data-slide="0"]').getAttribute('aria-current'),'true');
+ for(const width of [1440,1024,768,390,320]){
+   await page.setViewportSize({width,height:900});
+   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+ }
+ await page.screenshot({path:'/tmp/moneyguide-rotation-mobile.png'});
+ assert.deepEqual(errors,[]);await browser.close();
+ console.log('PASS: first-visit registration, automatic backgrounds, pause/manual controls, scene transitions, reduced motion and five responsive widths.');
+})().catch(e=>{console.error(e);process.exit(1)});

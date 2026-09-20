@@ -3,7 +3,8 @@
   const page = document.body.dataset.page;
   if (!['dashboard', 'module', 'certificate'].includes(page)) return;
   const profile = getProfile();
-  if (!profile) { window.location.replace('index.html'); return; }
+  if (!MoneyGuideAuth.current()) return;
+  if (!profile) { window.location.replace('index.html?onboard=1&next='+encodeURIComponent(MoneyGuideAuth.destination(location.href))); return; }
   const i18n = MoneyGuideI18n;
   const t = i18n.t;
   const store = MoneyGuideProgress;
@@ -37,8 +38,8 @@
   }
   function profileHeader() {
     const total = store.totals();
-    document.querySelector('#profile-name').textContent = profile.firstName;
-    document.querySelector('#avatar').textContent = Array.from(profile.firstName)[0].toUpperCase();
+    document.querySelector('#profile-name').textContent = (profile.fullName || profile.firstName);
+    document.querySelector('#avatar').textContent = Array.from((profile.fullName || profile.firstName))[0].toUpperCase();
     document.querySelector('#profile-level').textContent = t('level') + ' ' + total.level + ' · ' + t('level' + total.level);
   }
   function moduleCard(item, recommendedId) {
@@ -64,10 +65,10 @@
     </a>`;
   }
   function toolCard(title, description, icon, index) {
-    return `<button type="button" class="premium-card tool-card" data-coming-soon="${title}" data-preview-description="toolPreview" aria-labelledby="tool-title-${index} tool-state-${index}">
+    return `<button type="button" class="premium-card tool-card" data-tool="${title}" aria-labelledby="tool-title-${index} tool-state-${index}">
       <div class="premium-card-top">${MoneyGuideCards.icon(icon)}<span class="card-index">0${index}</span></div>
       <h3 id="tool-title-${index}">${t(title)}</h3><p>${t(description)}</p>
-      <div class="premium-card-bottom"><span id="tool-state-${index}" class="availability">${t('soon')}</span>${MoneyGuideCards.arrow()}</div>
+      <div class="premium-card-bottom"><span id="tool-state-${index}" class="availability">${t('openTool')}</span>${MoneyGuideCards.arrow()}</div>
     </button>`;
   }
   function dashboard() {
@@ -78,7 +79,7 @@
     const currentProgress = store.get(current.id);
     const selectedGoal = goals.indexOf(profile.goal);
     main.innerHTML = `
-      <div class="welcome"><p class="eyebrow">${t('journey')}</p><h1>${escape(t('welcome', { name: profile.firstName }))}</h1><p>${t('welcomeSub')}</p></div>
+      <div class="welcome"><p class="eyebrow">${t('journey')}</p><h1>${escape(t('welcome', { name: (profile.fullName || profile.firstName) }))}</h1><p>${t('welcomeSub')}</p></div>
       <section class="dashboard-hero" aria-labelledby="continue-title">
         <div class="dashboard-hero-copy"><p class="eyebrow">${t('resume')}</p><h2 id="continue-title">${escape(i18n.title(current.id))}</h2><p lang="en">${escape(current.description)}</p><div class="hero-actions">${moduleLink(current.id, currentProgress.started ? t('resume') : t('start'))}<span>${t('module')} ${String(current.id).padStart(2,'0')} / 10</span></div></div>
         <img src="assets/financial-growth.webp" width="1400" height="934" alt="A small plant growing among everyday coins">
@@ -131,7 +132,7 @@
       const feedback = form.querySelector('.check-feedback');
       if (!selected) { feedback.textContent = t('selectAnswer'); return; }
       const correct = Number(selected.value) === module.lessons[index].check.answer;
-      if (correct && !save(() => store.check(id, index, profile.firstName))) return;
+      if (correct && !save(() => store.check(id, index, (profile.fullName || profile.firstName)))) return;
       checkFeedback[index] = { answer: Number(selected.value), correct };
       feedback.innerHTML = `<strong>${correct ? t('correct') + ' ✓' : t('tryAgain')}</strong><p lang="en">${escape(module.lessons[index].check.explanation)}</p>`;
       updateProgress();
@@ -165,7 +166,7 @@
     const question = module.assessment[questionIndex];
     area.innerHTML = `<form id="assessment-form"><p class="eyebrow" id="question-label" tabindex="-1">${t('questionCount', { current: questionIndex + 1 })}</p><fieldset><legend lang="en">${escape(question.prompt)}</legend>${question.options.map((option, index) => `<label class="answer-option" lang="en"><input type="radio" name="assessment-answer" value="${index}" ${p.answers[questionIndex] === index ? 'checked' : ''}>${escape(option)}</label>`).join('')}</fieldset><div class="question-buttons">${button('← ' + t('previous'), 'previous-question', `type="button" ${questionIndex === 0 ? 'disabled' : ''}`)}${questionIndex < 9 ? button(t('nextButton') + ' →', 'next-question', 'type="button"') : `<button class="button" type="submit">${t('submit')}</button>`}</div><p id="test-error" class="error" role="alert"></p></form>`;
     area.querySelectorAll('input').forEach(input => input.addEventListener('change', () => {
-      if (!save(() => store.answer(id, questionIndex, Number(input.value), profile.firstName))) drawAssessment();
+      if (!save(() => store.answer(id, questionIndex, Number(input.value), (profile.fullName || profile.firstName)))) drawAssessment();
     }));
     area.querySelector('form').addEventListener('submit', event => {
       event.preventDefault();
@@ -176,7 +177,7 @@
         document.querySelector('#test-error').textContent = t('unanswered');
         return;
       }
-      if (save(() => store.submit(id, profile.firstName))) { drawAssessment(); updateProgress(); area.scrollIntoView({ block: 'start' }); }
+      if (save(() => store.submit(id, (profile.fullName || profile.firstName)))) { drawAssessment(); updateProgress(); area.scrollIntoView({ block: 'start' }); }
     });
   }
   function certificatePage() {
@@ -199,13 +200,13 @@
     const action = control.dataset.action;
     if (action === 'print' || action === 'pdf') { window.print(); return; }
     if (action === 'lesson') {
-      if (save(() => store.lesson(id, Number(control.dataset.index), profile.firstName))) { control.textContent = t('lessonDone') + ' ✓'; control.disabled = true; updateProgress(); }
+      if (save(() => store.lesson(id, Number(control.dataset.index), (profile.fullName || profile.firstName)))) { control.textContent = t('lessonDone') + ' ✓'; control.disabled = true; updateProgress(); }
     }
     if (action === 'summary') {
-      if (save(() => store.summary(id, profile.firstName))) { control.textContent = t('summaryDone') + ' ✓'; control.disabled = true; updateProgress(); }
+      if (save(() => store.summary(id, (profile.fullName || profile.firstName)))) { control.textContent = t('summaryDone') + ' ✓'; control.disabled = true; updateProgress(); }
     }
     if (action === 'flip') {
-      if (!cardFlipped && !save(() => store.card(id, cardIndex, profile.firstName))) return;
+      if (!cardFlipped && !save(() => store.card(id, cardIndex, (profile.fullName || profile.firstName)))) return;
       cardFlipped = !cardFlipped; drawCard(); updateProgress();
       document.querySelector('.flashcard').focus({ preventScroll: true });
     }
@@ -214,14 +215,14 @@
       cardFlipped = false; drawCard(); document.querySelector('.flashcard').focus({ preventScroll: true });
     }
     if (action === 'start-test') { testOpen = true; drawAssessment(); document.querySelector('#question-label').focus({ preventScroll: true }); }
-    if (action === 'retake' && save(() => store.retake(id, profile.firstName))) { testOpen = true; questionIndex = 0; drawAssessment(); document.querySelector('#question-label').focus({ preventScroll: true }); }
+    if (action === 'retake' && save(() => store.retake(id, (profile.fullName || profile.firstName)))) { testOpen = true; questionIndex = 0; drawAssessment(); document.querySelector('#question-label').focus({ preventScroll: true }); }
     if (action === 'previous-question' || action === 'next-question') {
       if (action === 'next-question' && !Number.isInteger(store.get(id).answers[questionIndex])) { document.querySelector('#test-error').textContent = t('selectAnswer'); return; }
       const index = Math.max(0, Math.min(9, questionIndex + (action === 'next-question' ? 1 : -1)));
-      if (save(() => store.position(id, index, profile.firstName))) { questionIndex = index; drawAssessment(); document.querySelector('#question-label').focus({ preventScroll: true }); }
+      if (save(() => store.position(id, index, (profile.fullName || profile.firstName)))) { questionIndex = index; drawAssessment(); document.querySelector('#question-label').focus({ preventScroll: true }); }
     }
   });
-  if (page === 'module' && module) save(() => store.start(id, profile.firstName));
+  if (page === 'module' && module) save(() => store.start(id, (profile.fullName || profile.firstName)));
   render();
   if (store.fault) reportError(new Error('damagedStorage'));
   document.addEventListener('languagechange', () => {

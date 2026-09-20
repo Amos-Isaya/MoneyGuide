@@ -1,0 +1,98 @@
+/* Additive polish: existing page layout, palette, and content remain in place. */
+.account-layout { width: min(1180px,calc(100% - 64px)); margin: 65px auto 85px; display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: start; }
+.account-story { position: sticky; top: 130px; padding: 45px 0; }
+.account-story h1 { font-size: clamp(35px,4vw,55px); line-height: 1.13; max-width: 480px; margin: 25px 0; }
+.account-story > p:not(.eyebrow) { line-height: 1.8; max-width: 400px; }
+.account-story-art { height: 260px; margin: 25px -15px; background: url('../assets/payments-scene.svg') center / contain no-repeat; opacity: .65; }
+.account-card { padding: 34px; border: 1px solid var(--edge); border-radius: 16px; background: var(--surface); box-shadow: 0 14px 45px #05131914; transition: opacity 220ms, transform 220ms; }
+.account-card h2 { font-size: 29px; }
+.account-notice { padding: 15px; border-left: 2px solid var(--accent); background: var(--canvas); font-size: 12px; line-height: 1.75; margin: 22px 0; }
+#account-form label { display: block; font-size: 13px; margin: 17px 0 8px; }
+#account-form input { width: 100%; padding: 12px; min-height: 48px; border: 1px solid var(--edge); border-radius: 5px; }
+#account-form input[aria-invalid="true"] { border-color: #c68164; }
+.password-field { position: relative; }
+.password-field input { padding-right: 55px !important; }
+.password-toggle { position: absolute; top: 2px; bottom: 2px; right: 3px; width: 44px; display: grid; place-items: center; border: none; background: transparent; color: var(--accent); border-radius: 5px; }
+.password-toggle svg { width: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.password-toggle .eye-slash { display: none; }
+.password-toggle[aria-pressed="true"] .eye-slash { display: block; }
+.field-error { color: #ffbaa6; font-size: 12px; margin: 6px 0; }
+.field-error:empty, #account-error:empty { display: none; }
+:root[data-theme="light"] .field-error { color: #a32e29; }
+#password-help { text-align: left; line-height: 1.7; margin: 8px 0; }
+#account-submit { margin-top: 20px; }
+.account-switch { text-align: center; font-size: 13px; margin: 22px 0 0; }
+.account-switch a { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+.account-success { color: var(--accent); line-height: 1.7; padding: 15px; border: 1px solid var(--edge); border-radius: 5px; margin-top: 18px; }
+.account-card.is-success { transform: translateY(-3px); }
+.logout-button { margin-top: 12px; }
+.account-card [hidden] { display: none !important; }
+
+/* Three distinct financial scenes: the existing coins hero, payments, and growth. */
+.scene-payments, .scene-growth { position: relative; isolation: isolate; overflow: clip; }
+.scene-payments::before, .scene-growth::before { content: ''; position: absolute; inset: -24px 0; z-index: -1; pointer-events: none; background-repeat: no-repeat; transform: translate3d(0,var(--scene-shift,0px),0); }
+.scene-payments::before { background-image: url('../assets/payments-scene.svg'); background-size: min(1000px,90%) auto; background-position: right center; opacity: .13; }
+.scene-growth::before { background-image: url('../assets/growth-scene.svg'); background-size: cover; background-position: center; opacity: .11; }
+:root[data-theme="light"] .scene-payments::before, :root[data-theme="light"] .scene-growth::before { opacity: .28; filter: brightness(.5); }
+:root[data-theme="light"] .account-story-art { filter: brightness(.6); }
+@media (prefers-reduced-motion: no-preference) {
+  .account-layout, .dashboard-main { animation: scene-arrival 220ms ease-out both; }
+  .reveal.reveal-ready { transition: opacity 420ms ease, transform 420ms ease; }
+  @keyframes scene-arrival { from { opacity: .65; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+}
+@media (max-width: 900px) {
+  .account-layout { gap: 28px; grid-template-columns: .8fr 1fr; width: calc(100% - 40px); }
+  .account-card { padding: 24px; }
+}
+@media (max-width: 700px) {
+  .account-layout { display: block; margin: 30px auto 50px; }
+  .account-story { position: static; padding: 0 0 28px; }
+  .account-story h1 { font-size: 34px; margin: 15px 0; }
+  .account-story-art { display: none; }
+  .account-story > p:not(.eyebrow) { font-size: 14px; }
+  .account-card { padding: 24px 20px; }
+  .scene-payments::before { background-size: 170% auto; opacity: .08; }
+  .scene-growth::before { background-size: auto 90%; opacity: .07; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene-payments::before, .scene-growth::before { transform: none; }
+  .account-card { transition: none; }
+  .account-card.is-success { transform: none; }
+}
+@media print { .account-layout { display: none; } }
+
+.welcome h1, .home-progress p, .learner-name { overflow-wrap: anywhere; }
+
+.account-origin-hint { font-size: 13px; line-height: 1.7; color: var(--accent); margin: 16px 0; }
+.hero-slides { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.cinematic-hero .hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1200ms ease; }
+.cinematic-hero .hero-slide.is-active { opacity: 1; }
+.hero-payments { background: radial-gradient(ellipse at 78% 40%,#42767a,#122b38 75%); }
+.hero-payments::after { content:''; position:absolute; inset:0; background:url('../assets/payments-scene.svg') right center / min(1400px,110%) auto no-repeat; }
+.hero-investing { background: linear-gradient(125deg,#0c202b,#2a5548); }
+.hero-investing::after { content:''; position:absolute; inset:0; background:url('../assets/growth-scene.svg') right center / cover no-repeat; opacity:.7; }
+.hero-rotation, .hero-dots { display:flex; align-items:center; gap:12px; }
+.hero-rotation button { background:#0b202b99; color:#eef5ef; border:1px solid #9ebbb780; min-height:44px; border-radius:5px; padding:8px 12px; font-size:11px; }
+.hero-dots button { border-color:transparent; border-bottom:2px solid transparent; border-radius:0; }
+.hero-dots button[aria-current] { border-bottom-color:#c0d9c5; background:#c0d9c522; }
+.hero-rotation { flex-wrap:wrap; }
+@media (prefers-reduced-motion: no-preference) {
+  .scene-pop { transition: opacity 650ms ease, transform 650ms cubic-bezier(.2,.7,.2,1); transform-origin:center top; }
+  .scene-pop.is-waiting { opacity:0; transform:translateY(60px) scale(.97); }
+  .scene-pop.is-arrived { opacity:1; transform:none; }
+  .scene-pop:focus-within { opacity:1; transform:none; }
+}
+@media (max-width:600px) {
+  .hero-bottom { align-items:flex-end; }
+  .hero-rotation { max-width:215px; gap:6px; }
+  .hero-dots { gap:4px; }
+  .scene-pop.is-waiting { transform:translateY(28px) scale(.985); }
+  .hero-payments::after { background-size:auto 80%; background-position:65% center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-hero .hero-slide { transition:none; }
+  .scene-pop, .scene-pop.is-waiting { opacity:1; transform:none; transition:none; }
+}
+/* Keep every rotating scene behind the overlay, text, and clickable controls. */
+.hero-slides { z-index: -2; pointer-events: none; }
+.cinematic-hero .hero-shade { z-index: -1; pointer-events: none; }

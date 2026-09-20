@@ -5,87 +5,108 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Learn about money and build financial confidence with MoneyGuide.">
   <title>MoneyGuide — Build your money confidence</title>
+  <link rel="preload" as="image" href="assets/financial-growth.webp" imagesrcset="assets/financial-growth-small.webp 800w, assets/financial-growth.webp 1800w" imagesizes="100vw" fetchpriority="high">
   <script src="js/appearance.js"></script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/cards.css">
   <link rel="stylesheet" href="css/polish.css">
+  <link rel="stylesheet" href="css/tools.css">
+  <link rel="stylesheet" href="css/experience.css">
+  <link rel="stylesheet" href="css/cinematic.css">
   <script src="js/i18n.js" defer></script>
+  <script src="js/auth.js" defer></script>
   <script src="js/cards.js" defer></script>
   <script src="js/modules.js" defer></script>
   <script src="js/progress.js" defer></script>
   <script src="js/app.js" defer></script>
   <script src="js/shell.js" defer></script>
+  <script src="js/calculators.js" defer></script>
+  <script src="js/tools.js" defer></script>
   <script src="js/home.js" defer></script>
+  <script src="js/cinematic.js" defer></script>
 </head>
 <body data-page="home">
   <a class="skip-link" href="#home-main">Skip to content</a>
   <header id="site-header"></header>
   <main id="home-main">
-    <section class="cinematic-hero chapter-discover" id="discover" aria-labelledby="hero-title">
-      <img class="hero-background" src="assets/financial-growth.webp" srcset="assets/financial-growth-small.webp 800w, assets/financial-growth.webp 1800w" sizes="100vw" alt="" width="1800" height="1200" fetchpriority="high">
+    <section class="cinematic-hero chapter-discover" id="discover" data-scene-nav="home" aria-labelledby="hero-title">
+      <div class="hero-slides" aria-hidden="true">
+        <div class="hero-slide is-active" data-ready="true"><img class="hero-background" src="assets/financial-growth.webp" srcset="assets/financial-growth-small.webp 800w, assets/financial-growth.webp 1800w" sizes="100vw" alt="" width="1800" height="1200" fetchpriority="high"></div>
+        <div class="hero-slide" data-src="assets/coin-progress.webp" data-srcset="assets/coin-progress-small.webp 720w, assets/coin-progress.webp 1600w"></div>
+        <div class="hero-slide" data-src="assets/financial-planning.webp" data-srcset="assets/financial-planning-small.webp 720w, assets/financial-planning.webp 1600w"></div>
+        <div class="hero-slide hero-data-scene" data-src="assets/growth-scene.svg"></div>
+      </div>
       <div class="hero-shade"></div>
       <div class="wrap hero-content">
         <p class="eyebrow" data-i18n="heroEyebrow">01 / DISCOVER YOUR POSSIBILITIES</p>
         <h1 id="hero-title"><span data-i18n="heroLineOne">Master your money.</span><br><strong data-i18n="heroLineTwo">Build your future.</strong></h1>
-        <p class="hero-description" data-i18n="heroDescription"></p>
+        <p class="hero-description" data-i18n="heroDescription">Financial education built for real life. Learn the concepts, practice the decisions, and find the confidence to take your next step.</p>
         <div class="cinematic-actions"><button class="button" data-onboard><span data-i18n="startLearning">Start Learning</span><span data-icon="arrow"></span></button><a href="dashboard.html#modules" data-requires-profile><span data-i18n="openModules">Explore Modules</span><span data-icon="arrow"></span></a></div>
-        <p class="hero-caption" data-i18n="heroCaption"></p>
+        <p class="hero-caption" data-i18n="heroCaption">Free to learn. Your knowledge. Your pace.</p>
       </div>
-      <div class="wrap hero-bottom"><p data-i18n="heroNote"></p><a class="scroll-cue" href="#about"><span data-i18n="scroll">Scroll to discover</span><span aria-hidden="true">↓</span></a></div>
+      <div class="wrap hero-bottom"><div class="hero-rotation"><button type="button" id="hero-playback" aria-pressed="false"></button><span id="hero-count" aria-hidden="true">01 / 04</span><div class="hero-dots"><button type="button" data-slide="0" aria-current="true">01</button><button type="button" data-slide="1">02</button><button type="button" data-slide="2">03</button><button type="button" data-slide="3">04</button></div></div><a class="scroll-cue" href="#about"><span data-i18n="scroll">Scroll to discover</span><span aria-hidden="true">↓</span></a></div>
     </section>
-    <section class="about-section chapter-discover" id="about" aria-labelledby="about-title">
-      <div class="wrap about-layout reveal"><div><p class="eyebrow" data-i18n="navAbout">About</p><h2 id="about-title" data-i18n="aboutHeading"></h2></div><div class="about-copy"><p data-i18n="aboutText"></p><p data-i18n="aboutFuture"></p><a class="text-link" href="#how-it-works"><span data-i18n="navExplore"></span><span data-icon="arrow"></span></a></div></div>
+    <section class="about-section chapter-discover scene-payments story-scene" data-scene-nav="about" id="about" aria-labelledby="about-title">
+      <div class="wrap about-layout scene-stage"><div><p class="eyebrow" data-reveal="label" data-i18n="navAbout">About</p><h2 id="about-title" data-reveal="heading" data-i18n="aboutHeading">Financial knowledge should belong to everyone.</h2></div><div class="about-copy" data-reveal="text"><p data-i18n="aboutText">Money touches every part of life, yet many of us are never taught how it works. MoneyGuide gives students and young adults a clear, welcoming place to begin.</p><p data-i18n="aboutFuture">Learn at your pace, connect ideas to everyday decisions, and build habits for the future. Personalized learning support is planned for a later release.</p><a class="text-link" href="#how-it-works"><span data-i18n="navExplore">Explore MoneyGuide</span><span data-icon="arrow"></span></a></div></div>
     </section>
-    <section class="feature-hub chapter-learn" id="how-it-works" aria-labelledby="feature-heading">
+    <section class="feature-hub chapter-learn story-scene" data-scene-nav="modules" id="how-it-works" aria-labelledby="feature-heading">
       <div class="wrap">
-        <div class="hub-heading reveal"><div><p class="eyebrow" data-i18n="featureEyebrow">YOUR NEXT CHAPTER</p><h2 id="feature-heading" data-i18n="featureHeading">Everything you need to build financial confidence.</h2></div><p data-i18n="featureIntro">Knowledge. Practice. Perspective. Choose your next step.</p></div>
+        <div class="hub-heading scene-stage"><div><p class="eyebrow" data-reveal="label" data-i18n="featureEyebrow">YOUR NEXT CHAPTER</p><h2 id="feature-heading" data-reveal="heading" data-i18n="featureHeading">Everything you need to build financial confidence.</h2></div><p data-reveal="text" data-i18n="featureIntro">Knowledge. Practice. Perspective. Choose your next step.</p></div>
         <div class="premium-feature-grid">
-          <a class="premium-card feature-card is-featured" href="dashboard.html#modules" data-home-destination="modules" aria-labelledby="feature-title-1 feature-action-1">
+          <a data-reveal="card" class="premium-card feature-card is-featured" href="dashboard.html#modules" data-home-destination="modules" aria-labelledby="feature-title-1 feature-action-1">
             <div class="premium-card-top"><span class="feature-icon" data-icon="learn"></span><span class="card-index">01</span></div>
-            <h3 id="feature-title-1" data-i18n="featureLearn"></h3>
-            <p data-i18n="featureLearnText"></p>
-            <div class="premium-card-bottom"><span id="feature-action-1" data-i18n="exploreLearning"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+            <h3 id="feature-title-1" data-i18n="featureLearn">Learn</h3>
+            <p data-i18n="featureLearnText">Make sense of money with ten structured, beginner-friendly learning modules.</p>
+            <div class="premium-card-bottom"><span id="feature-action-1" data-i18n="exploreLearning">Explore Learning</span><span class="arrow-wrap" data-icon="arrow"></span></div>
           </a>
-          <a class="premium-card feature-card" href="dashboard.html#practice" data-home-destination="practice" aria-labelledby="feature-title-2 feature-action-2">
+          <a data-reveal="card" class="premium-card feature-card" href="dashboard.html#practice" data-home-destination="practice" aria-labelledby="feature-title-2 feature-action-2">
             <div class="premium-card-top"><span class="feature-icon" data-icon="practice"></span><span class="card-index">02</span></div>
-            <h3 id="feature-title-2" data-i18n="featurePractice"></h3>
-            <p data-i18n="featurePracticeText"></p>
-            <div class="premium-card-bottom"><span id="feature-action-2" data-i18n="startPractice"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+            <h3 id="feature-title-2" data-i18n="featurePractice">Practice</h3>
+            <p data-i18n="featurePracticeText">Put your knowledge to work with flashcards, quizzes, and real-life financial scenarios.</p>
+            <div class="premium-card-bottom"><span id="feature-action-2" data-i18n="startPractice">Start Practicing</span><span class="arrow-wrap" data-icon="arrow"></span></div>
           </a>
-          <a class="premium-card feature-card" href="dashboard.html#tools" data-home-destination="tools" aria-labelledby="feature-title-3 feature-action-3">
+          <a data-reveal="card" class="premium-card feature-card" href="dashboard.html#tools" data-home-destination="tools" aria-labelledby="feature-title-3 feature-action-3">
             <div class="premium-card-top"><span class="feature-icon" data-icon="tools"></span><span class="card-index">03</span></div>
-            <h3 id="feature-title-3" data-i18n="featureTools"></h3>
-            <p data-i18n="featureToolsText"></p>
-            <div class="premium-card-bottom"><span id="feature-action-3" data-i18n="exploreTools"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+            <h3 id="feature-title-3" data-i18n="featureTools">Money Tools</h3>
+            <p data-i18n="featureToolsText">Plan your savings, budget, borrowing, growth, and currency conversions.</p>
+            <div class="premium-card-bottom"><span id="feature-action-3" data-i18n="exploreTools">Explore Tools</span><span class="arrow-wrap" data-icon="arrow"></span></div>
           </a>
-          <a class="premium-card feature-card" href="dashboard.html#progress" data-home-destination="progress" aria-labelledby="feature-title-4 feature-action-4">
+          <a data-reveal="card" class="premium-card feature-card" href="dashboard.html#progress" data-home-destination="progress" aria-labelledby="feature-title-4 feature-action-4">
             <div class="premium-card-top"><span class="feature-icon" data-icon="progress"></span><span class="card-index">04</span></div>
-            <h3 id="feature-title-4" data-i18n="featureProgress"></h3>
-            <p data-i18n="featureProgressText"></p>
-            <div class="premium-card-bottom"><span id="feature-action-4" data-i18n="viewProgress"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+            <h3 id="feature-title-4" data-i18n="featureProgress">Progress</h3>
+            <p data-i18n="featureProgressText">See your progress, celebrate your milestones, and make your next move count.</p>
+            <div class="premium-card-bottom"><span id="feature-action-4" data-i18n="viewProgress">View Progress</span><span class="arrow-wrap" data-icon="arrow"></span></div>
           </a>
-          <a class="premium-card feature-card" href="dashboard.html#certificates" data-home-destination="certificates" aria-labelledby="feature-title-5 feature-action-5">
+          <a data-reveal="card" class="premium-card feature-card" href="dashboard.html#certificates" data-home-destination="certificates" aria-labelledby="feature-title-5 feature-action-5">
             <div class="premium-card-top"><span class="feature-icon" data-icon="certificate"></span><span class="card-index">05</span></div>
-            <h3 id="feature-title-5" data-i18n="featureCertificates"></h3>
-            <p data-i18n="featureCertificatesText"></p>
-            <div class="premium-card-bottom"><span id="feature-action-5" data-i18n="viewCertificates"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+            <h3 id="feature-title-5" data-i18n="featureCertificates">Certificates</h3>
+            <p data-i18n="featureCertificatesText">Turn your learning into a milestone. Complete a module and pass its assessment.</p>
+            <div class="premium-card-bottom"><span id="feature-action-5" data-i18n="viewCertificates">View Certificates</span><span class="arrow-wrap" data-icon="arrow"></span></div>
           </a>
-          <button class="premium-card feature-card" type="button" data-coming-soon="featureCoach" data-preview-description="coachPreview" aria-labelledby="feature-title-6 feature-action-6">
+          <button data-reveal="card" class="premium-card feature-card" type="button" data-coming-soon="featureCoach" data-preview-description="coachPreview" aria-labelledby="feature-title-6 feature-action-6">
             <div class="premium-card-top"><span class="feature-icon" data-icon="coach"></span><span class="card-index">06</span></div>
-            <h3 id="feature-title-6" data-i18n="featureCoach"></h3>
-            <p data-i18n="featureCoachText"></p>
-            <div class="premium-card-bottom"><span id="feature-action-6" data-i18n="soon"></span><span class="arrow-wrap" data-icon="arrow"></span></div>
+            <h3 id="feature-title-6" data-i18n="featureCoach">AI Learning Coach</h3>
+            <p data-i18n="featureCoachText">Personalized explanations powered by NVIDIA Nemotron are planned for a future release.</p>
+            <div class="premium-card-bottom"><span id="feature-action-6" data-i18n="soon">Coming Soon</span><span class="arrow-wrap" data-icon="arrow"></span></div>
           </button>
         </div>
-        <div class="home-learning-preview reveal" id="home-learning-preview"></div>
+        <div class="home-learning-preview" id="home-learning-preview"></div>
       </div>
     </section>
-    <section class="achievement-section chapter-achieve" id="achieve" aria-labelledby="achieve-title">
-      <div class="wrap"><div class="achievement-heading reveal"><span class="chapter-number" aria-hidden="true">03</span><div><p class="eyebrow" data-i18n="achieveEyebrow"></p><h2 id="achieve-title" data-i18n="achieveHeading"></h2><p data-i18n="achieveText"></p></div></div>
-        <div class="achievement-layout reveal"><div class="curriculum-stats"><div><strong>10</strong><span data-i18n="curriculumModules"></span></div><div><strong>100</strong><span data-i18n="curriculumQuestions"></span></div><div><strong>10</strong><span data-i18n="curriculumCertificates"></span></div><div><strong>03</strong><span data-i18n="curriculumLanguages"></span></div></div><div id="home-certificate-preview"></div></div>
+    <section class="story-scene practice-story" id="home-practice" data-scene-nav="practice" aria-labelledby="scenePractice-title"><div class="wrap"><div class="scene-intro scene-stage"><span class="scene-number" aria-hidden="true" data-reveal="label">03</span><div><p class="eyebrow" data-reveal="label" data-i18n="scenePracticeLabel">PRACTICE</p><h2 id="scenePractice-title" data-reveal="heading" data-i18n="scenePracticeHeading">Put your knowledge
+to work.</h2><p data-reveal="text" data-i18n="scenePracticeText">Strengthen what you’ve learned through quick practice, real-world questions, and module assessments.</p></div></div><div class="scene-card-grid practice-story-grid"><a class="premium-card scene-card" data-reveal="card" data-requires-profile href="module.html?id=1#flashcards"><div class="premium-card-top"><span data-icon="practice"></span></div><h3 data-i18n="flashcards">Flashcards</h3><p data-i18n="sceneFlashText">Review important concepts from your learning modules.</p><div class="premium-card-bottom"><span data-i18n="scenePracticeAction">Practice Now</span><span data-icon="arrow"></span></div></a><a class="premium-card scene-card" data-reveal="card" data-requires-profile href="module.html?id=1#lesson-0"><div class="premium-card-top"><span data-icon="check"></span></div><h3 data-i18n="sceneChecksTitle">Knowledge Checks</h3><p data-i18n="sceneCheckText">Test your understanding as you move through each lesson.</p><div class="premium-card-bottom"><span data-i18n="sceneCheckAction">Test Yourself</span><span data-icon="arrow"></span></div></a><a class="premium-card scene-card" data-reveal="card" data-requires-profile href="module.html?id=1#assessment"><div class="premium-card-top"><span data-icon="learn"></span></div><h3 data-i18n="sceneAssessmentsTitle">Final Assessments</h3><p data-i18n="sceneAssessmentText">Complete each module’s 10-question assessment with 80% or higher, along with its learning activities, to earn your certificate.</p><div class="premium-card-bottom"><span data-i18n="sceneAssessmentAction">View Assessments</span><span data-icon="arrow"></span></div></a><button type="button" class="premium-card scene-card" data-reveal="card" data-coming-soon="sceneSimulator" data-preview-description="sceneSimulatorText"><div class="premium-card-top"><span data-icon="progress"></span></div><h3 data-i18n="sceneSimulator">Money Simulator</h3><p data-i18n="sceneSimulatorText">Practice real-world financial decisions in a safe environment. Coming soon.</p><div class="premium-card-bottom"><span data-i18n="soon">Coming Soon</span><span data-icon="arrow"></span></div></button></div></div></section>
+    <section class="story-scene tools-story" id="home-tools" data-scene-nav="tools" aria-labelledby="sceneTools-title"><div class="wrap"><div class="scene-intro scene-stage"><span class="scene-number" aria-hidden="true" data-reveal="label">04</span><div><p class="eyebrow" data-reveal="label" data-i18n="sceneToolsLabel">TOOLS</p><h2 id="sceneTools-title" data-reveal="heading" data-i18n="sceneToolsHeading">Turn knowledge
+into action.</h2><p data-reveal="text" data-i18n="sceneToolsText">Your numbers. Your possibilities. Explore a plan with five practical, interactive tools.</p></div></div><div class="scene-card-grid home-tools-grid"><button type="button" class="premium-card scene-card home-tool-card" data-reveal="card" data-tool="savingsTool"><div class="premium-card-top"><span data-icon="savings"></span><span class="card-index">01</span></div><h3 data-i18n="savingsTool">Savings Goal Calculator</h3><p data-i18n="savingsToolText">Give your next goal an amount, a timeline, and a plan.</p><div class="premium-card-bottom"><span data-i18n="openTool">Open calculator</span><span data-icon="arrow"></span></div></button><button type="button" class="premium-card scene-card home-tool-card" data-reveal="card" data-tool="budgetTool"><div class="premium-card-top"><span data-icon="budget"></span><span class="card-index">02</span></div><h3 data-i18n="budgetTool">Budget Planner</h3><p data-i18n="budgetToolText">Bring your income, spending, and saving into one view.</p><div class="premium-card-bottom"><span data-i18n="openTool">Open calculator</span><span data-icon="arrow"></span></div></button><button type="button" class="premium-card scene-card home-tool-card" data-reveal="card" data-tool="growthTool"><div class="premium-card-top"><span data-icon="growth"></span><span class="card-index">03</span></div><h3 data-i18n="growthTool">Compound Interest Calculator</h3><p data-i18n="growthToolText">Explore how time and regular contributions can add up.</p><div class="premium-card-bottom"><span data-i18n="openTool">Open calculator</span><span data-icon="arrow"></span></div></button><button type="button" class="premium-card scene-card home-tool-card" data-reveal="card" data-tool="loanTool"><div class="premium-card-top"><span data-icon="loan"></span><span class="card-index">04</span></div><h3 data-i18n="loanTool">Loan Calculator</h3><p data-i18n="loanToolText">Understand the relationship between payments and total cost.</p><div class="premium-card-bottom"><span data-i18n="openTool">Open calculator</span><span data-icon="arrow"></span></div></button><button type="button" class="premium-card scene-card home-tool-card" data-reveal="card" data-tool="currencyTool"><div class="premium-card-top"><span data-icon="currency"></span><span class="card-index">05</span></div><h3 data-i18n="currencyTool">Currency Converter</h3><p data-i18n="currencyToolText">Compare currencies as you plan beyond borders.</p><div class="premium-card-bottom"><span data-i18n="openTool">Open calculator</span><span data-icon="arrow"></span></div></button></div></div></section>
+    <section class="story-scene progress-story" id="home-progress-scene" data-scene-nav="progress" aria-labelledby="sceneProgress-title"><div class="wrap"><div class="scene-intro scene-stage"><span class="scene-number" aria-hidden="true" data-reveal="label">05</span><div><p class="eyebrow" data-reveal="label" data-i18n="sceneProgressLabel">PROGRESS</p><h2 id="sceneProgress-title" data-reveal="heading" data-i18n="sceneProgressHeading">See how far
+you’ve come.</h2><p data-reveal="text" data-i18n="sceneProgressText">Every lesson is a step forward. Your saved learning milestones tell the story.</p></div></div><div id="home-progress-detail"></div></div></section>
+    <section class="achievement-section chapter-achieve scene-growth story-scene" data-scene-nav="certificates" id="achieve" aria-labelledby="achieve-title">
+      <div class="wrap"><div class="achievement-heading scene-stage"><span data-reveal="label" class="chapter-number" aria-hidden="true">06</span><div><p class="eyebrow" data-reveal="label" data-i18n="achieveEyebrow">06 / ACHIEVE</p><h2 id="achieve-title" data-reveal="heading" data-i18n="achieveHeading">Learn. Prove it.
+Keep growing.</h2><p data-reveal="text" data-i18n="achieveText">The goal is more than a score. It is understanding your options, asking better questions, and feeling ready for the decisions ahead.</p></div></div>
+        <div class="achievement-layout"><div class="curriculum-stats" data-reveal="card"><div><strong>10</strong><span data-i18n="curriculumModules">Open learning modules</span></div><div><strong>100</strong><span data-i18n="curriculumQuestions">Assessment questions</span></div><div><strong>10</strong><span data-i18n="curriculumCertificates">Module certificates to earn</span></div><div><strong>03</strong><span data-i18n="curriculumLanguages">Interface languages</span></div></div><div id="home-certificate-preview" data-reveal="card"></div></div>
       </div>
     </section>
-    <section class="final-action chapter-achieve" aria-labelledby="final-title"><div class="wrap reveal"><p class="eyebrow" data-i18n="finalEyebrow"></p><h2 id="final-title" data-i18n="finalHeading"></h2><p class="final-description" data-i18n="finalText"></p><button class="button" data-onboard><span data-i18n="startLearning">Start Learning</span><span data-icon="arrow"></span></button></div></section>
+    <section class="final-action chapter-achieve story-scene" data-scene-nav="home" aria-labelledby="final-title"><div class="wrap scene-stage"><p class="eyebrow" data-reveal="label" data-i18n="finalEyebrow">YOUR FINANCIAL JOURNEY</p><h2 id="final-title" data-reveal="heading" data-i18n="finalHeading">Knowledge today.
+Confidence tomorrow.</h2><p data-reveal="text" class="final-description" data-i18n="finalText">Start building the knowledge and habits that can support your future. Your first step is right here.</p><button data-reveal="action" class="button" data-onboard><span data-i18n="startLearning">Start Learning</span><span data-icon="arrow"></span></button></div></section>
   </main>
   <footer id="site-footer"></footer>
   <dialog id="onboarding-dialog" aria-labelledby="onboarding-title">

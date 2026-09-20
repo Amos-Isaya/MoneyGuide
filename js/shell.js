@@ -13,7 +13,7 @@ const MoneyGuideShell = (() => {
   footer.className = 'site-footer';
   function footerGroup(title, links) { return `<div class="footer-column"><h2 data-i18n="${title}">${t(title)}</h2>${links.join('')}</div>`; }
   function resource(key) { return `<button type="button" data-info="${key}" data-i18n="${key}">${t(key)}</button>`; }
-  footer.innerHTML = `<div class="wrap footer-brand-row">${brand}<p data-i18n="footerTagline">${t('footerTagline')}</p></div><div class="wrap footer-directory">${footerGroup('footerPlatform',navItems.filter(([id])=>['home','about','modules','practice','progress'].includes(id)).map(([,key,url])=>link(url,`<span data-i18n="${key}">${t(key)}</span>`)))}${footerGroup('footerLearning',[1,2,3,5,7].map(id=>link('module.html?id='+id,escape(MoneyGuideI18n.title(id)),`data-module-title="${id}"`)))}${footerGroup('featureTools',[['savingsTool','savings'],['budgetTool','budget'],['loanTool','loan'],['currencyTool','currency']].map(([key])=>`<button type="button" data-coming-soon="${key}" data-preview-description="toolPreview" data-i18n="${key}">${t(key)}</button>`))}${footerGroup('footerResources',[link('dashboard.html#certificates',`<span data-i18n="certificates">${t('certificates')}</span>`),link('module.html?id=1#flashcards',`<span data-i18n="glossary">${t('glossary')}</span>`),resource('help'),resource('accessibility')])}<div class="footer-column"><h2 data-i18n="language">${t('language')}</h2><button type="button" data-set-language="en" lang="en">English</button><button type="button" data-set-language="es" lang="es">Español</button><button type="button" data-set-language="fr" lang="fr">Français</button><div class="footer-contact"><h3 data-i18n="contact">${t('contact')}</h3><p data-i18n="contactSoon">${t('contactSoon')}</p></div></div></div><div class="footer-legal"><div class="wrap"><p>© ${new Date().getFullYear()} MoneyGuide. <span data-i18n="copyright">${t('copyright')}</span></p><p data-i18n="disclaimer">${t('disclaimer')}</p><nav aria-label="Platform information">${resource('privacy')}${resource('terms')}${resource('accessibility')}</nav></div></div>`;
+  footer.innerHTML = `<div class="wrap footer-brand-row">${brand}<p data-i18n="footerTagline">${t('footerTagline')}</p></div><div class="wrap footer-directory">${footerGroup('footerPlatform',navItems.filter(([id])=>['home','about','modules','practice','progress'].includes(id)).map(([,key,url])=>link(url,`<span data-i18n="${key}">${t(key)}</span>`)))}${footerGroup('footerLearning',[1,2,3,5,7].map(id=>link('module.html?id='+id,escape(MoneyGuideI18n.title(id)),`data-module-title="${id}"`)))}${footerGroup('featureTools',[['savingsTool','savings'],['budgetTool','budget'],['loanTool','loan'],['currencyTool','currency']].map(([key])=>`<button type="button" data-tool="${key}" data-i18n="${key}">${t(key)}</button>`))}${footerGroup('footerResources',[link('dashboard.html#certificates',`<span data-i18n="certificates">${t('certificates')}</span>`),link('module.html?id=1#flashcards',`<span data-i18n="glossary">${t('glossary')}</span>`),resource('help'),resource('accessibility')])}<div class="footer-column"><h2 data-i18n="language">${t('language')}</h2><button type="button" data-set-language="en" lang="en">English</button><button type="button" data-set-language="es" lang="es">Español</button><button type="button" data-set-language="fr" lang="fr">Français</button><div class="footer-contact"><h3 data-i18n="contact">${t('contact')}</h3><p data-i18n="contactSoon">${t('contactSoon')}</p></div></div></div><div class="footer-legal"><div class="wrap"><p>© ${new Date().getFullYear()} MoneyGuide. <span data-i18n="copyright">${t('copyright')}</span></p><p data-i18n="disclaimer">${t('disclaimer')}</p><nav aria-label="Platform information">${resource('privacy')}${resource('terms')}${resource('accessibility')}</nav></div></div>`;
   const menu = document.querySelector('.menu-toggle');
   const panel = document.querySelector('#navigation-panel');
   const smallScreen = matchMedia('(max-width: 1199px)');
@@ -35,6 +35,7 @@ const MoneyGuideShell = (() => {
   window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
   function activeNavigation() {
     let active = page === 'home' ? location.hash === '#about' ? 'about' : 'home' : page === 'certificate' ? 'certificates' : 'modules';
+    if (page === 'account') active = null;
     if (page === 'dashboard') active = ['modules','practice','tools','progress','certificates'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'modules';
     if (page === 'module' && ['#assessment','#flashcards'].includes(location.hash)) active = 'practice';
     header.querySelectorAll('[data-nav]').forEach(a => { if(a.dataset.nav === active) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
@@ -47,7 +48,7 @@ const MoneyGuideShell = (() => {
   }
   function refreshProfile() {
     const profile = getProfile();
-    document.querySelector('#profile-name').textContent = profile ? profile.firstName : t('profile');
+    document.querySelector('#profile-name').textContent = MoneyGuideAuth.current() ? MoneyGuideAuth.current().fullName.split(/\s+/)[0] : t('authLogin');
     document.querySelector('#avatar').textContent = profile ? Array.from(profile.firstName)[0].toUpperCase() : 'M';
     document.querySelector('#header-currency').value = currencyPreference();
     document.querySelector('#profile-control').setAttribute('aria-label',t('profile') + (profile ? ': ' + profile.firstName : ''));
@@ -88,6 +89,10 @@ const MoneyGuideShell = (() => {
     dialog.showModal();
   }
   document.addEventListener('click', event => {
+    if (event.target.closest('[data-logout]')) {
+      try { MoneyGuideAuth.logout(); } catch(error) { window.alert(t('authStorageError')); location.replace('account.html?mode=login'); }
+      return;
+    }
     const info=event.target.closest('[data-info]');
     if(info) infoDialog(t(info.dataset.info),`<p>${escape(t(info.dataset.info+'Text'))}</p>`);
     const language=event.target.closest('[data-set-language]');
@@ -95,13 +100,10 @@ const MoneyGuideShell = (() => {
   });
   document.querySelector('#profile-control').addEventListener('click', () => {
     setMenu(false, smallScreen.matches);
+    if (!MoneyGuideAuth.current()) { location.href=MoneyGuideAuth.entry('dashboard.html','login'); return; }
     const profile=getProfile();
-    if(!profile) {
-      if(page === 'home') document.dispatchEvent(new Event('openonboarding'));
-      else location.href='index.html?profile=edit';
-      return;
-    }
-    infoDialog(t('profile'),`<p>${t('profileSaved')}</p><dl class="profile-details"><dt>${t('firstName')}</dt><dd>${escape(profile.firstName)}</dd><dt>${t('currency')}</dt><dd>${escape(profile.currency)}</dd><dt>${t('primaryGoal')}</dt><dd>${escape(t('goal'+goals.indexOf(profile.goal)))}</dd></dl><a class="button" href="index.html?profile=edit">${t('editProfile')}</a>`);
+    if(!profile) { location.href='index.html?onboard=1'; return; }
+    infoDialog(t('profile'),`<p>${t('authLocalProfile')}</p><dl class="profile-details"><dt>${t('fullName')}</dt><dd>${escape(profile.fullName || profile.firstName)}</dd><dt>${t('currency')}</dt><dd>${escape(profile.currency)}</dd><dt>${t('primaryGoal')}</dt><dd>${escape(t('goal'+goals.indexOf(profile.goal)))}</dd></dl><a class="button" href="index.html?profile=edit">${t('editProfile')}</a><button class="button secondary logout-button" type="button" data-logout>${t('authLogout')}</button>`);
   });
   document.addEventListener('languagechange', () => {
     refreshProfile(); updateThemeButton();

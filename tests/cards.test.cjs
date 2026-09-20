@@ -1,3 +1,4 @@
+const {registerDemo}=require('./auth-helper.cjs');
 // Optional Chrome regression checks for the navigation card system.
 const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
@@ -23,6 +24,7 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   await learn.focus();
   assert.equal(await learn.evaluate(element => getComputedStyle(element).outlineStyle), 'solid');
   await page.keyboard.press('Enter');
+  await registerDemo(page);
   assert.equal(await page.locator('#onboarding-dialog').evaluate(dialog=>dialog.open), true);
   await page.keyboard.press('Escape');
   await page.locator('[data-home-destination=practice]').click();
@@ -49,7 +51,7 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   assert.equal(await page.locator('.tool-card').count(), 5);
   for (let i=0;i<5;i++) {
     await page.locator('.tool-card').nth(i).click();
-    assert.match(await page.locator('#feature-preview').textContent(), /does not perform calculations yet/);
+    assert.equal(await page.locator('#money-tool').evaluate(dialog=>dialog.open), true);
     await page.keyboard.press('Escape');
     assert.equal(await page.locator('.tool-card').nth(i).evaluate(e=>e===document.activeElement),true);
   }
@@ -90,6 +92,6 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   await page.locator('.feature-card').first().hover();
   assert.equal(await page.locator('.feature-card').first().evaluate(e=>getComputedStyle(e).transform),'none');
   assert.deepEqual(errors,[]);
-  console.log('PASS: full-card/arrow/keyboard routing, onboarding destination, module and certificate links, five honest tool previews, AI notice, focus return, reduced motion, three languages and five widths.');
+  console.log('PASS: full-card/arrow/keyboard routing, onboarding destination, module and certificate links, five working tool dialogs, AI notice, focus return, reduced motion, three languages and five widths.');
   await browser.close();
 })().catch(error=>{console.error(error);process.exit(1)});

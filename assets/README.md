@@ -25,3 +25,16 @@ The Unsplash license permits free commercial and noncommercial use subject to it
 The Unsplash license permits free commercial and noncommercial use, with the restrictions described at that link. The photograph is used as illustrative imagery; it does not imply endorsement by the people depicted. The file is stored locally so the application does not need a remote image request.
 
 No I&M logos, photos, or proprietary website assets are included. MoneyGuide is an independent student project and is not affiliated with I&M Group.
+
+## Original financial scene graphics
+
+`payments-scene.svg` and `growth-scene.svg` are original lightweight SVG illustrations created for MoneyGuide. They depict a payment card/phone and an illustrative chart/savings stack. They contain no logos, market data, remote requests, or third-party assets. The existing coins photograph remains the hero. Decorative graphics are CSS backgrounds and are not announced by assistive technology.
+
+## Four-background cinematic hero
+
+The hero uses four backgrounds: the existing micheile henderson coins/plant photograph, the two new Unsplash photographs below, and the original `growth-scene.svg` financial-chart artwork. No I&M images or proprietary assets are used.
+
+- `coin-progress.webp` (1600px, 130KB) and `coin-progress-small.webp` (720px, 33KB): **“Stacks of coins increasing in height from left to right” by Kamil (@kamil916)**. Source: https://unsplash.com/photos/stacks-of-coins-increasing-in-height-from-left-to-right-894I850Hyl0 . Original image: https://images.unsplash.com/photo-1768207450151-30c0bf8e8091 .
+- `financial-planning.webp` (1600px, 59KB) and `financial-planning-small.webp` (720px, 21KB): **“Black calculator beside black pen on white printer paper” by Mediamodifier**. Source: https://unsplash.com/photos/black-calculator-beside-black-pen-on-white-printer-paper-I3HPUolh5hA . Original image: https://images.unsplash.com/photo-1625225233840-695456021cde .
+
+Both source pages identify the photographs as free under the **Unsplash License**, https://unsplash.com/license . Downloaded for this project on September 19, 2026. The optimized copies are stored locally; the website makes no external image requests. Only the first photograph is preloaded. The controller loads the next or manually requested background and waits for its image to decode before changing slides.

@@ -1,3 +1,4 @@
+const {registerDemo}=require('./auth-helper.cjs');
 // Optional Chrome checks for shared navigation and independent saved preferences.
 const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
@@ -11,6 +12,7 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   assert.equal(await page.locator('html').getAttribute('data-theme'),'dark');
   await page.locator('#header-currency').selectOption('KES');
   await page.locator('[data-onboard]').first().click();
+  await registerDemo(page);
   assert.equal(await page.locator('#currency').inputValue(),'KES');
   await page.locator('#first-name').fill('Amos');
   await page.locator('#goal').selectOption('Start saving');

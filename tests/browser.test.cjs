@@ -1,3 +1,4 @@
+const {registerDemo}=require('./auth-helper.cjs');
 // Optional browser check. Requires Playwright in your test environment, not in the website.
 // MONEYGUIDE_URL can point at any locally served copy of MoneyGuide.
 const { chromium } = require('playwright');
@@ -17,8 +18,7 @@ const base = process.env.MONEYGUIDE_URL || 'http://127.0.0.1:8000';
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(base + '/dashboard.html');
-  await page.waitForURL('**/index.html');
-  await page.locator('[data-onboard]').first().click();
+  await registerDemo(page);
   await page.locator('#currency').selectOption('RWF');
   await page.locator('#goal').selectOption('Start saving');
   await page.locator('#knowledge').selectOption('Beginner');

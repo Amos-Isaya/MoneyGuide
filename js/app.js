@@ -5,12 +5,13 @@ const goals = ['Manage my money better', 'Start saving', 'Build credit', 'Buy a 
 const levels = ['Beginner', 'Intermediate'];
 
 function getProfile() {
+  if (!MoneyGuideAuth.current()) return null;
   try {
     const profile = JSON.parse(localStorage.getItem(PROFILE_KEY));
     if (profile && typeof profile.firstName === 'string' && profile.firstName.trim() &&
         profile.firstName.length <= 40 && currencies.includes(profile.currency) &&
         goals.includes(profile.goal) && levels.includes(profile.knowledge)) {
-      return profile;
+      return {...profile, fullName: MoneyGuideAuth.current().fullName};
     }
   } catch (error) {
     // Missing, damaged, or unavailable storage should not break the page.
@@ -30,7 +31,9 @@ if (document.body.dataset.page === 'home') {
   const form = document.querySelector('#onboarding-form');
   const nameInput = document.querySelector('#first-name');
   const existingProfile = getProfile();
-  let destination = 'dashboard.html';
+  let destination = MoneyGuideAuth.destination(new URLSearchParams(location.search).get('next'));
+  const user = MoneyGuideAuth.current();
+  if (user) { nameInput.value = user.fullName.split(/\s+/)[0].slice(0,40); }
 
   if (existingProfile) {
 
@@ -48,7 +51,8 @@ if (document.body.dataset.page === 'home') {
     } catch (error) { /* The form remains available if storage is blocked. */ }
   }
   function openOnboarding(next = 'dashboard.html') {
-    destination = next;
+    if (!MoneyGuideAuth.current()) { location.href = MoneyGuideAuth.entry(next); return; }
+    destination = MoneyGuideAuth.destination(next);
     dialog.showModal();
   }
   document.addEventListener('openonboarding', () => openOnboarding());
@@ -61,6 +65,7 @@ if (document.body.dataset.page === 'home') {
     openOnboarding(link.getAttribute('href'));
   });
   if (new URLSearchParams(location.search).get('profile') === 'edit') openOnboarding();
+  if (new URLSearchParams(location.search).get('onboard') === '1') openOnboarding(destination);
   nameInput.addEventListener('input', function () {
     nameInput.setCustomValidity('');
   });
@@ -76,6 +81,7 @@ if (document.body.dataset.page === 'home') {
     const answers = new FormData(form);
     const profile = {
       firstName: firstName,
+      fullName: MoneyGuideAuth.current().fullName,
       currency: answers.get('currency'),
       goal: answers.get('goal'),
       knowledge: answers.get('knowledge')
